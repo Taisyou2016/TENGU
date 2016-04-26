@@ -12,6 +12,7 @@ GameObject:
   - 135: {fileID: 13583738}
   - 23: {fileID: 2326244}
   - 54: {fileID: 5472078}
+  - 114: {fileID: 11468098}
   m_Layer: 0
   m_Name: Wind
   m_TagString: Untagged
@@ -79,6 +80,18 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &11468098
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 151714}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b9ba72c7bc9f814429bdc6a131bb5d28, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemy: {fileID: 148004, guid: 1d7a63bf4c3ca5f41b1064a81f527539, type: 2}
 --- !u!135 &13583738
 SphereCollider:
   m_ObjectHideFlags: 1

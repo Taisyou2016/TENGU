@@ -296,6 +296,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   windPrefab: {fileID: 151714, guid: 219074317cf72f54989d40561cab4aa2, type: 2}
   power: 20
+  hitVector: {x: 0, y: 0, z: 0}
 --- !u!1001 &565701073
 Prefab:
   m_ObjectHideFlags: 0
