@@ -296,7 +296,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   windPrefab: {fileID: 151714, guid: 219074317cf72f54989d40561cab4aa2, type: 2}
   power: 20
-  vectorPower: 5
 --- !u!1001 &565701073
 Prefab:
   m_ObjectHideFlags: 0
@@ -354,6 +353,10 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 11400000, guid: baec086904791744185aaa07a6cf55c2, type: 2}
       propertyPath: m_UpdateType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 100004, guid: baec086904791744185aaa07a6cf55c2, type: 2}
+      propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -623,6 +626,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a4f5b0ac9479af34da77100fe2f83f4f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  length: 200
 --- !u!4 &2114652223
 Transform:
   m_ObjectHideFlags: 0
