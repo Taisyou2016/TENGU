@@ -1,14 +1,15 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class TestEnemy : MonoBehaviour {
+public class TestEnemy : MonoBehaviour{
 
-    public float TargetDistance = 10f;  // 透過視認範囲
+    public float TargetDistance = 10f;   // 透過視認範囲
+    public float AttackDistance = 1f;   // 攻撃移行範囲
     public int maxlife;                 // 最大ＨＰ
     public float speed;                 // スピード
 
     private int life;
-    private float rotateSmooth = 0.8f;  // 振り向きにかかる時間
+    private float rotateSmooth = 2.0f;  // 振り向きにかかる時間
     private Transform player;
     private NavMeshAgent agent;
 
@@ -22,8 +23,15 @@ public class TestEnemy : MonoBehaviour {
 	}
 
     // Update is called once per frame
-    void Update()
+    public void Update()
     {
+        //Died();
+        Wait();
+    }
+
+    public void Wait()
+    {// 待機状態
+
         // Playerとの距離
         float ToTargetDistance = Vector3.SqrMagnitude(this.transform.position - player.position);
 
@@ -39,10 +47,11 @@ public class TestEnemy : MonoBehaviour {
         if (!agent.Raycast(player.position, out hit))
         {
             Pursuit();
+            Attack();
         }
     }
 
-    void Pursuit()
+    public void Pursuit()
     {// 追跡処理
         // Playerの方向を向く
         Quaternion targetRotate = Quaternion.LookRotation(player.position - transform.position);
@@ -53,13 +62,22 @@ public class TestEnemy : MonoBehaviour {
 
     }
 
-    void Attack()
+    public void Attack()
     {// 攻撃処理
+        // Playerとの距離
+        float ToAttackDistance = Vector3.SqrMagnitude(this.transform.position - player.position);
+        // 攻撃範囲外ならば
+        if (ToAttackDistance > AttackDistance * 10.0f)
+        {
+            // 以降の処理をスルー
+            return;
+        }
+
+        //print("攻撃開始");
 
     }
 
-    void Died()
-    {// 死亡処理
-
+    public void Hit()
+    {// ダメージ処理
     }
 }
