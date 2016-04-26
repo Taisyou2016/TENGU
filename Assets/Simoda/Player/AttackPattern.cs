@@ -21,12 +21,12 @@ public class AttackPattern : MonoBehaviour
             if (vector.x > 0)
             {
                 print("パターン1 →");
-                GameObject.FindObjectOfType<WindAttack>().WindGeneration(vector);
+                GameObject.FindObjectOfType<WindAttack>().WindAttack1(vector);
             }
             if (vector.x < 0)
             {
                 print("パターン2 ←");
-                GameObject.FindObjectOfType<WindAttack>().WindGeneration(vector);
+                GameObject.FindObjectOfType<WindAttack>().WindAttack2(vector);
             }
         }
 
@@ -36,12 +36,12 @@ public class AttackPattern : MonoBehaviour
             if (vector.y < 0)
             {
                 print("パターン3 ↓");
-                GameObject.FindObjectOfType<WindAttack>().WindGeneration(vector);
+                GameObject.FindObjectOfType<WindAttack>().WindGeneration3(vector);
             }
             if (vector.y > 0)
             {
                 print("パターン4 ↑");
-                GameObject.FindObjectOfType<WindAttack>().WindGeneration(vector);
+                GameObject.FindObjectOfType<WindAttack>().WindGeneration3(vector);
             }
         }
 
@@ -51,12 +51,12 @@ public class AttackPattern : MonoBehaviour
             if (vector.x < 0)
             {
                 print("パターン5 ↙");
-                GameObject.FindObjectOfType<WindAttack>().WindGeneration(vector);
+                GameObject.FindObjectOfType<WindAttack>().WindGeneration3(vector);
             }
             if (vector.x > 0)
             {
                 print("パターン6 ↗");
-                GameObject.FindObjectOfType<WindAttack>().WindGeneration(vector);
+                GameObject.FindObjectOfType<WindAttack>().WindGeneration3(vector);
             }
         }
 
@@ -66,12 +66,12 @@ public class AttackPattern : MonoBehaviour
             if (vector.x > 0)
             {
                 print("パターン7 ↘");
-                GameObject.FindObjectOfType<WindAttack>().WindGeneration(vector);
+                GameObject.FindObjectOfType<WindAttack>().WindGeneration3(vector);
             }
             if (vector.x < 0)
             {
                 print("パターン8 ↖");
-                GameObject.FindObjectOfType<WindAttack>().WindGeneration(vector);
+                GameObject.FindObjectOfType<WindAttack>().WindGeneration3(vector);
             }
         }
     }

@@ -7,40 +7,53 @@ public class WindAttack : MonoBehaviour
     public float power = 5.0f;
     public float vectorPower = 5.0f;
 
-    private bool generation = false;
     private Vector3 vector = Vector3.zero;
     private GameObject player;
     private GameObject wind;
 
     void Start()
     {
-        if (player == null)
-        {
-            player = GameObject.FindWithTag("Player");
-        }
+
     }
 
     void Update()
     {
-        if (generation == true)
-        {
-            wind = Instantiate(windPrefab);
-            wind.transform.position = player.transform.position + player.transform.forward;
 
-            wind.GetComponent<Rigidbody>().velocity =
-            player.transform.forward
-            * power;
-
-            Invoke("WindVectorMove", 0.5f);
-
-            generation = false;
-        }
     }
 
-    public void WindGeneration(Vector3 vector)
+    public void WindAttack1(Vector3 vector)
     {
-        generation = true;
+        wind = Instantiate(windPrefab);
+        wind.transform.position = transform.position + transform.forward + transform.right * -3.0f;
+
+        wind.GetComponent<Rigidbody>().velocity =
+        transform.right
+        * power;
+    }
+
+    public void WindAttack2(Vector3 vector)
+    {
+        wind = Instantiate(windPrefab);
+        wind.transform.position = transform.position + transform.forward + transform.right * 3.0f;
+
+        wind.GetComponent<Rigidbody>().velocity =
+        transform.right
+        * power
+        * -1.0f;
+    }
+
+    public void WindGeneration3(Vector3 vector)
+    {
         this.vector = Vector3.Normalize(vector);
+
+        wind = Instantiate(windPrefab);
+        wind.transform.position = transform.position + transform.forward;
+
+        wind.GetComponent<Rigidbody>().velocity =
+        transform.forward
+        * power;
+
+        Invoke("WindVectorMove", 0.5f);
     }
 
     public void WindVectorMove()
