@@ -12,24 +12,26 @@ public class TestEnemy : MonoBehaviour{
     private float rotateSmooth = 2.0f;  // 振り向きにかかる時間
     private Transform player;
     private NavMeshAgent agent;
+    private Rigidbody rd;
 
     // Use this for initialization
     void Start () {
         // Playerの座標を取得
-        player = GameObject.FindGameObjectWithTag("Player").transform;
-        life = maxlife;
+        player  = GameObject.FindGameObjectWithTag("Player").transform;
+        agent   = GetComponent<NavMeshAgent>();
+        rd      = GetComponent<Rigidbody>();
 
-        agent = GetComponent<NavMeshAgent>();
+        life = maxlife;
 	}
 
     // Update is called once per frame
     public void Update()
     {
-        //Died();
+        Died();
         Wait();
     }
 
-    public void Wait()
+    void Wait()
     {// 待機状態
 
         // Playerとの距離
@@ -51,7 +53,7 @@ public class TestEnemy : MonoBehaviour{
         }
     }
 
-    public void Pursuit()
+    void Pursuit()
     {// 追跡処理
         // Playerの方向を向く
         Quaternion targetRotate = Quaternion.LookRotation(player.position - transform.position);
@@ -62,7 +64,7 @@ public class TestEnemy : MonoBehaviour{
 
     }
 
-    public void Attack()
+    void Attack()
     {// 攻撃処理
         // Playerとの距離
         float ToAttackDistance = Vector3.SqrMagnitude(this.transform.position - player.position);
@@ -77,7 +79,19 @@ public class TestEnemy : MonoBehaviour{
 
     }
 
-    public void Hit()
-    {// ダメージ処理
+    void Died()
+    {// 死亡処理
+        Destroy(this.gameObject, 1.0f);
     }
+
+    public void Hit(Vector3 vec, int damage)
+    {// ダメージ処理
+        life -= damage;
+        if(life <= 0)
+        {
+            Died();
+        }
+    }
+
+
 }
