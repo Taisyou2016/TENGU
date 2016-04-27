@@ -3,9 +3,9 @@ using System.Collections;
 
 public class TestEnemy : MonoBehaviour{
 
-    public float TargetDistance = 10f;   // 透過視認範囲
+    public float TargetDistance = 10f;  // 透過視認範囲
     public float AttackDistance = 1f;   // 攻撃移行範囲
-    public int maxlife;                 // 最大ＨＰ
+    public int maxlife = 40;            // 最大ＨＰ
     public float speed;                 // スピード
 
     private int life;
@@ -20,14 +20,13 @@ public class TestEnemy : MonoBehaviour{
         player  = GameObject.FindGameObjectWithTag("Player").transform;
         agent   = GetComponent<NavMeshAgent>();
         rd      = GetComponent<Rigidbody>();
-
         life = maxlife;
 	}
 
     // Update is called once per frame
     public void Update()
     {
-        Died();
+        //Died();
         Wait();
     }
 
@@ -86,10 +85,12 @@ public class TestEnemy : MonoBehaviour{
 
     public void Hit(Vector3 vec, int damage)
     {// ダメージ処理
+        print("HIT3");
+
         life -= damage;
         if(life <= 0)
         {
-            Died();
+            //Died();
         }
     }
 

@@ -10,10 +10,12 @@ public class WindHit : MonoBehaviour
 
     public void OnCollisionEnter(Collision collision)
     {
+        print("hit1");
         if (collision.gameObject.tag == "Enemy")
         {
-            //TEnemy.Hit(hitVector, 10);
-            collision.rigidbody.AddForce(hitVector, ForceMode.Impulse);
+            print("hit2");
+            TEnemy.Hit(hitVector, 10);
+            //collision.rigidbody.AddForce(hitVector, ForceMode.Impulse);
         }
     }
 
