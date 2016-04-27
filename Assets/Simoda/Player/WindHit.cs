@@ -12,7 +12,8 @@ public class WindHit : MonoBehaviour
     {
         if (collision.gameObject.tag == "Enemy")
         {
-            TEnemy.Hit(hitVector, 10);
+            //TEnemy.Hit(hitVector, 10);
+            collision.rigidbody.AddForce(hitVector, ForceMode.Impulse);
         }
     }
 
