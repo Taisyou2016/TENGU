@@ -4,12 +4,10 @@ using System.Collections;
 public class WindAttack : MonoBehaviour
 {
     public GameObject windPrefab;
-    public float power = 5.0f;
-    public float vectorPower = 5.0f;
+    public float power = 20.0f;
 
     private Vector3 vector = Vector3.zero;
-    private GameObject player;
-    private GameObject wind;
+    public Vector3 hitVector;
 
     void Start()
     {
@@ -21,48 +19,171 @@ public class WindAttack : MonoBehaviour
 
     }
 
-    public void WindAttack1(Vector3 vector)
+    public void WindAttack1() //パターン1 →
     {
-        wind = Instantiate(windPrefab);
-        wind.transform.position = transform.position + transform.forward + transform.right * -3.0f;
+        GameObject wind = Instantiate(windPrefab);
+
+        wind.transform.position =
+            transform.position
+            + transform.forward
+            + transform.right
+            * -3.0f;
 
         wind.GetComponent<Rigidbody>().velocity =
-        transform.right
-        * power;
+            transform.right
+            * power;
+
+        hitVector = wind.GetComponent<Rigidbody>().velocity;
+        wind.GetComponent<WindHit>().SetVector(hitVector);
+
+        StartCoroutine(DestroyWind(0.5f, wind));
     }
 
-    public void WindAttack2(Vector3 vector)
+    public void WindAttack2() //パターン2 ←
     {
-        wind = Instantiate(windPrefab);
-        wind.transform.position = transform.position + transform.forward + transform.right * 3.0f;
+        GameObject wind = Instantiate(windPrefab);
+
+        wind.transform.position =
+            transform.position
+            + transform.forward
+            + transform.right
+            * 3.0f;
 
         wind.GetComponent<Rigidbody>().velocity =
-        transform.right
-        * power
-        * -1.0f;
+            transform.right
+            * power
+            * -1.0f;
+
+        hitVector = wind.GetComponent<Rigidbody>().velocity;
+        wind.GetComponent<WindHit>().SetVector(hitVector);
+
+        StartCoroutine(DestroyWind(0.5f, wind));
     }
 
-    public void WindGeneration3(Vector3 vector)
+    public void WindAttack3() //パターン3 ↓
     {
         this.vector = Vector3.Normalize(vector);
+        GameObject wind = Instantiate(windPrefab);
 
-        wind = Instantiate(windPrefab);
-        wind.transform.position = transform.position + transform.forward;
+        wind.transform.position =
+            transform.position
+            + transform.forward;
 
         wind.GetComponent<Rigidbody>().velocity =
-        transform.forward
-        * power;
+            transform.forward
+            * power;
 
-        Invoke("WindVectorMove", 0.5f);
+        hitVector = wind.GetComponent<Rigidbody>().velocity;
+        wind.GetComponent<WindHit>().SetVector(hitVector);
+
+        StartCoroutine(WindVectorMove(0.5f, wind, -power));
+        StartCoroutine(DestroyWind(2.0f, wind));
     }
 
-    public void WindVectorMove()
+    public void WindAttack4() //パターン4 ↑
     {
-        wind.GetComponent<Rigidbody>().velocity +=
-        vector * vectorPower;
+        this.vector = Vector3.Normalize(vector);
+        GameObject wind = Instantiate(windPrefab);
 
-        //wind.GetComponent<Rigidbody>().AddForce(
-        //vector * vectorPower,
-        //ForceMode.Impulse);
+        wind.transform.position =
+            transform.position
+            + transform.forward;
+
+        wind.GetComponent<Rigidbody>().velocity =
+            transform.forward
+            * power;
+
+        hitVector = wind.GetComponent<Rigidbody>().velocity;
+        wind.GetComponent<WindHit>().SetVector(hitVector);
+
+        StartCoroutine(WindVectorMove(0.5f, wind, power));
+        StartCoroutine(DestroyWind(2.0f, wind));
+    }
+
+    public void WindAttack5() //パターン5 ↙
+    {
+        GameObject wind = Instantiate(windPrefab);
+
+        wind.transform.position =
+            (transform.position + transform.forward + transform.right * 3.0f)
+            + (transform.up * 3.0f);
+
+        wind.GetComponent<Rigidbody>().velocity =
+            (transform.right * power * -1.0f / 2)
+            + (transform.up * power * -1.0f / 2);
+
+        hitVector = wind.GetComponent<Rigidbody>().velocity;
+        wind.GetComponent<WindHit>().SetVector(hitVector);
+
+        StartCoroutine(DestroyWind(0.5f, wind));
+    }
+
+    public void WindAttack6() //パターン6 ↗
+    {
+        GameObject wind = Instantiate(windPrefab);
+
+        wind.transform.position =
+            (transform.position + transform.forward + transform.right * -3.0f)
+            + (transform.up * -3.0f);
+
+        wind.GetComponent<Rigidbody>().velocity =
+            (transform.right * power * 1.0f / 2)
+            + (transform.up * power * 1.0f / 2);
+
+        hitVector = wind.GetComponent<Rigidbody>().velocity;
+        wind.GetComponent<WindHit>().SetVector(hitVector);
+
+        StartCoroutine(DestroyWind(0.5f, wind));
+    }
+
+    public void WindAttack7() //パターン7 ↘
+    {
+        GameObject wind = Instantiate(windPrefab);
+
+        wind.transform.position =
+            (transform.position + transform.forward + transform.right * -3.0f)
+            + (transform.up * 3.0f);
+
+        wind.GetComponent<Rigidbody>().velocity =
+            (transform.right * power * 1.0f / 2)
+            + (transform.up * power * -1.0f / 2);
+
+        hitVector = wind.GetComponent<Rigidbody>().velocity;
+        wind.GetComponent<WindHit>().SetVector(hitVector);
+
+        StartCoroutine(DestroyWind(0.5f, wind));
+    }
+
+    public void WindAttack8() //パターン8 ↖
+    {
+        GameObject wind = Instantiate(windPrefab);
+
+        wind.transform.position =
+            (transform.position + transform.forward + transform.right * 3.0f)
+            + (transform.up * -3.0f);
+
+        wind.GetComponent<Rigidbody>().velocity =
+            (transform.right * power * -1.0f / 2)
+            + (transform.up * power * 1.0f / 2);
+
+        hitVector = wind.GetComponent<Rigidbody>().velocity;
+        wind.GetComponent<WindHit>().SetVector(hitVector);
+
+        StartCoroutine(DestroyWind(0.5f, wind));
+    }
+
+    public IEnumerator WindVectorMove(float waitTime, GameObject wind, float vectorPower)
+    {
+        yield return new WaitForSeconds(waitTime);
+
+        wind.GetComponent<Rigidbody>().velocity +=
+            transform.up
+            * vectorPower;
+    }
+    public IEnumerator DestroyWind(float waitTime, GameObject wind)
+    {
+        yield return new WaitForSeconds(waitTime);
+
+        Destroy(wind);
     }
 }
