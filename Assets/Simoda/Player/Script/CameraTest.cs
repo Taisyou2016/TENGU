@@ -8,17 +8,17 @@ public class CameraTest : MonoBehaviour
     public bool flag;
 
     private Transform cameraTransform;
-    private Transform playerTransform;
+    private Transform targetTransform;
 
     void Start()
     {
         cameraTransform = GameObject.FindGameObjectWithTag("MainCamera").transform;
-        playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
+        targetTransform = target.transform;
     }
 
     void Update()
     {
-        transform.position = Vector3.Lerp(transform.position, target.transform.position, 3.0f * Time.deltaTime);
+        transform.position = Vector3.Lerp(transform.position, targetTransform.position, 3.0f * Time.deltaTime);
 
         if (Input.GetAxis("Horizontal") == 1 || Input.GetAxis("Horizontal") == -1)
         {
@@ -27,7 +27,7 @@ public class CameraTest : MonoBehaviour
 
         if (flag == true)
         {
-            transform.rotation = Quaternion.Slerp(transform.rotation, target.transform.rotation, 2.0f * Time.deltaTime);
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetTransform.rotation, 2.0f * Time.deltaTime);
         }
 
         if (transform.rotation == target.transform.rotation || (Input.GetAxis("Vertical") < 0 && Input.GetAxis("Horizontal") == 0))
@@ -35,15 +35,33 @@ public class CameraTest : MonoBehaviour
             flag = false;
         }
 
-        Vector3 rayDirection = playerTransform.position - cameraTransform.position;
-        Ray ray = new Ray(cameraTransform.position, rayDirection);
-        RaycastHit hitInfo;
-        Debug.DrawRay(ray.origin, ray.direction * 10, Color.red);
+        //カメラからプレイヤーへのRay
+        //Vector3 playerRayDirection = targetTransform.position - cameraTransform.position;
+        //Ray playerRay = new Ray(cameraTransform.position, playerRayDirection);
+        //RaycastHit playerRayHitInfo;
+        //Debug.DrawRay(playerRay.origin, playerRay.direction * 10, Color.red);
 
-        if (Physics.Raycast(ray, out hitInfo) && (hitInfo.collider.tag != "Player"))
-        {
-            print("RayHit");
-            cameraTransform.position = Vector3.Lerp(cameraTransform.position, target.transform.position, 3.0f * Time.deltaTime);
-        }
+        ////print(cameraTransform.position);
+
+        ////カメラとプレイヤーの間に障害物があったらカメラを近づける
+        //if (Physics.Raycast(playerRay, out playerRayHitInfo) && playerRayHitInfo.collider.tag != "Player")
+        //{
+        //    print("RayHit");
+        //    cameraTransform.position = Vector3.Lerp(cameraTransform.position, target.transform.position, 3.0f * Time.deltaTime);
+        //}
+        //else if (Physics.Raycast(playerRay, out playerRayHitInfo) && playerRayHitInfo.collider.tag == "Player")
+        //{
+        //    cameraTransform.position = Vector3.Lerp(cameraTransform.position, cameraPoint.transform.position, 3.0f * Time.deltaTime);
+        //}
+
+        //カメラからカメラの後ろへのRay   + cameraTransform.forward * -1.0f
+        //Ray cameraBackRay = new Ray(cameraTransform.position, playerRayDirection * -1.0f);
+        //RaycastHit cameraBackRayHitInfo;
+        //Debug.DrawRay(cameraBackRay.origin, cameraBackRay.direction * 1, Color.blue);
+
+        //if (!Physics.Raycast(cameraBackRay, out cameraBackRayHitInfo, 1.0f) && !Physics.Raycast(playerRay, out playerRayHitInfo, 1.0f))
+        //{
+        //    cameraTransform.position = Vector3.Lerp(cameraTransform.position, cameraPoint.transform.position, 3.0f * Time.deltaTime);
+        //}
     }
 }

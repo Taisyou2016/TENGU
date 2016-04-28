@@ -4,6 +4,8 @@ using System.Collections;
 public class CameraPoint : MonoBehaviour
 {
     public GameObject target;
+    public float height = 3.0f;
+    public float back = 6.0f;
 
     void Start()
     {
@@ -12,7 +14,11 @@ public class CameraPoint : MonoBehaviour
 
     void Update()
     {
-        transform.position = target.transform.position + target.transform.forward * -3.0f + target.transform.up * 3.0f;
+        //transform.position = target.transform.position + target.transform.forward * -back + target.transform.up * height;
+
+        transform.LookAt(target.transform);
+
+        //print("カメラポイント" + transform.position);
 
         //if (Input.GetKey(KeyCode.Q))
         //{
