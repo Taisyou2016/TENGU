@@ -46,10 +46,13 @@ public class TestEnemy : MonoBehaviour{
         Pursuit();
         Attack();
 
-        // Targetとの間の障害物を検挙
+
+        ////Targetとの間の障害物を検挙
         //NavMeshHit hit;
         //if (!agent.Raycast(player.position, out hit))
         //{
+        //    Pursuit();
+        //    Attack();
         //}
     }
 
@@ -99,7 +102,7 @@ public class TestEnemy : MonoBehaviour{
     {// 風との衝突
         if(col.gameObject.tag == "Wind")
         {
-            Switch(0);
+            //Switch(0);
 
             Vector3 vec = 
                 col.gameObject.GetComponent<WindHit>().a();
