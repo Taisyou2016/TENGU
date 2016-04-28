@@ -7,6 +7,7 @@ public class TestEnemy : MonoBehaviour{
     public float AttackDistance = 1f;   // 攻撃移行範囲
     public int maxlife = 40;            // 最大ＨＰ
     public float speed;                 // スピード
+    public GameObject obj;
 
     private int life;
     private float rotateSmooth = 2.0f;  // 振り向きにかかる時間
@@ -26,7 +27,6 @@ public class TestEnemy : MonoBehaviour{
     // Update is called once per frame
     public void Update()
     {
-        //Died();
         Wait();
     }
 
@@ -43,13 +43,14 @@ public class TestEnemy : MonoBehaviour{
             return;
         }
 
+        Pursuit();
+        Attack();
+
         // Targetとの間の障害物を検挙
-        NavMeshHit hit;
-        if (!agent.Raycast(player.position, out hit))
-        {
-            Pursuit();
-            Attack();
-        }
+        //NavMeshHit hit;
+        //if (!agent.Raycast(player.position, out hit))
+        //{
+        //}
     }
 
     void Pursuit()
@@ -80,19 +81,45 @@ public class TestEnemy : MonoBehaviour{
 
     void Died()
     {// 死亡処理
-        Destroy(this.gameObject, 1.0f);
+        Destroy(this.gameObject);
     }
 
-    public void Hit(Vector3 vec, int damage)
+    void Hit(Vector3 vec, int damage)
     {// ダメージ処理
-        print("HIT3");
-
         life -= damage;
         if(life <= 0)
         {
-            //Died();
+            Died();
+        }
+        rd.AddForce(vec);
+
+    }
+
+    void OnCollisionEnter(Collision col)
+    {// 風との衝突
+        if(col.gameObject.tag == "Wind")
+        {
+            Switch(0);
+
+            Vector3 vec = 
+                col.gameObject.GetComponent<WindHit>().a();
+            vec.Normalize();
+            Hit(vec, 0);   
         }
     }
 
+    void Switch(int a)
+    {
+        if (a == 0)
+        {
+            agent.enabled = false;
+            rd.isKinematic = false;
+        }
+        else if(a == 1)
+        {
+            rd.isKinematic = true;
+            agent.enabled = true;
+        }
 
+    }
 }
