@@ -6,7 +6,12 @@ TagManager:
   tags:
   - Player
   - Enemy
+<<<<<<< HEAD
   - Wind
+=======
+  - CameraPoint
+  - CameraController
+>>>>>>> 253005e071ac2374c38be65c5839cab642b5edb5
   layers:
   - Default
   - TransparentFX

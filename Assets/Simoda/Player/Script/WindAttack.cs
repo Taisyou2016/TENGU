@@ -7,7 +7,6 @@ public class WindAttack : MonoBehaviour
     public float power = 20.0f;
 
     private Vector3 vector = Vector3.zero;
-    public Vector3 hitVector;
 
     void Start()
     {
@@ -33,7 +32,7 @@ public class WindAttack : MonoBehaviour
             transform.right
             * power;
 
-        hitVector = wind.GetComponent<Rigidbody>().velocity;
+        Vector3 hitVector = wind.GetComponent<Rigidbody>().velocity;
         wind.GetComponent<WindHit>().SetVector(hitVector);
 
         StartCoroutine(DestroyWind(0.5f, wind));
@@ -54,7 +53,7 @@ public class WindAttack : MonoBehaviour
             * power
             * -1.0f;
 
-        hitVector = wind.GetComponent<Rigidbody>().velocity;
+        Vector3 hitVector = wind.GetComponent<Rigidbody>().velocity;
         wind.GetComponent<WindHit>().SetVector(hitVector);
 
         StartCoroutine(DestroyWind(0.5f, wind));
@@ -73,7 +72,7 @@ public class WindAttack : MonoBehaviour
             transform.forward
             * power;
 
-        hitVector = wind.GetComponent<Rigidbody>().velocity;
+        Vector3 hitVector = wind.GetComponent<Rigidbody>().velocity;
         wind.GetComponent<WindHit>().SetVector(hitVector);
 
         StartCoroutine(WindVectorMove(0.5f, wind, -power));
@@ -93,7 +92,7 @@ public class WindAttack : MonoBehaviour
             transform.forward
             * power;
 
-        hitVector = wind.GetComponent<Rigidbody>().velocity;
+        Vector3 hitVector = wind.GetComponent<Rigidbody>().velocity;
         wind.GetComponent<WindHit>().SetVector(hitVector);
 
         StartCoroutine(WindVectorMove(0.5f, wind, power));
@@ -112,7 +111,7 @@ public class WindAttack : MonoBehaviour
             (transform.right * power * -1.0f / 2)
             + (transform.up * power * -1.0f / 2);
 
-        hitVector = wind.GetComponent<Rigidbody>().velocity;
+        Vector3 hitVector = wind.GetComponent<Rigidbody>().velocity;
         wind.GetComponent<WindHit>().SetVector(hitVector);
 
         StartCoroutine(DestroyWind(0.5f, wind));
@@ -130,7 +129,7 @@ public class WindAttack : MonoBehaviour
             (transform.right * power * 1.0f / 2)
             + (transform.up * power * 1.0f / 2);
 
-        hitVector = wind.GetComponent<Rigidbody>().velocity;
+        Vector3 hitVector = wind.GetComponent<Rigidbody>().velocity;
         wind.GetComponent<WindHit>().SetVector(hitVector);
 
         StartCoroutine(DestroyWind(0.5f, wind));
@@ -148,7 +147,7 @@ public class WindAttack : MonoBehaviour
             (transform.right * power * 1.0f / 2)
             + (transform.up * power * -1.0f / 2);
 
-        hitVector = wind.GetComponent<Rigidbody>().velocity;
+        Vector3 hitVector = wind.GetComponent<Rigidbody>().velocity;
         wind.GetComponent<WindHit>().SetVector(hitVector);
 
         StartCoroutine(DestroyWind(0.5f, wind));
@@ -166,7 +165,7 @@ public class WindAttack : MonoBehaviour
             (transform.right * power * -1.0f / 2)
             + (transform.up * power * 1.0f / 2);
 
-        hitVector = wind.GetComponent<Rigidbody>().velocity;
+        Vector3 hitVector = wind.GetComponent<Rigidbody>().velocity;
         wind.GetComponent<WindHit>().SetVector(hitVector);
 
         StartCoroutine(DestroyWind(0.5f, wind));
