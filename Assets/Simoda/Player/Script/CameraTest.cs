@@ -35,7 +35,22 @@ public class CameraTest : MonoBehaviour
             flag = false;
         }
 
-        //カメラからプレイヤーへのRay
+
+        Vector3 cameraPointDirection = cameraPoint.transform.position - targetTransform.position;
+        Ray cameraPointRay = new Ray(targetTransform.position, cameraPointDirection);
+        RaycastHit cameraPointRayHitInfo;
+        Debug.DrawRay(cameraPointRay.origin, cameraPointRay.direction * 1, Color.green);
+
+        if (Physics.SphereCast(cameraPointRay, 0.5f, out cameraPointRayHitInfo))
+        {
+            cameraTransform.position = Vector3.Lerp(cameraTransform.position, cameraPointRayHitInfo.point, 3.0f * Time.deltaTime);
+        }
+        else
+        {
+            cameraTransform.position = Vector3.Lerp(cameraTransform.position, cameraPoint.transform.position, 3.0f * Time.deltaTime);
+        }
+
+        ////カメラからプレイヤーへのRay
         //Vector3 playerRayDirection = targetTransform.position - cameraTransform.position;
         //Ray playerRay = new Ray(cameraTransform.position, playerRayDirection);
         //RaycastHit playerRayHitInfo;
@@ -49,17 +64,18 @@ public class CameraTest : MonoBehaviour
         //    print("RayHit");
         //    cameraTransform.position = Vector3.Lerp(cameraTransform.position, target.transform.position, 3.0f * Time.deltaTime);
         //}
-        //else if (Physics.Raycast(playerRay, out playerRayHitInfo) && playerRayHitInfo.collider.tag == "Player")
-        //{
-        //    cameraTransform.position = Vector3.Lerp(cameraTransform.position, cameraPoint.transform.position, 3.0f * Time.deltaTime);
-        //}
 
-        //カメラからカメラの後ろへのRay   + cameraTransform.forward * -1.0f
+        ////else if (Physics.Raycast(playerRay, out playerRayHitInfo) && playerRayHitInfo.collider.tag == "Player")
+        ////{
+        ////    cameraTransform.position = Vector3.Lerp(cameraTransform.position, cameraPoint.transform.position, 3.0f * Time.deltaTime);
+        ////}
+
+        ////カメラからカメラの後ろへのRay + cameraTransform.forward * -1.0f
         //Ray cameraBackRay = new Ray(cameraTransform.position, playerRayDirection * -1.0f);
         //RaycastHit cameraBackRayHitInfo;
         //Debug.DrawRay(cameraBackRay.origin, cameraBackRay.direction * 1, Color.blue);
 
-        //if (!Physics.Raycast(cameraBackRay, out cameraBackRayHitInfo, 1.0f) && !Physics.Raycast(playerRay, out playerRayHitInfo, 1.0f))
+        //if (!Physics.Raycast(cameraBackRay, out cameraBackRayHitInfo, 1.0f) && !Physics.Raycast(playerRay, out cameraBackRayHitInfo, 1.0f, 8))
         //{
         //    cameraTransform.position = Vector3.Lerp(cameraTransform.position, cameraPoint.transform.position, 3.0f * Time.deltaTime);
         //}

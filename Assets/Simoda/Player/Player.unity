@@ -255,11 +255,11 @@ Prefab:
       propertyPath: m_RootOrder
       value: 4
       objectReference: {fileID: 0}
-    - target: {fileID: 11400266, guid: 2d3489efa1a70f24093326e2a8430947, type: 2}
+    - target: {fileID: 11484126, guid: 2d3489efa1a70f24093326e2a8430947, type: 2}
       propertyPath: target
       value: 
       objectReference: {fileID: 1312121160}
-    - target: {fileID: 11484126, guid: 2d3489efa1a70f24093326e2a8430947, type: 2}
+    - target: {fileID: 11400266, guid: 2d3489efa1a70f24093326e2a8430947, type: 2}
       propertyPath: target
       value: 
       objectReference: {fileID: 1312121160}
@@ -319,7 +319,7 @@ GameObject:
   - 33: {fileID: 1246960523}
   - 65: {fileID: 1246960522}
   - 23: {fileID: 1246960521}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Wall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -398,7 +398,7 @@ GameObject:
   - 33: {fileID: 1422342495}
   - 65: {fileID: 1422342494}
   - 23: {fileID: 1422342493}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Wall (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
