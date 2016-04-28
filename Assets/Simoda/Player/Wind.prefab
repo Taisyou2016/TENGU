@@ -15,7 +15,7 @@ GameObject:
   - 114: {fileID: 11468098}
   m_Layer: 0
   m_Name: Wind
-  m_TagString: Untagged
+  m_TagString: Wind
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -92,6 +92,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemy: {fileID: 148004, guid: 1d7a63bf4c3ca5f41b1064a81f527539, type: 2}
+  hitVector: {x: 1, y: 1, z: 1}
 --- !u!135 &13583738
 SphereCollider:
   m_ObjectHideFlags: 1
