@@ -5,6 +5,9 @@ TagManager:
   serializedVersion: 2
   tags:
   - Wind
+  - Enemy
+  - CameraPoint
+  - CameraController
   layers:
   - Default
   - TransparentFX
