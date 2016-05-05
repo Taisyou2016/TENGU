@@ -9,6 +9,10 @@ public class PlayerMove : MonoBehaviour
     private CharacterController controller;
     private float velocityY = 0;
 
+    private bool jamp = false;
+    private float windPower = 0.0f;
+    private Vector3 velocity;
+
     void Start()
     {
         controller = GetComponent<CharacterController>();
@@ -23,9 +27,18 @@ public class PlayerMove : MonoBehaviour
         //正規化（長さを1にする）
         forward.Normalize();
 
-        Vector3 velocity =
-            forward * Input.GetAxis("Vertical") * walkSpeed
-            + Camera.main.transform.right * Input.GetAxis("Horizontal") * walkSpeed;
+        if (windPower <= 0)
+        {
+            velocity =
+                forward * Input.GetAxis("Vertical") * walkSpeed
+                + Camera.main.transform.right * Input.GetAxis("Horizontal") * walkSpeed;
+        }
+        else
+        {
+            print("a");
+            velocity = transform.forward * windPower;
+            windPower--;
+        }
 
         //Vector3 velocity =
         //    Vector3.forward * Input.GetAxis("Vertical") * walkSpeed
@@ -34,6 +47,17 @@ public class PlayerMove : MonoBehaviour
         if (controller.isGrounded)
         {
             velocityY = 0;
+            jamp = true;
+        }
+        else
+        {
+            jamp = false;
+        }
+
+        if (jamp == true && Input.GetKeyDown(KeyCode.Space))
+        {
+            velocityY = 10;
+            jamp = false;
         }
 
         velocityY -= gravity * Time.deltaTime;
@@ -45,9 +69,14 @@ public class PlayerMove : MonoBehaviour
         velocity.y = 0;
         if (velocity.magnitude > 0)
         {
-            transform.rotation = Quaternion.LookRotation(velocity);
+            //transform.rotation = Quaternion.LookRotation(velocity);
 
-            //transform.LookAt(transform.position + velocity); //上と同じ
+            transform.LookAt(transform.position + velocity); //上と同じ
         }
+    }
+
+    public void SetWindPower(float power)
+    {
+        windPower = power;
     }
 }

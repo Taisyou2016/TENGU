@@ -20,10 +20,11 @@ public class CameraTest : MonoBehaviour
     {
         transform.position = Vector3.Lerp(transform.position, targetTransform.position, 3.0f * Time.deltaTime);
 
-        if (Input.GetAxis("Horizontal") == 1 || Input.GetAxis("Horizontal") == -1)
-        {
-            flag = true;
-        }
+        //if (Input.GetAxis("Horizontal") == 1 || Input.GetAxis("Horizontal") == -1)
+        //{
+        //    flag = true;
+        //}
+        if (Input.GetAxis("Horizontal") != 0) flag = true;
 
         if (flag == true)
         {
@@ -39,9 +40,9 @@ public class CameraTest : MonoBehaviour
         Vector3 cameraPointDirection = cameraPoint.transform.position - targetTransform.position;
         Ray cameraPointRay = new Ray(targetTransform.position, cameraPointDirection);
         RaycastHit cameraPointRayHitInfo;
-        Debug.DrawRay(cameraPointRay.origin, cameraPointRay.direction * 1, Color.green);
+        Debug.DrawRay(cameraPointRay.origin, cameraPointRay.direction * 6.5f, Color.green);
 
-        if (Physics.SphereCast(cameraPointRay, 0.5f, out cameraPointRayHitInfo))
+        if (Physics.SphereCast(cameraPointRay, 0.5f, out cameraPointRayHitInfo, 6.5f))
         {
             cameraTransform.position = Vector3.Lerp(cameraTransform.position, cameraPointRayHitInfo.point, 3.0f * Time.deltaTime);
         }

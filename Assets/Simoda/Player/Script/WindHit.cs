@@ -18,11 +18,11 @@ public class WindHit : MonoBehaviour
 
     void Start()
     {
+
     }
 
     void Update()
     {
-
     }
 
     public void SetVector(Vector3 vector)
