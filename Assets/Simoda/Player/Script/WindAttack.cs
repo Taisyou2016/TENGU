@@ -27,7 +27,7 @@ public class WindAttack : MonoBehaviour
             + transform.forward * 2.5f
             + transform.right * -5.0f;
 
-        wind.GetComponent<Wind>().SetForce(transform.forward, 10.0f);
+        wind.GetComponent<Wind>().SetForce(20.0f, 10.0f, transform.forward);
         wind.GetComponent<Wind>().SetScale(1.0f, 2.0f);
         wind.GetComponent<Wind>().Move(transform.right * power, 0.5f);
 

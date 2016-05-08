@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class PlayerMove : MonoBehaviour
 {
@@ -11,15 +12,71 @@ public class PlayerMove : MonoBehaviour
 
     private bool jamp = false;
     private float windPower = 0.0f;
+    private Vector3 windDirection;
     private Vector3 velocity;
+
+    private List<GameObject> lockEnemyList = new List<GameObject>();
+    private GameObject lockEnemy;
+    private bool lockOn = false;
+    private GameObject cameraController;
 
     void Start()
     {
         controller = GetComponent<CharacterController>();
+        cameraController = GameObject.FindGameObjectWithTag("CameraController");
     }
 
     void Update()
     {
+        lockEnemyList.Sort(LengthSort);
+
+        //ロックオンする、しない
+        if (Input.GetKeyDown(KeyCode.Q) && lockEnemyList.Count > 0)
+        {
+            if (lockOn == false)
+            {
+                lockOn = true;
+                lockEnemy = lockEnemyList[0];
+                transform.LookAt(lockEnemy.transform.position); //ロックした敵の方を向く
+                cameraController.GetComponent<CameraTest>().LockStart(); //プレイヤーの後ろに回る
+                print("ロックオン開始");
+            }
+            else
+            {
+                lockOn = false;
+                print("ロックオン終了");
+            }
+        }
+        if (lockEnemyList.Count == 0)
+        {
+            lockOn = false;
+            print("範囲内に敵なしロックオン終了");
+        }
+
+        if (Input.GetKeyDown(KeyCode.E) && lockOn == true) //ロックを1つ近い敵に変更
+        {
+            int index = lockEnemyList.IndexOf(lockEnemy);
+            if (index == 0)
+                lockEnemy = lockEnemyList[lockEnemyList.Count - 1];
+            else
+                lockEnemy = lockEnemyList[index - 1];
+
+            transform.LookAt(lockEnemy.transform.position); //ロックした敵の方を向く
+            cameraController.GetComponent<CameraTest>().LockStart(); //プレイヤーの後ろに回る
+        }
+        if (Input.GetKeyDown(KeyCode.R) && lockOn == true) //ロックを1つ遠い敵に変更
+        {
+            int index = lockEnemyList.IndexOf(lockEnemy);
+            if (index == lockEnemyList.Count - 1)
+                lockEnemy = lockEnemyList[0];
+            else
+                lockEnemy = lockEnemyList[index + 1];
+
+            transform.LookAt(lockEnemy.transform.position); //ロックした敵の方を向く
+            cameraController.GetComponent<CameraTest>().LockStart(); //プレイヤーの後ろに回る
+        }
+
+
         //カメラの正面向きのベクトルを取得
         Vector3 forward = Camera.main.transform.forward;
         //y成分を無視する
@@ -29,20 +86,31 @@ public class PlayerMove : MonoBehaviour
 
         if (windPower <= 0)
         {
-            velocity =
-                forward * Input.GetAxis("Vertical") * walkSpeed
-                + Camera.main.transform.right * Input.GetAxis("Horizontal") * walkSpeed;
+            if (lockOn == true)
+            {
+                transform.RotateAround(lockEnemy.transform.position,
+                    transform.up,
+                    45 * Time.deltaTime * -Input.GetAxis("Horizontal"));
+
+                velocity =
+                    (lockEnemy.transform.position - transform.position).normalized * Input.GetAxis("Vertical") * walkSpeed;
+            }
+            else
+            {
+                velocity =
+                    forward * Input.GetAxis("Vertical") * walkSpeed
+                    + Camera.main.transform.right * Input.GetAxis("Horizontal") * walkSpeed;
+            }
+            //Vector3 velocity =
+            //    Vector3.forward * Input.GetAxis("Vertical") * walkSpeed
+            //    + Vector3.right * Input.GetAxis("Horizontal") * walkSpeed;
         }
         else
         {
-            print("a");
-            velocity = transform.forward * windPower;
+            velocity = windDirection * windPower;
             windPower--;
         }
 
-        //Vector3 velocity =
-        //    Vector3.forward * Input.GetAxis("Vertical") * walkSpeed
-        //    + Vector3.right * Input.GetAxis("Horizontal") * walkSpeed;
 
         if (controller.isGrounded)
         {
@@ -75,8 +143,42 @@ public class PlayerMove : MonoBehaviour
         }
     }
 
-    public void SetWindPower(float power)
+    public void SetWindPower(float power,Vector3 direction)
     {
         windPower = power;
+        windDirection = direction;
+    }
+
+    public void OnTriggerEnter(Collider other) //ロックオン範囲に入った敵をListに追加
+    {
+        if (other.gameObject.tag == "Enemy")
+            lockEnemyList.Add(other.gameObject);
+    }
+
+    public void OnTriggerExit(Collider other) //ロックオン範囲から出た敵をListから削除
+    {
+        if (other.gameObject.tag == "Enemy")
+        {
+            if (lockEnemy == other.gameObject) //範囲外出た敵がロックしている敵だったら　一番近い敵をロック
+                lockEnemy = lockEnemyList[0];
+
+            lockEnemyList.Remove(other.gameObject);
+            print("敵が範囲外に出た");
+        }
+    }
+
+    public int LengthSort(GameObject a, GameObject b) //Listを敵との距離が近い順にソート
+    {
+        Vector3 VecA = transform.position - a.transform.position;
+        Vector3 VecB = transform.position - b.transform.position;
+
+        if (VecA.magnitude > VecB.magnitude) return 1;
+        else if (VecA.magnitude < VecB.magnitude) return -1;
+        else return 0;
+    }
+
+    public bool GetLockOnInfo()
+    {
+        return lockOn;
     }
 }

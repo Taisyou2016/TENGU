@@ -154,8 +154,9 @@ MonoBehaviour:
   lineLength: 1
   scaleY: 0.5
   scaleZ: 0.5
+  playerPower: 0
+  objectPower: 0
   direction: {x: 0, y: 0, z: 0}
-  power: 0
 --- !u!114 &11499242
 MonoBehaviour:
   m_ObjectHideFlags: 1

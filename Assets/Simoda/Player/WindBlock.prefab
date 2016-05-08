@@ -88,9 +88,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 91465b78e509323439ebe76dd76e6ba2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  direction: {x: 0, y: 0, z: 0}
-  power: 0
-  player: {fileID: 199778, guid: ffe0ed0d26e47f441b03dd26b790c23f, type: 2}
+  windPrefab: {fileID: 0}
 --- !u!114 &11461530
 MonoBehaviour:
   m_ObjectHideFlags: 1

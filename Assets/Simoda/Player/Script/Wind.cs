@@ -13,8 +13,9 @@ public class Wind : MonoBehaviour
     public float scaleY = 0.5f;
     public float scaleZ = 0.5f;
 
+    public float playerPower;
+    public float objectPower;
     public Vector3 direction;
-    public float power;
 
     void Start()
     {
@@ -45,13 +46,9 @@ public class Wind : MonoBehaviour
         if ((windMotion.transform.position - point).magnitude > lineLength)
         {
             GameObject obj = Instantiate(linePrefab, startPoint, transform.rotation) as GameObject;
-
-            obj.GetComponent<WindBlock>().SetForce(direction, power);
             obj.transform.position = windMotion.transform.position;
-
             obj.transform.right = (windMotion.transform.position - point).normalized;
             obj.transform.Rotate(new Vector3(1, 0, 0), obj.transform.eulerAngles.x * -1.0f);
-
             obj.transform.localScale = new Vector3((windMotion.transform.position - point).magnitude, scaleY, scaleZ);
             obj.transform.parent = this.transform;
 
@@ -65,9 +62,18 @@ public class Wind : MonoBehaviour
         scaleZ = Z;
     }
 
-    public void SetForce(Vector3 direction, float power)
+    public void SetForce( float playerPower, float objectPower,Vector3 direction)
     {
+        this.playerPower = playerPower;
+        this.objectPower = objectPower;
         this.direction = direction;
-        this.power = power;
+    }
+
+    public void HitForce(GameObject obj)
+    {
+        if (obj.gameObject.tag == "Player")
+            obj.GetComponent<PlayerMove>().SetWindPower(playerPower, direction);
+        else
+            obj.GetComponent<Rigidbody>().AddForce(objectPower*direction, ForceMode.Impulse);
     }
 }

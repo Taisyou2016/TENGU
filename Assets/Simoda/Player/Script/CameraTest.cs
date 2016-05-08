@@ -6,6 +6,7 @@ public class CameraTest : MonoBehaviour
     public GameObject target;
     public GameObject cameraPoint;
     public bool flag;
+    public bool UpArrowFlag;
 
     private Transform cameraTransform;
     private Transform targetTransform;
@@ -20,23 +21,47 @@ public class CameraTest : MonoBehaviour
     {
         transform.position = Vector3.Lerp(transform.position, targetTransform.position, 3.0f * Time.deltaTime);
 
-        //if (Input.GetAxis("Horizontal") == 1 || Input.GetAxis("Horizontal") == -1)
-        //{
-        //    flag = true;
-        //}
-        if (Input.GetAxis("Horizontal") != 0) flag = true;
 
-        if (flag == true)
+        if (Input.GetAxis("Vertical") > 0) UpArrowFlag = true;
+        else if (Input.GetAxis("Vertical") < 0) UpArrowFlag = false;
+
+        if (target.GetComponent<PlayerMove>().GetLockOnInfo() == true) //ロックしてるとき
         {
-            transform.rotation = Quaternion.Slerp(transform.rotation, targetTransform.rotation, 2.0f * Time.deltaTime);
+            if (Input.GetAxis("Horizontal") != 0 && UpArrowFlag == true) flag = true;
+            if (transform.rotation == target.transform.rotation || UpArrowFlag == false)
+            {
+                flag = false;
+            }
+
+            Vector3 targetRotation = targetTransform.rotation.eulerAngles;
+            if (flag == true) //フラグがtrueだったらプレイヤーの後ろに回る
+            {
+                transform.rotation = Quaternion.Slerp(transform.rotation, targetTransform.rotation, 2.0f * Time.deltaTime);
+            }
+            else if (Input.GetAxis("Vertical") < 0)
+            {
+                transform.rotation = Quaternion.Slerp(
+                    transform.rotation,
+                    Quaternion.Euler(targetRotation.x, targetRotation.y + 180, targetRotation.z)
+                    , 2.0f * Time.deltaTime);
+            }
+        }
+        else
+        {
+            if (Input.GetAxis("Horizontal") != 0) flag = true;
+            if (transform.rotation == target.transform.rotation || (Input.GetAxis("Vertical") < 0 && Input.GetAxis("Horizontal") == 0))
+            {
+                flag = false;
+            }
+
+            if (flag == true)
+            {
+                transform.rotation = Quaternion.Slerp(transform.rotation, targetTransform.rotation, 2.0f * Time.deltaTime);
+            }
         }
 
-        if (transform.rotation == target.transform.rotation || (Input.GetAxis("Vertical") < 0 && Input.GetAxis("Horizontal") == 0))
-        {
-            flag = false;
-        }
-
-
+        //ターゲットからカメラポイントの間に障害物がなければカメラをカメラポイントに移動する
+        //障害物があったら障害物より前に移動する
         Vector3 cameraPointDirection = cameraPoint.transform.position - targetTransform.position;
         Ray cameraPointRay = new Ray(targetTransform.position, cameraPointDirection);
         RaycastHit cameraPointRayHitInfo;
@@ -50,6 +75,8 @@ public class CameraTest : MonoBehaviour
         {
             cameraTransform.position = Vector3.Lerp(cameraTransform.position, cameraPoint.transform.position, 3.0f * Time.deltaTime);
         }
+
+
 
         ////カメラからプレイヤーへのRay
         //Vector3 playerRayDirection = targetTransform.position - cameraTransform.position;
@@ -80,5 +107,10 @@ public class CameraTest : MonoBehaviour
         //{
         //    cameraTransform.position = Vector3.Lerp(cameraTransform.position, cameraPoint.transform.position, 3.0f * Time.deltaTime);
         //}
+    }
+
+    public void LockStart()
+    {
+        flag = true;
     }
 }
