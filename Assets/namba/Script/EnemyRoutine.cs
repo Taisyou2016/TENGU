@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class TestEnemy : MonoBehaviour{
+public class EnemyRoutine : MonoBehaviour{
 
     public float SearchDistance = 10f;  // 透過視認範囲
     public int maxlife = 40;            // 最大ＨＰ
@@ -62,7 +62,6 @@ public class TestEnemy : MonoBehaviour{
         {
             if (hit.collider.tag == "Player")
             {
-                Pursuit();
                 Attack();
             }
         }
@@ -70,9 +69,6 @@ public class TestEnemy : MonoBehaviour{
 
     void Pursuit()
     {// 追跡処理
-        // Playerの方向を向く
-        Quaternion targetRotate = Quaternion.LookRotation(player.position - transform.position);
-        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotate, Time.deltaTime * rotateSmooth);
 
         // 前に進む
         transform.Translate(Vector3.forward * speed * Time.deltaTime);
@@ -81,24 +77,32 @@ public class TestEnemy : MonoBehaviour{
 
     void LostContact()
     {// 見失った時の処理
+        Switch(0);
 
+        lostPos = player.position;
+
+        agent.Move(lostPos);
     }
 
 
     void Attack()
     {// 攻撃処理
+         // Playerの方向を向く
+        Quaternion targetRotate = Quaternion.LookRotation(player.position - transform.position);
+        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotate, Time.deltaTime * rotateSmooth);
+
         // Playerとの距離
         float ToAttackDistance = Vector3.SqrMagnitude(this.transform.position - player.position);
-        // 攻撃範囲外ならば
-        if (ToAttackDistance > AttackDistance * 10.0f)
+        // 攻撃範囲内
+        if (ToAttackDistance < AttackDistance * 10.0f)
         {
-            // 以降の処理をスルー
+            //攻撃処理
+            attack.Attack(LengeType);
+
             return;
         }
 
-        //攻撃処理
-        attack.Attack(LengeType);
-
+        Pursuit();
     }
 
     void Died()
