@@ -106,9 +106,6 @@ public class PlayerMove : MonoBehaviour
                     forward * Input.GetAxis("Vertical") * walkSpeed
                     + Camera.main.transform.right * Input.GetAxis("Horizontal") * walkSpeed;
             }
-            //Vector3 velocity =
-            //    Vector3.forward * Input.GetAxis("Vertical") * walkSpeed
-            //    + Vector3.right * Input.GetAxis("Horizontal") * walkSpeed;
         }
         else
         {//Windに触れた時の移動
