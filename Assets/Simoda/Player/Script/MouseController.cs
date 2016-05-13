@@ -18,21 +18,29 @@ public class MouseController : MonoBehaviour
 
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            Cursor.visible = true;
+        }
+
         if (Input.GetMouseButtonDown(0))
         {
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.lockState = CursorLockMode.None;
 
-            Invoke("AttackDecision", 0.3f);
+            Invoke("WindAttackDecision", 0.3f);
         }
 
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetMouseButtonDown(1))
         {
-            Cursor.visible = true;
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.lockState = CursorLockMode.None;
+
+            Invoke("KamaitachiDecision", 0.3f);
         }
     }
 
-    public void AttackDecision()
+    public void WindAttackDecision()
     {
         endPos = Input.mousePosition;
         vector = endPos - startPos;
@@ -48,7 +56,20 @@ public class MouseController : MonoBehaviour
 
         if (vector.magnitude > length)
         {
-            GameObject.FindObjectOfType<AttackPattern>().AttackPatternDecision(angle, vector);
+            GameObject.FindObjectOfType<AttackPattern>().WindPatternDecision(angle, vector);
+        }
+    }
+
+    public void KamaitachiDecision()
+    {
+        endPos = Input.mousePosition;
+        vector = endPos - startPos;
+        radian = vector.y / vector.x;
+        angle = Mathf.Atan(radian) * Mathf.Rad2Deg;
+
+        if (vector.magnitude > length)
+        {
+            GameObject.FindObjectOfType<AttackPattern>().KamaitachiPatternDecision(angle, vector);
         }
     }
 }
