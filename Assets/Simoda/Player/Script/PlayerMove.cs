@@ -199,8 +199,9 @@ public class PlayerMove : MonoBehaviour
         return jampState;
     }
 
-    public void test()
-    { 
+    public void SetVelocityY(int velocity)
+    {
+        velocityY = velocity;
     }
 
     public void Default()
