@@ -152,6 +152,8 @@ MonoBehaviour:
   cameraPoint: {fileID: 183902}
   flag: 0
   UpArrowFlag: 0
+  cameraMoveSpeed: 3
+  cameraRotateSpeed: 2
 --- !u!114 &11484126
 MonoBehaviour:
   m_ObjectHideFlags: 1

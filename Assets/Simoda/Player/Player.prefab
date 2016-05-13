@@ -300,8 +300,11 @@ MonoBehaviour:
   maxMp: 100
   currentHp: 0
   currentMp: 0
-  autoRecoveryMp: 1
-  autoRecoveryTime: 1
+  mpAutoRecoveryCost: 1
+  mpAutoRecoveryTime: 1
+  invincible: 0
+  knockBackSmallInvincibleTime: 1
+  knockBackLargeInvincibleTime: 3
 --- !u!135 &13570766
 SphereCollider:
   m_ObjectHideFlags: 1

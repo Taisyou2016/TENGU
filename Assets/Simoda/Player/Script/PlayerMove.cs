@@ -5,6 +5,7 @@ using System.Collections.Generic;
 public class PlayerMove : MonoBehaviour
 {
     public float walkSpeed = 4.0f; //歩くスピード（メートル/秒）
+    public float lockOnRotateSpeed = 45.0f; //ロックオンしているときの横移動
     public float gravity = 10.0f; //重力加速度
     public float jampPower = 10.0f;
 
@@ -29,10 +30,9 @@ public class PlayerMove : MonoBehaviour
 
     void Update()
     {
-        lockEnemyList.Sort(LengthSort);
+        lockEnemyList.Sort(LengthSort); //lockEnemyListをプレイヤーからの距離が短い順にソート
 
-        //ロックオンする、しない
-        if (Input.GetKeyDown(KeyCode.Q) && lockEnemyList.Count > 0)
+        if (Input.GetKeyDown(KeyCode.Q) && lockEnemyList.Count > 0)//ロックオンする、しない
         {
             if (lockOn == false)
             {
@@ -53,6 +53,8 @@ public class PlayerMove : MonoBehaviour
             lockOn = false;
             print("範囲内に敵なしロックオン終了");
         }
+
+
 
         if (Input.GetKeyDown(KeyCode.E) && lockOn == true) //ロックを1つ近い敵に変更
         {
@@ -78,6 +80,8 @@ public class PlayerMove : MonoBehaviour
         }
 
 
+
+
         //カメラの正面向きのベクトルを取得
         Vector3 forward = Camera.main.transform.forward;
         //y成分を無視する
@@ -87,16 +91,16 @@ public class PlayerMove : MonoBehaviour
 
         if (windPower <= 1)
         {
-            if (lockOn == true)
+            if (lockOn == true) //ロックオン時の移動
             {
                 transform.RotateAround(lockEnemy.transform.position,
                     transform.up,
-                    45 * Time.deltaTime * -Input.GetAxis("Horizontal"));
+                    lockOnRotateSpeed * Time.deltaTime * -Input.GetAxis("Horizontal"));
 
                 velocity =
                     (lockEnemy.transform.position - transform.position).normalized * Input.GetAxis("Vertical") * walkSpeed;
             }
-            else
+            else //通常時の移動
             {
                 velocity =
                     forward * Input.GetAxis("Vertical") * walkSpeed
@@ -107,13 +111,13 @@ public class PlayerMove : MonoBehaviour
             //    + Vector3.right * Input.GetAxis("Horizontal") * walkSpeed;
         }
         else
-        {
+        {//Windに触れた時の移動
             velocity = windDirection * windPower;
             windPower -= 0.5f;
         }
 
 
-        if (controller.isGrounded)
+        if (controller.isGrounded) //ジャンプ処理
         {
             velocityY = 0;
             jampState = false;

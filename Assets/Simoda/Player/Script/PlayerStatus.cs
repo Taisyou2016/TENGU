@@ -37,9 +37,12 @@ public class PlayerStatus : MonoBehaviour
         if (currentMp == 100 && mpOver == true) //妖力が100まで回復したらmpOverをfalseに
             mpOver = false;
 
+        currentInvincibleTime -= Time.deltaTime;
+        if (currentInvincibleTime <= 0) //currentInvincibleTimeが0より小さくなったら無敵を解除
+            invincible = false;
     }
 
-    public void HpRecovery(int cost) //HPをcost分回復　maxHPを超えたらmaxHPを代入
+    public void HpRecovery(int cost) //HPをcost分回復　maxHPを超えていたらmaxHPを代入
     {
         if (currentHp + cost > maxHp)
             currentHp = maxHp;
@@ -47,9 +50,21 @@ public class PlayerStatus : MonoBehaviour
             currentHp += cost;
     }
 
-    public void HpDamage(int damage)
+    public void HpDamage(int damage) //HPをダメージ分減らす
     {
+        if (invincible == true) return; //無敵だったら処理を行わない
 
+        if (damage == 1) //damageが1だったらknockBackSmallInvincibleTimeを代入
+            currentInvincibleTime = knockBackSmallInvincibleTime;
+        else if (damage >= 2) //damageが2以上だったらknockBackLargeInvincibleTimeを代入
+            currentInvincibleTime = knockBackLargeInvincibleTime;
+
+        if (currentHp - damage <= 0) //現在のHPが0より小さかったら0に
+            currentHp = 0;
+        else
+            currentHp -= damage;
+
+        invincible = true; //無敵に
     }
 
     public void MpConsumption(int cost, GameObject obj) //cost分現在のMPを消費する MPがcostより少なかったら発生させたobjを消す
