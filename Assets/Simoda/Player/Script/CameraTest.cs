@@ -7,6 +7,8 @@ public class CameraTest : MonoBehaviour
     public GameObject cameraPoint;
     public bool flag;
     public bool UpArrowFlag;
+    public float cameraMoveSpeed = 3.0f;
+    public float cameraRotateSpeed = 2.0f;
 
     private Transform cameraTransform;
     private Transform targetTransform;
@@ -19,7 +21,7 @@ public class CameraTest : MonoBehaviour
 
     void Update()
     {
-        transform.position = Vector3.Lerp(transform.position, targetTransform.position, 3.0f * Time.deltaTime);
+        transform.position = Vector3.Lerp(transform.position, targetTransform.position, cameraMoveSpeed * Time.deltaTime);
 
 
         if (Input.GetAxis("Vertical") > 0) UpArrowFlag = true;
@@ -36,14 +38,14 @@ public class CameraTest : MonoBehaviour
             Vector3 targetRotation = targetTransform.rotation.eulerAngles;
             if (flag == true) //フラグがtrueだったらプレイヤーの後ろに回る
             {
-                transform.rotation = Quaternion.Slerp(transform.rotation, targetTransform.rotation, 2.0f * Time.deltaTime);
+                transform.rotation = Quaternion.Slerp(transform.rotation, targetTransform.rotation, cameraRotateSpeed * Time.deltaTime);
             }
             else if (Input.GetAxis("Vertical") < 0)
             {
                 transform.rotation = Quaternion.Slerp(
                     transform.rotation,
                     Quaternion.Euler(targetRotation.x, targetRotation.y + 180, targetRotation.z)
-                    , 2.0f * Time.deltaTime);
+                    , cameraRotateSpeed * Time.deltaTime);
             }
         }
         else
@@ -56,7 +58,7 @@ public class CameraTest : MonoBehaviour
 
             if (flag == true)
             {
-                transform.rotation = Quaternion.Slerp(transform.rotation, targetTransform.rotation, 2.0f * Time.deltaTime);
+                transform.rotation = Quaternion.Slerp(transform.rotation, targetTransform.rotation, cameraRotateSpeed * Time.deltaTime);
             }
         }
 
@@ -69,11 +71,11 @@ public class CameraTest : MonoBehaviour
 
         if (Physics.SphereCast(cameraPointRay, 0.5f, out cameraPointRayHitInfo, 6.5f))
         {
-            cameraTransform.position = Vector3.Lerp(cameraTransform.position, cameraPointRayHitInfo.point, 3.0f * Time.deltaTime);
+            cameraTransform.position = Vector3.Lerp(cameraTransform.position, cameraPointRayHitInfo.point, cameraMoveSpeed * Time.deltaTime);
         }
         else
         {
-            cameraTransform.position = Vector3.Lerp(cameraTransform.position, cameraPoint.transform.position, 3.0f * Time.deltaTime);
+            cameraTransform.position = Vector3.Lerp(cameraTransform.position, cameraPoint.transform.position, cameraMoveSpeed * Time.deltaTime);
         }
 
 
