@@ -13,7 +13,7 @@ public class AttackPattern : MonoBehaviour
 
     }
 
-    public void AttackPatternDecision(float angle, Vector3 vector)
+    public void WindPatternDecision(float angle, Vector3 vector) //気流用
     {
         //横方向 → ←
         if (angle >= -20.0f && angle <= 20)
@@ -21,12 +21,12 @@ public class AttackPattern : MonoBehaviour
             if (vector.x > 0)
             {
                 print("パターン1 →");
-                GameObject.FindObjectOfType<WindAttack>().WindAttack1();
+                GameObject.FindObjectOfType<WindGeneration>().WindAttack1();
             }
             if (vector.x < 0)
             {
                 print("パターン2 ←");
-                GameObject.FindObjectOfType<WindAttack>().WindAttack2();
+                GameObject.FindObjectOfType<WindGeneration>().WindAttack2();
             }
         }
 
@@ -36,12 +36,12 @@ public class AttackPattern : MonoBehaviour
             if (vector.y < 0)
             {
                 print("パターン3 ↓");
-                GameObject.FindObjectOfType<WindAttack>().WindAttack3();
+                GameObject.FindObjectOfType<WindGeneration>().WindAttack3();
             }
             if (vector.y > 0)
             {
                 print("パターン4 ↑");
-                GameObject.FindObjectOfType<WindAttack>().WindAttack4();
+                GameObject.FindObjectOfType<WindGeneration>().WindAttack4();
             }
         }
 
@@ -51,12 +51,12 @@ public class AttackPattern : MonoBehaviour
             if (vector.x < 0)
             {
                 print("パターン5 ↙");
-                GameObject.FindObjectOfType<WindAttack>().WindAttack5();
+                GameObject.FindObjectOfType<WindGeneration>().WindAttack5();
             }
             if (vector.x > 0)
             {
                 print("パターン6 ↗");
-                GameObject.FindObjectOfType<WindAttack>().WindAttack6();
+                GameObject.FindObjectOfType<WindGeneration>().WindAttack6();
             }
         }
 
@@ -66,13 +66,44 @@ public class AttackPattern : MonoBehaviour
             if (vector.x > 0)
             {
                 print("パターン7 ↘");
-                GameObject.FindObjectOfType<WindAttack>().WindAttack7();
+                GameObject.FindObjectOfType<WindGeneration>().WindAttack7();
             }
             if (vector.x < 0)
             {
                 print("パターン8 ↖");
-                GameObject.FindObjectOfType<WindAttack>().WindAttack8();
+                GameObject.FindObjectOfType<WindGeneration>().WindAttack8();
             }
+        }
+    }
+
+    public void KamaitachiPatternDecision(float angle, Vector3 vector) //かまいたち用
+    {
+        //横方向 → ←
+        if (angle >= -20.0f && angle <= 20)
+        {
+            print("パターン1 → ←");
+            GameObject.FindObjectOfType<KamaitachiGeneration>().KamaitachiGeneration1();
+        }
+
+        //縦方向 ↓ ↑
+        if ((angle <= -70 && angle >= -90) || (angle >= 70 && angle <= 90))
+        {
+            print("パターン2 ↓ ↑");
+            GameObject.FindObjectOfType<KamaitachiGeneration>().KamaitachiGeneration2();
+        }
+
+        //右斜め方向 ↙ ↗
+        if (angle > 20 && angle < 70)
+        {
+            print("パターン3 ↙ ↗");
+            GameObject.FindObjectOfType<KamaitachiGeneration>().KamaitachiGeneration3();
+        }
+
+        //左斜め方向 ↘ ↖
+        if (angle < -20 && angle > -70)
+        {
+            print("パターン4 ↘ ↖");
+            GameObject.FindObjectOfType<KamaitachiGeneration>().KamaitachiGeneration4();
         }
     }
 }

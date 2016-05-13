@@ -64,8 +64,9 @@ GameObject:
   - 143: {fileID: 14338050}
   - 135: {fileID: 13570766}
   - 114: {fileID: 11435836}
-  - 114: {fileID: 11424510}
   - 114: {fileID: 11492454}
+  - 114: {fileID: 11424510}
+  - 114: {fileID: 11430062}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -226,7 +227,25 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   windPrefab: {fileID: 183924, guid: 639dab898e088c549967c3ff0b272951, type: 2}
-  power: 20
+  playerWidthPower: 15
+  objectWidthPower: 10
+  playerHeightPower: 30
+  objectHeightPower: 15
+  playerSlantingPower: 20
+  objectSlantingPower: 10
+--- !u!114 &11430062
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 199778}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 59a013233bb11814aa5dbd6ddb07cf90, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  kamaitachiPrefab: {fileID: 156832, guid: 2bfd7ea659021234b848e5a721058d7a, type: 2}
+  speed: 10
 --- !u!114 &11435836
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -240,6 +259,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   walkSpeed: 4
   gravity: 10
+  jampPower: 10
+  windPower: 0
+  windDirection: {x: 0, y: 0, z: 0}
 --- !u!114 &11452316
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -274,8 +296,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 14277d67a741eff48954d84c7025dd87, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  HP: 10
-  MP: 100
+  maxHp: 10
+  maxMp: 100
+  currentHp: 0
+  currentMp: 0
+  autoRecoveryMp: 1
+  autoRecoveryTime: 1
 --- !u!135 &13570766
 SphereCollider:
   m_ObjectHideFlags: 1

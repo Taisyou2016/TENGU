@@ -6,13 +6,14 @@ public class PlayerMove : MonoBehaviour
 {
     public float walkSpeed = 4.0f; //歩くスピード（メートル/秒）
     public float gravity = 10.0f; //重力加速度
+    public float jampPower = 10.0f;
+
+    public float windPower = 0.0f;
+    public Vector3 windDirection;
 
     private CharacterController controller;
     private float velocityY = 0;
-
-    private bool jamp = false;
-    private float windPower = 0.0f;
-    private Vector3 windDirection;
+    private bool jampState = false;
     private Vector3 velocity;
 
     private List<GameObject> lockEnemyList = new List<GameObject>();
@@ -47,7 +48,7 @@ public class PlayerMove : MonoBehaviour
                 print("ロックオン終了");
             }
         }
-        if (lockEnemyList.Count == 0)
+        if (lockEnemyList.Count == 0 && lockOn == true)
         {
             lockOn = false;
             print("範囲内に敵なしロックオン終了");
@@ -84,7 +85,7 @@ public class PlayerMove : MonoBehaviour
         //正規化（長さを1にする）
         forward.Normalize();
 
-        if (windPower <= 0)
+        if (windPower <= 1)
         {
             if (lockOn == true)
             {
@@ -108,24 +109,24 @@ public class PlayerMove : MonoBehaviour
         else
         {
             velocity = windDirection * windPower;
-            windPower--;
+            windPower -= 0.5f;
         }
 
 
         if (controller.isGrounded)
         {
             velocityY = 0;
-            jamp = true;
+            jampState = false;
         }
         else
         {
-            jamp = false;
+            jampState = true;
         }
 
-        if (jamp == true && Input.GetKeyDown(KeyCode.Space))
+        if (jampState == false && Input.GetKeyDown(KeyCode.Space))
         {
             velocityY = 10;
-            jamp = false;
+            jampState = true;
         }
 
         velocityY -= gravity * Time.deltaTime;
@@ -143,7 +144,7 @@ public class PlayerMove : MonoBehaviour
         }
     }
 
-    public void SetWindPower(float power,Vector3 direction)
+    public void SetWindPower(float power, Vector3 direction)
     {
         windPower = power;
         windDirection = direction;
@@ -180,5 +181,10 @@ public class PlayerMove : MonoBehaviour
     public bool GetLockOnInfo()
     {
         return lockOn;
+    }
+
+    public bool GetJampState()
+    {
+        return jampState;
     }
 }
