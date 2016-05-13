@@ -150,10 +150,8 @@ public class PlayerMove : MonoBehaviour
         if (velocity.magnitude > 0)
         {
             //transform.rotation = Quaternion.LookRotation(velocity);
-            if (lockOn == true)
-                transform.LookAt(lockEnemy.transform.position);
-            else
-                transform.LookAt(transform.position + velocity);
+
+            transform.LookAt(transform.position + velocity); //上と同じ
         }
     }
 
@@ -200,9 +198,9 @@ public class PlayerMove : MonoBehaviour
     {
         return jampState;
     }
-    public void SetvelocityY(int velocity)
-    {
-        velocityY = velocity;
+
+    public void test()
+    { 
     }
 
     public void Default()
