@@ -38,14 +38,7 @@ public class EnemyAttack : MonoBehaviour {
 
         //処理
 
-        for (int i = 0; i < 3; i++)
-        {
-            Instantiate(ohuda, transform.localPosition + transform.forward, transform.rotation);
-
-            yield return new WaitForSeconds(0.3f);
-
-        }
-
+        Instantiate(ohuda, transform.localPosition + transform.forward, transform.rotation);
 
 
         yield return new WaitForSeconds(cooltime_M);

@@ -20,7 +20,7 @@ public class ohuda : MonoBehaviour {
     {
         if(col.gameObject.tag != "Enemy")
         {
-            Destroy(this.gameObject);
+            //Destroy(this.gameObject);
         }
     }
 }

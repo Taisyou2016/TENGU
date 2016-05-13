@@ -134,7 +134,7 @@ public class TestEnemy : MonoBehaviour{
         {
             Died();
         }
-        iTween.MoveTo(gameObject, transform.position + vec*2, 0.5f);
+        iTween.MoveTo(gameObject, transform.position + vec, 0.5f);
 
         yield return new WaitForSeconds(1.0f);
 

@@ -27,9 +27,9 @@ GameObject:
   - 65: {fileID: 6506722}
   - 23: {fileID: 2329432}
   - 114: {fileID: 11441954}
+  - 114: {fileID: 11414186}
   - 54: {fileID: 5488840}
   - 195: {fileID: 19589682}
-  - 114: {fileID: 11414186}
   m_Layer: 0
   m_Name: TestEnemy
   m_TagString: Enemy
@@ -133,7 +133,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 318f15017e5f6b3498f7c6ef4f0813bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bullet: {fileID: 166402, guid: 307b98352bab01348bd999b171bf5fd4, type: 2}
+  ohuda: {fileID: 166402, guid: 307b98352bab01348bd999b171bf5fd4, type: 2}
+  bow: {fileID: 161056, guid: a10d5355590342d4f9456325493f768f, type: 2}
 --- !u!114 &11441954
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -146,9 +147,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SearchDistance: 10
-  AttackDistance: 5
   maxlife: 40
-  speed: 1
+  speed: 3
+  LengeType: 2
 --- !u!195 &19589682
 NavMeshAgent:
   m_ObjectHideFlags: 1
