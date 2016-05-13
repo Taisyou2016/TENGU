@@ -1,12 +1,19 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class WindAttack : MonoBehaviour
+public class WindGeneration : MonoBehaviour
 {
     public GameObject windPrefab;
-    public float power = 20.0f;
+    private float power = 20.0f;
 
-    private Vector3 vector = Vector3.zero;
+    public float playerWidthPower = 15.0f; //→ ←方向のPlayerへのPower
+    public float objectWidthPower = 10.0f; //→ ←方向のObj,EnemyへのPower
+
+    public float playerHeightPower = 30.0f; //↓ ↑方向のPlayerへのPower
+    public float objectHeightPower = 15.0f; //↓ ↑方向のObj,EnemyへのPower
+
+    public float playerSlantingPower = 20.0f; //↙ ↗ ↘ ↖方向のPlayerへのPower
+    public float objectSlantingPower = 10.0f; //↙ ↗ ↘ ↖方向のObj,EnemyへのPower
 
     void Start()
     {
@@ -27,7 +34,7 @@ public class WindAttack : MonoBehaviour
             + transform.forward * 2.5f
             + transform.right * -5.0f;
 
-        wind.GetComponent<Wind>().SetForce(20.0f, 10.0f, transform.forward);
+        wind.GetComponent<Wind>().SetForce(playerWidthPower, objectWidthPower, transform.forward);
         wind.GetComponent<Wind>().SetScale(1.0f, 2.0f);
         wind.GetComponent<Wind>().Move(transform.right * power, 0.5f);
 
@@ -50,6 +57,7 @@ public class WindAttack : MonoBehaviour
             + transform.forward * 2.5f
             + transform.right * 5.0f;
 
+        wind.GetComponent<Wind>().SetForce(playerWidthPower, objectWidthPower, transform.forward);
         wind.GetComponent<Wind>().SetScale(1.0f, 2.0f);
         wind.GetComponent<Wind>().Move(transform.right * power * -1.0f, 0.5f);
 
@@ -74,6 +82,7 @@ public class WindAttack : MonoBehaviour
             + transform.forward * 2.0f
             + transform.up * 2.0f;
 
+        wind.GetComponent<Wind>().SetForce(playerHeightPower, objectHeightPower, transform.forward);
         wind.GetComponent<Wind>().SetScale(7.0f, 2.5f);
         wind.GetComponent<Wind>().Move(transform.forward * power, 0.3f);
 
@@ -98,6 +107,7 @@ public class WindAttack : MonoBehaviour
             + transform.forward * 2.0f
             + transform.up * 2.0f;
 
+        wind.GetComponent<Wind>().SetForce(playerHeightPower, objectHeightPower, transform.forward);
         wind.GetComponent<Wind>().SetScale(7.0f, 2.5f);
         wind.GetComponent<Wind>().Move(transform.forward * power, 0.3f);
 
@@ -122,6 +132,7 @@ public class WindAttack : MonoBehaviour
             + transform.right * 4.0f
             + transform.up * 3.0f;
 
+        wind.GetComponent<Wind>().SetForce(playerSlantingPower, objectSlantingPower, transform.forward);
         wind.GetComponent<Wind>().SetScale(1.0f, 2.0f);
         wind.GetComponent<Wind>().Move((transform.right * power * -1.0f) + (transform.up * power * -1.0f / 2), 0.35f);
 
@@ -145,6 +156,7 @@ public class WindAttack : MonoBehaviour
             + transform.right * -4.0f
             + transform.up * -1.5f;
 
+        wind.GetComponent<Wind>().SetForce(playerSlantingPower, objectSlantingPower, transform.forward);
         wind.GetComponent<Wind>().SetScale(1.0f, 2.0f);
         wind.GetComponent<Wind>().Move((transform.right * power * 1.0f) + (transform.up * power * 1.0f / 2), 0.35f);
 
@@ -168,6 +180,7 @@ public class WindAttack : MonoBehaviour
             + transform.right * -3.0f
             + transform.up * 3.0f;
 
+        wind.GetComponent<Wind>().SetForce(playerSlantingPower, objectSlantingPower, transform.forward);
         wind.GetComponent<Wind>().SetScale(1.0f, 2.0f);
         wind.GetComponent<Wind>().Move((transform.right * power * 1.0f) + (transform.up * power * -1.0f / 2), 0.35f);
 
@@ -191,6 +204,7 @@ public class WindAttack : MonoBehaviour
             + transform.right * 4.0f
             + transform.up * -1.5f;
 
+        wind.GetComponent<Wind>().SetForce(playerSlantingPower, objectSlantingPower, transform.forward);
         wind.GetComponent<Wind>().SetScale(1.0f, 2.0f);
         wind.GetComponent<Wind>().Move((transform.right * power * -1.0f) + (transform.up * power * 1.0f / 2), 0.35f);
 
