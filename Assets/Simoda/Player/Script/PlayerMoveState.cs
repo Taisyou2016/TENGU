@@ -4,7 +4,7 @@ using System.Collections;
 namespace PlayerMoveState
 {
     //ステートの実行を管理するクラス
-    public class stateProcessor
+    public class StateProcessor
     {
         //ステート本体
         private PlayerMoveState _State;

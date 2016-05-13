@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using PlayerMoveState;
 
 public class PlayerMove : MonoBehaviour
 {
@@ -8,11 +9,11 @@ public class PlayerMove : MonoBehaviour
     public float lockOnRotateSpeed = 45.0f; //ロックオンしているときの横移動
     public float gravity = 10.0f; //重力加速度
     public float jampPower = 10.0f;
-
     public float windPower = 0.0f;
     public Vector3 windDirection;
 
     private CharacterController controller;
+    private Vector3 cameraForward;
     private float velocityY = 0;
     private bool jampState = false;
     private Vector3 velocity;
@@ -22,10 +23,19 @@ public class PlayerMove : MonoBehaviour
     private bool lockOn = false;
     private GameObject cameraController;
 
+
+
+    public StateProcessor stateProcessor = new StateProcessor();
+    public PlayerMoveStateDefault stateDefault = new PlayerMoveStateDefault();
+    public PlayerMoveStateLockOn stateLockOn = new PlayerMoveStateLockOn();
+    public PlayerMoveStateWind stateWind = new PlayerMoveStateWind();
+
     void Start()
     {
         controller = GetComponent<CharacterController>();
         cameraController = GameObject.FindGameObjectWithTag("CameraController");
+
+        stateProcessor.State = stateDefault;
     }
 
     void Update()
@@ -83,11 +93,11 @@ public class PlayerMove : MonoBehaviour
 
 
         //カメラの正面向きのベクトルを取得
-        Vector3 forward = Camera.main.transform.forward;
+        cameraForward = Camera.main.transform.forward;
         //y成分を無視する
-        forward.y = 0;
+        cameraForward.y = 0;
         //正規化（長さを1にする）
-        forward.Normalize();
+        cameraForward.Normalize();
 
         if (windPower <= 1)
         {
@@ -103,7 +113,7 @@ public class PlayerMove : MonoBehaviour
             else //通常時の移動
             {
                 velocity =
-                    forward * Input.GetAxis("Vertical") * walkSpeed
+                    cameraForward * Input.GetAxis("Vertical") * walkSpeed
                     + Camera.main.transform.right * Input.GetAxis("Horizontal") * walkSpeed;
             }
         }
@@ -193,5 +203,12 @@ public class PlayerMove : MonoBehaviour
     public void SetvelocityY(int velocity)
     {
         velocityY = velocity;
+    }
+
+    public void Default()
+    {
+        velocity =
+            cameraForward * Input.GetAxis("Vertical") * walkSpeed
+            + Camera.main.transform.right * Input.GetAxis("Horizontal") * walkSpeed;
     }
 }
