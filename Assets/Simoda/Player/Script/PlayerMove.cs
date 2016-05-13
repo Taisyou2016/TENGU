@@ -188,4 +188,8 @@ public class PlayerMove : MonoBehaviour
     {
         return jampState;
     }
+
+    public void test()
+    { 
+    }
 }

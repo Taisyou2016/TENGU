@@ -8,6 +8,13 @@ public class TornadoDecion : MonoBehaviour {
 
     public void OnTriggerEnter(Collider other)
     {
-        other.GetComponent<Rigidbody>().AddForce(direction * power, ForceMode.Impulse);
+        if (other.tag == "Player")
+        {
+            
+        }
+        else
+        {
+            other.GetComponent<Rigidbody>().AddForce(direction * power, ForceMode.Impulse);
+        }
     }
 }
