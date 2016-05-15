@@ -3,6 +3,8 @@ using System.Collections;
 
 public class KamaitachiBlock : MonoBehaviour
 {
+    public int damage = 20;
+
     void Start()
     {
 

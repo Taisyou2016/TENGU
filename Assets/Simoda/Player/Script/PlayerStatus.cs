@@ -40,6 +40,11 @@ public class PlayerStatus : MonoBehaviour
         currentInvincibleTime -= Time.deltaTime;
         if (currentInvincibleTime <= 0) //currentInvincibleTimeが0より小さくなったら無敵を解除
             invincible = false;
+
+        if (Input.GetKeyDown(KeyCode.K))
+            HpDamage(1);
+        if (Input.GetKeyDown(KeyCode.L))
+            HpDamage(3);
     }
 
     public void HpRecovery(int cost) //HPをcost分回復　maxHPを超えていたらmaxHPを代入
@@ -55,9 +60,15 @@ public class PlayerStatus : MonoBehaviour
         if (invincible == true) return; //無敵だったら処理を行わない
 
         if (damage == 1) //damageが1だったらknockBackSmallInvincibleTimeを代入
+        {
             currentInvincibleTime = knockBackSmallInvincibleTime;
+            gameObject.GetComponent<PlayerMove>().ChangeKnockBackSmall();
+        }
         else if (damage >= 2) //damageが2以上だったらknockBackLargeInvincibleTimeを代入
+        {
             currentInvincibleTime = knockBackLargeInvincibleTime;
+            gameObject.GetComponent<PlayerMove>().ChangeKnockBackLarge(10.0f);
+        }
 
         if (currentHp - damage <= 0) //現在のHPが0より小さかったら0に
             currentHp = 0;

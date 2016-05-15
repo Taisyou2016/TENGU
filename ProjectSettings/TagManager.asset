@@ -8,6 +8,8 @@ TagManager:
   - Enemy
   - CameraPoint
   - CameraController
+  - Kamaitachi
+  - Terrain
   layers:
   - Default
   - TransparentFX
@@ -17,7 +19,7 @@ TagManager:
   - UI
   - 
   - 
-  - Obstacle
+  - Field
   - 
   - 
   - 

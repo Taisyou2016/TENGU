@@ -2,26 +2,31 @@
 using System.Collections;
 using System.Collections.Generic;
 using PlayerMoveState;
+using System;
 
 public class PlayerMove : MonoBehaviour
 {
     public float walkSpeed = 4.0f; //歩くスピード（メートル/秒）
     public float lockOnRotateSpeed = 45.0f; //ロックオンしているときの横移動
     public float gravity = 10.0f; //重力加速度
-    public float jampPower = 10.0f;
-    public float windPower = 0.0f;
-    public Vector3 windDirection;
+    public float jampPower = 10.0f; //ジャンプするパワー
+    public float knockBackPower = 0.0f; //KnockBackLargeの時吹き飛ぶパワー
+    public float windPower = 0.0f; //風のパワー
+    public Vector3 windDirection; //風の方向
+    public bool torndoHit = false;
+    //public bool previosGroundHit = false; //ひとつ前の地面に当たっているかどうかの判定
+    //public bool currentGroundHit = false; //現在の地面に当たっているかどうかの判定
 
     private CharacterController controller;
+    private GameObject cameraController;
     private Vector3 cameraForward;
+    private Vector3 velocity;
     private float velocityY = 0;
     private bool jampState = false;
-    private Vector3 velocity;
 
     private List<GameObject> lockEnemyList = new List<GameObject>();
     private GameObject lockEnemy;
     private bool lockOn = false;
-    private GameObject cameraController;
 
 
 
@@ -29,6 +34,8 @@ public class PlayerMove : MonoBehaviour
     public PlayerMoveStateDefault stateDefault = new PlayerMoveStateDefault();
     public PlayerMoveStateLockOn stateLockOn = new PlayerMoveStateLockOn();
     public PlayerMoveStateWind stateWind = new PlayerMoveStateWind();
+    public PlayerMoveStateKnockBackSmall stateKnockBackSmall = new PlayerMoveStateKnockBackSmall();
+    public PlayerMoveStateKnockBackLarge stateKnockBackLarge = new PlayerMoveStateKnockBackLarge();
 
     void Start()
     {
@@ -36,6 +43,11 @@ public class PlayerMove : MonoBehaviour
         cameraController = GameObject.FindGameObjectWithTag("CameraController");
 
         stateProcessor.State = stateDefault;
+        stateDefault.exeDelegate = Default;
+        stateLockOn.exeDelegate = LockOn;
+        stateWind.exeDelegate = Wind;
+        stateKnockBackSmall.exeDelegate = KnockBackSmall;
+        stateKnockBackLarge.exeDelegate = KnockBackLarge;
     }
 
     void Update()
@@ -99,40 +111,21 @@ public class PlayerMove : MonoBehaviour
         //正規化（長さを1にする）
         cameraForward.Normalize();
 
-        if (windPower <= 1)
-        {
-            if (lockOn == true) //ロックオン時の移動
-            {
-                transform.RotateAround(lockEnemy.transform.position,
-                    transform.up,
-                    lockOnRotateSpeed * Time.deltaTime * -Input.GetAxis("Horizontal"));
+        stateProcessor.Execute(); //設定されている移動状態を実行
 
-                velocity =
-                    (lockEnemy.transform.position - transform.position).normalized * Input.GetAxis("Vertical") * walkSpeed;
-            }
-            else //通常時の移動
-            {
-                velocity =
-                    cameraForward * Input.GetAxis("Vertical") * walkSpeed
-                    + Camera.main.transform.right * Input.GetAxis("Horizontal") * walkSpeed;
-            }
-        }
-        else
-        {//Windに触れた時の移動
-            velocity = windDirection * windPower;
-            windPower -= 0.5f;
-        }
+        //地面との判定　ジャンプ処理
+        //previosGroundHit = currentGroundHit; //ひとつ前の状態
+        //currentGroundHit = controller.isGrounded; //現在の状態
+        //if (previosGroundHit == false && currentGroundHit == true)
+        //    velocityY = 0;
 
-
-        if (controller.isGrounded) //ジャンプ処理
-        {
+        if (controller.isGrounded && torndoHit == false)
             velocityY = 0;
+
+        if (controller.isGrounded)
             jampState = false;
-        }
         else
-        {
             jampState = true;
-        }
 
         if (jampState == false && Input.GetKeyDown(KeyCode.Space))
         {
@@ -140,26 +133,19 @@ public class PlayerMove : MonoBehaviour
             jampState = true;
         }
 
-        velocityY -= gravity * Time.deltaTime;
+        if (controller.isGrounded == false) velocityY -= gravity * Time.deltaTime;
         velocity.y = velocityY;
 
+        //if (CheckGrounded())
+        //{
+        //    currentGroundHit = true;
+        //    previosGroundHit = true;
+        //}
+
         controller.Move(velocity * Time.deltaTime);
-
-        //キャラクターの向きを変える
-        velocity.y = 0;
-        if (velocity.magnitude > 0)
-        {
-            //transform.rotation = Quaternion.LookRotation(velocity);
-
-            transform.LookAt(transform.position + velocity); //上と同じ
-        }
     }
 
-    public void SetWindPower(float power, Vector3 direction)
-    {
-        windPower = power;
-        windDirection = direction;
-    }
+
 
     public void OnTriggerEnter(Collider other) //ロックオン範囲に入った敵をListに追加
     {
@@ -171,9 +157,10 @@ public class PlayerMove : MonoBehaviour
     {
         if (other.gameObject.tag == "Enemy")
         {
-            if (lockEnemy == other.gameObject) //範囲外出た敵がロックしている敵だったら　一番近い敵をロック
-                lockEnemy = lockEnemyList[0];
-
+            if (lockEnemy == other.gameObject) //範囲外出た敵がロックしている敵だったら　ロックを解除
+            {
+                lockOn = false;
+            }
             lockEnemyList.Remove(other.gameObject);
             print("敵が範囲外に出た");
         }
@@ -189,6 +176,20 @@ public class PlayerMove : MonoBehaviour
         else return 0;
     }
 
+    public bool CheckGrounded() //地面に接地しているかどうかを調べる
+    {
+        //controller.isGroundedがtrueならRaycastを使わずに判定終了
+        if (controller.isGrounded) return true;
+        //放つ光線の初期位置と姿勢
+        //若干体にめり込ませた位置から発射しないと正しく判定できないときがある
+        var ray = new Ray(transform.position + Vector3.up * 0.1f, Vector3.down);
+        //探索距離
+        var tolerance = 0.3f;
+        //Raycastがhitするかどうかで判定
+        //地面にのみ衝突するようにレイヤを指定する
+        return Physics.Raycast(ray, tolerance, (int)LayerMask.NameToLayer("Field"));
+    }
+
     public bool GetLockOnInfo()
     {
         return lockOn;
@@ -199,15 +200,92 @@ public class PlayerMove : MonoBehaviour
         return jampState;
     }
 
-    public void SetVelocityY(int velocity)
+    public void SetWindPower(float power, Vector3 direction)
     {
-        velocityY = velocity;
+        windPower = power;
+        windDirection = direction;
     }
 
-    public void Default()
+    public void SetVelocityY(int velocity, bool hit)
+    {
+        velocityY = velocity;
+        torndoHit = hit;
+    }
+
+    /******************** プレイヤーの移動状態関係 ********************/
+    public void Default() //通常移動
     {
         velocity =
             cameraForward * Input.GetAxis("Vertical") * walkSpeed
             + Camera.main.transform.right * Input.GetAxis("Horizontal") * walkSpeed;
+
+        //キャラクターの向きを変える
+        velocity.y = 0;
+        if (velocity.magnitude > 0)
+            transform.LookAt(transform.position + velocity);
+
+        if (lockOn == true) stateProcessor.State = stateLockOn;
+        if (windPower >= 1) stateProcessor.State = stateWind;
+    }
+
+    public void LockOn() //ロックオン時移動
+    {
+        transform.RotateAround(lockEnemy.transform.position,
+            transform.up,
+            lockOnRotateSpeed * Time.deltaTime * -Input.GetAxis("Horizontal"));
+
+        velocity =
+            (lockEnemy.transform.position - transform.position).normalized * Input.GetAxis("Vertical") * walkSpeed;
+
+        //キャラクターの向きを変える
+        velocity.y = 0;
+        if (lockOn == true)
+            transform.LookAt(lockEnemy.transform.position);
+
+        if (lockOn == false) stateProcessor.State = stateDefault;
+        if (windPower >= 1) stateProcessor.State = stateWind;
+    }
+
+    public void Wind() //気流に乗った時の移動
+    {
+        velocity = windDirection * windPower;
+        windPower -= 0.5f;
+
+        if (windPower <= 0 && lockOn == false) stateProcessor.State = stateDefault;
+        if (windPower <= 0 && lockOn == true) stateProcessor.State = stateLockOn;
+    }
+
+    public void KnockBackSmall() //ノックバック小が起きた時の移動
+    {
+        velocity = Vector3.zero;
+
+        Invoke("DefaultOrLockOnChange", 0.5f);
+    }
+
+    public void KnockBackLarge() //ノックバック大が起きた時の移動
+    {
+        velocity =
+            transform.forward * -1.0f * knockBackPower;
+
+        if (knockBackPower > 0) knockBackPower -= 0.5f;
+
+        Invoke("DefaultOrLockOnChange", 2.0f);
+    }
+
+    public void ChangeKnockBackSmall()
+    {
+        stateProcessor.State = stateKnockBackSmall;
+    }
+
+    public void ChangeKnockBackLarge(float power)
+    {
+        knockBackPower = power;
+        stateProcessor.State = stateKnockBackLarge;
+    }
+
+    public void DefaultOrLockOnChange()
+    {
+        if (lockOn == false) stateProcessor.State = stateDefault;
+        if (lockOn == true) stateProcessor.State = stateLockOn;
     }
 }
