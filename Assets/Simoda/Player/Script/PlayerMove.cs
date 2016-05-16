@@ -13,9 +13,8 @@ public class PlayerMove : MonoBehaviour
     public float knockBackPower = 0.0f; //KnockBackLargeの時吹き飛ぶパワー
     public float windPower = 0.0f; //風のパワー
     public Vector3 windDirection; //風の方向
-    public bool torndoHit = false;
-    //public bool previosGroundHit = false; //ひとつ前の地面に当たっているかどうかの判定
-    //public bool currentGroundHit = false; //現在の地面に当たっているかどうかの判定
+    public bool previosGroundHit = false; //ひとつ前の地面に当たっているかどうかの判定
+    public bool currentGroundHit = false; //現在の地面に当たっているかどうかの判定
 
     private CharacterController controller;
     private GameObject cameraController;
@@ -114,15 +113,17 @@ public class PlayerMove : MonoBehaviour
         stateProcessor.Execute(); //設定されている移動状態を実行
 
         //地面との判定　ジャンプ処理
-        //previosGroundHit = currentGroundHit; //ひとつ前の状態
-        //currentGroundHit = controller.isGrounded; //現在の状態
-        //if (previosGroundHit == false && currentGroundHit == true)
+        previosGroundHit = currentGroundHit; //ひとつ前の状態
+        currentGroundHit = CheckGrounded(); //現在の状態
+        if (previosGroundHit == false && currentGroundHit == true)
+        {
+            velocityY = 0;
+            print("地面に接触");
+        }
+        //if (controller.isGrounded && torndoHit == false)
         //    velocityY = 0;
 
-        if (controller.isGrounded && torndoHit == false)
-            velocityY = 0;
-
-        if (controller.isGrounded)
+        if (currentGroundHit)
             jampState = false;
         else
             jampState = true;
@@ -133,7 +134,7 @@ public class PlayerMove : MonoBehaviour
             jampState = true;
         }
 
-        if (controller.isGrounded == false) velocityY -= gravity * Time.deltaTime;
+        if (currentGroundHit == false) velocityY -= gravity * Time.deltaTime;
         velocity.y = velocityY;
 
         //if (CheckGrounded())
@@ -179,15 +180,16 @@ public class PlayerMove : MonoBehaviour
     public bool CheckGrounded() //地面に接地しているかどうかを調べる
     {
         //controller.isGroundedがtrueならRaycastを使わずに判定終了
-        if (controller.isGrounded) return true;
+        //if (controller.isGrounded) return true;
         //放つ光線の初期位置と姿勢
         //若干体にめり込ませた位置から発射しないと正しく判定できないときがある
         var ray = new Ray(transform.position + Vector3.up * 0.1f, Vector3.down);
         //探索距離
-        var tolerance = 0.3f;
+        var tolerance = 1.5f;
+        Debug.DrawRay(ray.origin, ray.direction * 1.5f);
         //Raycastがhitするかどうかで判定
         //地面にのみ衝突するようにレイヤを指定する
-        return Physics.Raycast(ray, tolerance, (int)LayerMask.NameToLayer("Field"));
+        return Physics.SphereCast(ray, 0.5f, tolerance, 1 << 8);
     }
 
     public bool GetLockOnInfo()
@@ -206,10 +208,9 @@ public class PlayerMove : MonoBehaviour
         windDirection = direction;
     }
 
-    public void SetVelocityY(int velocity, bool hit)
+    public void SetVelocityY(int velocity)
     {
         velocityY = velocity;
-        torndoHit = hit;
     }
 
     /******************** プレイヤーの移動状態関係 ********************/
