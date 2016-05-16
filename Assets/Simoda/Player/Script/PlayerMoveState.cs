@@ -66,4 +66,20 @@ namespace PlayerMoveState
             return "State:Wind";
         }
     }
+
+    public class PlayerMoveStateKnockBackSmall: PlayerMoveState
+    {
+        public override string getStateName()
+        {
+            return "State:KnockBackSmall";
+        }
+    }
+
+    public class PlayerMoveStateKnockBackLarge : PlayerMoveState
+    {
+        public override string getStateName()
+        {
+            return "State:KnockBackLarge";
+        }
+    }
 }

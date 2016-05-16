@@ -28,7 +28,7 @@ public class WindBlock : MonoBehaviour
             if (player.GetComponent<PlayerMove>().GetJampState() == true)
                 player.GetComponent<PlayerMove>().SetWindPower(playerPower, direction);
         }
-        else
+        else if (other.tag == "Enemy")
             other.GetComponent<Rigidbody>().AddForce(objectPower * direction, ForceMode.Impulse);
     }
 
