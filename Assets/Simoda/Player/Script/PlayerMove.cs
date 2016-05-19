@@ -27,8 +27,6 @@ public class PlayerMove : MonoBehaviour
     private GameObject lockEnemy;
     private bool lockOn = false;
 
-
-
     public StateProcessor stateProcessor = new StateProcessor();
     public PlayerMoveStateDefault stateDefault = new PlayerMoveStateDefault();
     public PlayerMoveStateLockOn stateLockOn = new PlayerMoveStateLockOn();
@@ -51,6 +49,7 @@ public class PlayerMove : MonoBehaviour
 
     void Update()
     {
+        /******************** ロックオン処理 ********************/
         lockEnemyList.Sort(LengthSort); //lockEnemyListをプレイヤーからの距離が短い順にソート
 
         if (Input.GetKeyDown(KeyCode.Q) && lockEnemyList.Count > 0)//ロックオンする、しない
@@ -69,13 +68,12 @@ public class PlayerMove : MonoBehaviour
                 print("ロックオン終了");
             }
         }
+
         if (lockEnemyList.Count == 0 && lockOn == true)
         {
             lockOn = false;
             print("範囲内に敵なしロックオン終了");
         }
-
-
 
         if (Input.GetKeyDown(KeyCode.E) && lockOn == true) //ロックを1つ近い敵に変更
         {

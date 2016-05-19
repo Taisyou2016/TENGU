@@ -54,7 +54,7 @@ public class CameraTest : MonoBehaviour
         RaycastHit cameraPointRayHitInfo;
         Debug.DrawRay(cameraPointRay.origin, cameraPointRay.direction * 6.5f, Color.green);
 
-        if (Physics.SphereCast(cameraPointRay, 0.5f, out cameraPointRayHitInfo, 6.5f))
+        if (Physics.SphereCast(cameraPointRay, 0.5f, out cameraPointRayHitInfo, 6.5f, 1 << 8))
         {
             cameraTransform.position = Vector3.Lerp(cameraTransform.position, cameraPointRayHitInfo.point, cameraMoveSpeed * Time.deltaTime);
         }

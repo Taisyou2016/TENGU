@@ -106,4 +106,9 @@ public class AttackPattern : MonoBehaviour
             GameObject.FindObjectOfType<KamaitachiGeneration>().KamaitachiGeneration4();
         }
     }
+
+    public void TornadoPatternDecision(float angle, Vector3 vector) //竜巻用
+    {
+        GameObject.FindObjectOfType<TornadoGeneration>().TornadoGeneration1();
+    }
 }

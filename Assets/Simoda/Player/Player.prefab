@@ -12,7 +12,7 @@ GameObject:
   - 65: {fileID: 6510186}
   - 23: {fileID: 2355578}
   m_Layer: 2
-  m_Name: Cube
+  m_Name: TenguModel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -67,6 +67,7 @@ GameObject:
   - 114: {fileID: 11492454}
   - 114: {fileID: 11424510}
   - 114: {fileID: 11430062}
+  - 114: {fileID: 11466856}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -161,7 +162,7 @@ MeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: e92ddc41b6a68c745aa5410630a2b37a, type: 2}
   m_SubsetIndices: 
   m_StaticBatchRoot: {fileID: 0}
   m_UseLightProbes: 1
@@ -264,7 +265,8 @@ MonoBehaviour:
   knockBackPower: 0
   windPower: 0
   windDirection: {x: 0, y: 0, z: 0}
-  torndoHit: 0
+  previosGroundHit: 0
+  currentGroundHit: 0
 --- !u!114 &11452316
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -276,6 +278,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4bc93122f15768149ada3901c0c2242e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &11466856
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 199778}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e02a6a15d70524a489656d8cd706eada, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tornadoPrefab: {fileID: 102596, guid: 3fb034133768af045a4f03153bb03eec, type: 2}
 --- !u!114 &11485294
 MonoBehaviour:
   m_ObjectHideFlags: 1
