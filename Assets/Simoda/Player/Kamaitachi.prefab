@@ -9,7 +9,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 465332}
   - 54: {fileID: 5425502}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: KamaitachiMotionPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -27,7 +27,7 @@ GameObject:
   - 33: {fileID: 3318606}
   - 135: {fileID: 13580266}
   - 23: {fileID: 2382110}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: KPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -45,7 +45,7 @@ GameObject:
   - 54: {fileID: 5486964}
   - 114: {fileID: 11435846}
   - 114: {fileID: 11467686}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Kamaitachi
   m_TagString: Kamaitachi
   m_Icon: {fileID: 2974397684917235467, guid: 0000000000000000d000000000000000, type: 0}

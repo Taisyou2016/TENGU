@@ -13,7 +13,7 @@ GameObject:
   - 23: {fileID: 2390620}
   - 114: {fileID: 11461530}
   - 114: {fileID: 11455180}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: WindBlock
   m_TagString: Untagged
   m_Icon: {fileID: 0}
