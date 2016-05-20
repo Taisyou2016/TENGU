@@ -13,7 +13,7 @@ public class TornadoDecion : MonoBehaviour {
         {          
             other.GetComponent<PlayerMove>().SetVelocityY((int)power);
         }
-        else
+        else if(other.tag == "Enemy")
         {
             other.GetComponent<Rigidbody>().AddForce(direction * (power / 2), ForceMode.Impulse);
         }

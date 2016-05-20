@@ -289,7 +289,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e02a6a15d70524a489656d8cd706eada, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tornadoPrefab: {fileID: 102596, guid: 3fb034133768af045a4f03153bb03eec, type: 2}
+  tornadoPrefab: {fileID: 122734, guid: c1cc81888526cac459112d1b46e328b8, type: 2}
 --- !u!114 &11485294
 MonoBehaviour:
   m_ObjectHideFlags: 1
