@@ -38,7 +38,7 @@ public class KamaitachiGeneration : MonoBehaviour
             + transform.up * 2.0f;
 
         kamaitachi.GetComponent<Kamaitachi>().SetScale(5.0f, 1.0f);
-        kamaitachi.GetComponent<Kamaitachi>().Move(transform.forward, speed, 0.4f);
+        kamaitachi.GetComponent<Kamaitachi>().Move(transform.forward, speed, 0.6f);
     }
 
     public void KamaitachiGeneration3() //パターン3 ↙ ↗

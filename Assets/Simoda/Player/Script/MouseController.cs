@@ -10,6 +10,7 @@ public class MouseController : MonoBehaviour
     private Vector3 vector;
     private float radian;
     private float angle;
+    private bool doubleButtonDown = false;
 
     void Start()
     {
@@ -19,8 +20,24 @@ public class MouseController : MonoBehaviour
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
-        {
             Cursor.visible = true;
+
+        if (Input.GetMouseButton(0) && Input.GetMouseButton(1))
+        {
+            doubleButtonDown = true;
+        }
+        else
+        {
+            doubleButtonDown = false;
+        }
+
+        if ((Input.GetMouseButtonDown(0) && Input.GetMouseButtonDown(1)) && doubleButtonDown == true)
+        {
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.lockState = CursorLockMode.None;
+
+            Invoke("TornadoDecision", 0.3f);
+            return;
         }
 
         if (Input.GetMouseButtonDown(0))
@@ -29,14 +46,16 @@ public class MouseController : MonoBehaviour
             Cursor.lockState = CursorLockMode.None;
 
             Invoke("WindAttackDecision", 0.3f);
+            return;
         }
 
-        if (Input.GetMouseButtonDown(1))
+        if (Input.GetMouseButtonDown(1) && doubleButtonDown == false)
         {
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.lockState = CursorLockMode.None;
 
             Invoke("KamaitachiDecision", 0.3f);
+            return;
         }
     }
 
@@ -70,6 +89,19 @@ public class MouseController : MonoBehaviour
         if (vector.magnitude > length)
         {
             GameObject.FindObjectOfType<AttackPattern>().KamaitachiPatternDecision(angle, vector);
+        }
+    }
+
+    public void TornadoDecision()
+    {
+        endPos = Input.mousePosition;
+        vector = endPos - startPos;
+        radian = vector.y / vector.x;
+        angle = Mathf.Atan(radian) * Mathf.Rad2Deg;
+
+        if (vector.magnitude > length)
+        {
+            GameObject.FindObjectOfType<AttackPattern>().TornadoPatternDecision(angle, vector);
         }
     }
 }
