@@ -3,13 +3,7 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags:
-  - Wind
-  - Enemy
-  - CameraPoint
-  - CameraController
-  - Kamaitachi
-  - Terrain
+  tags: []
   layers:
   - Default
   - TransparentFX
@@ -19,15 +13,9 @@ TagManager:
   - UI
   - 
   - 
-<<<<<<< HEAD
-  - Obstacle
+  - 
   - Enemy
   - Bullet
-=======
-  - Field
-  - 
-  - 
->>>>>>> bff3aaeda600e650e9f1b6a2e95ec802082dce97
   - 
   - 
   - 
