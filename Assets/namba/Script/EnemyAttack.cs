@@ -7,15 +7,9 @@ public class EnemyAttack : MonoBehaviour {
     public GameObject bow;
     private float cooltime_M, cooltime_L;
     private bool run = false;
-    private Transform player;
-    private Vector3 vec;
 
     void Start()
     {
-        player = GameObject.FindGameObjectWithTag("Player").transform;
-        vec = transform.position - player.transform.position;
-        vec.x = 0;
-        vec.z = 0;
         cooltime_M = 3.0f;
         cooltime_L = 3.0f;
     }

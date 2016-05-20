@@ -10,6 +10,7 @@ GameObject:
   - 4: {fileID: 460994}
   - 198: {fileID: 19806846}
   - 199: {fileID: 19931258}
+  - 114: {fileID: 11447212}
   m_Layer: 0
   m_Name: BillFire
   m_TagString: Untagged
@@ -24,11 +25,22 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 131786}
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 2.5440001, y: 2.9, z: 1.11}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
+--- !u!114 &11447212
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 131786}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1931ea215c182994895f7ca75c167682, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!198 &19806846
 ParticleSystem:
   m_ObjectHideFlags: 1
@@ -76,7 +88,7 @@ ParticleSystem:
   randomSeed: 0
   looping: 1
   prewarm: 0
-  playOnAwake: 0
+  playOnAwake: 1
   moveWithTransform: 1
   scalingMode: 1
   InitialModule:

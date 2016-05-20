@@ -115,33 +115,23 @@ namespace Assets.namba.Script
             }
         }
 
-        /// <summary>
-        /// 風に当たった時の処理
-        /// </summary>
-        /// <param name="vec">吹っ飛ぶ方向</param>
-        /// <param name="dmg">ダメージ</param>
-        /// <returns></returns>
-        private IEnumerator Hit(Vector3 vec, int dmg)
-        {
-            yield return new WaitForSeconds(1.0f);
-
-            iTween.RotateTo(gameObject, iTween.Hash("x", 0, "z", 0));
-        }
-
         private IEnumerator Lost()
         {
             yield return new WaitForSeconds(2);
             agent.SetDestination(StartPos);
         }
 
-
+        private void OnCollisionEnter(Collision col)
+        {
+            //iTween.RotateTo(gameObject, iTween.Hash("x", 0, "z", 0));
+        }
 
         /*----------------------------------------------------/
                          ここからState処理
         /----------------------------------------------------*/
 
 
-        
+
         /// <summary>
         /// 待機状態
         /// </summary>
