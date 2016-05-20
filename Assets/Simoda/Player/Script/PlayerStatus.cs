@@ -12,11 +12,11 @@ public class PlayerStatus : MonoBehaviour
     public bool invincible = false; //無敵化どうか
     public float knockBackSmallInvincibleTime = 1.0f; //ノックバック小の時の無敵時間
     public float knockBackLargeInvincibleTime = 3.0f; //ノックバック大の時の無敵時間
+    public Material modelMaterial; //モデルのメッシュ
 
     private float lastMpAutoRecoveryTime = 0.0f; //前に回復した時の時刻
     private bool mpOver = false; //妖力がOvarしたかどうか
     private float currentInvincibleTime = 0.0f; //現在の無敵時間
-    private MeshRenderer modelMesh; //モデルのメッシュ
     private Color originColor; //モデルの元の色
     private bool alphaZero; //アルファが0以下になったらtreu　1以上になったらfalse
     private float flashingSecond = 0.0f;
@@ -26,8 +26,7 @@ public class PlayerStatus : MonoBehaviour
         currentHp = maxHp;
         currentMp = maxMp;
 
-        modelMesh = transform.Find("TenguModel").GetComponent<MeshRenderer>();
-        originColor = modelMesh.material.color;
+        originColor = modelMaterial.color;
         //Color alpha = new Color(0, 0, 0, 0.5f);
         //modelMesh.material.color -= alpha;
     }
@@ -62,8 +61,8 @@ public class PlayerStatus : MonoBehaviour
         }
         else
         {
-            Color alphaReset = new Color(0, 0, 0, 1.0f - modelMesh.material.color.a);
-            modelMesh.material.color = originColor;
+            Color alphaReset = new Color(0, 0, 0, 1.0f - modelMaterial.color.a);
+            modelMaterial.color = originColor;
         }
 
     }
@@ -126,16 +125,16 @@ public class PlayerStatus : MonoBehaviour
     public void Flashing()
     {
         //アルファが0以下になったらtreu　1以上になったらfalse
-        if (modelMesh.material.color.a <= 0.0f)
+        if (modelMaterial.color.a <= 0.0f)
             alphaZero = true;
-        else if (modelMesh.material.color.a >= 1.0f)
+        else if (modelMaterial.color.a >= 1.0f)
             alphaZero = false;
 
         Color alpha = new Color(0, 0, 0, Time.deltaTime * 2.0f); //アルファを0.5秒で1変化させる
 
         if (alphaZero == false)
-            modelMesh.material.color -= alpha;
+            modelMaterial.color -= alpha;
         else
-            modelMesh.material.color += alpha;
+            modelMaterial.color += alpha;
     }
 }

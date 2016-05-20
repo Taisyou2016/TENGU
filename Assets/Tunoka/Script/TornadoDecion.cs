@@ -15,7 +15,10 @@ public class TornadoDecion : MonoBehaviour {
         }
         else
         {
-            other.GetComponent<Rigidbody>().AddForce(direction * (power / 2), ForceMode.Impulse);
+            if (other.GetComponent<Rigidbody>() != null)
+            {
+                other.GetComponent<Rigidbody>().AddForce(direction * 0.1f, ForceMode.Impulse);
+            }
         }
     }
 }

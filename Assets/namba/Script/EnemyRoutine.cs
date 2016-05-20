@@ -75,7 +75,7 @@ namespace Assets.namba.Script
             RaycastHit hit;
             Vector3 temp = player.transform.position - this.transform.position;
             temp = temp.normalized;
-            int layerMask = ~LayerMask.GetMask(new string[] { "Enemy", "Bullet" });
+            int layerMask = ~LayerMask.GetMask(new string[] { "Enemy", "Bullet", "PlayerAttack"});
             if (Physics.Raycast(this.transform.position, temp, out hit, SearchDistance, layerMask))
             {
                 if (hit.collider.tag == "Player")
@@ -115,41 +115,23 @@ namespace Assets.namba.Script
             }
         }
 
-        void OnCollisionEnter(Collision col)
-        {// 風との衝突
-            if (col.gameObject.tag == "Wind")
-            {
-
-            }
-        }
-
-        /// <summary>
-        /// 風に当たった時の処理
-        /// </summary>
-        /// <param name="vec">吹っ飛ぶ方向</param>
-        /// <param name="dmg">ダメージ</param>
-        /// <returns></returns>
-        private IEnumerator Hit(Vector3 vec, int dmg)
-        {
-            yield return new WaitForSeconds(1.0f);
-
-            iTween.RotateTo(gameObject, iTween.Hash("x", 0, "z", 0));
-        }
-
         private IEnumerator Lost()
         {
             yield return new WaitForSeconds(2);
             agent.SetDestination(StartPos);
         }
 
-
+        private void OnCollisionEnter(Collision col)
+        {
+            //iTween.RotateTo(gameObject, iTween.Hash("x", 0, "z", 0));
+        }
 
         /*----------------------------------------------------/
                          ここからState処理
         /----------------------------------------------------*/
 
 
-        
+
         /// <summary>
         /// 待機状態
         /// </summary>
