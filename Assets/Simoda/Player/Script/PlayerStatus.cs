@@ -16,11 +16,20 @@ public class PlayerStatus : MonoBehaviour
     private float lastMpAutoRecoveryTime = 0.0f; //前に回復した時の時刻
     private bool mpOver = false; //妖力がOvarしたかどうか
     private float currentInvincibleTime = 0.0f; //現在の無敵時間
+    private MeshRenderer modelMesh; //モデルのメッシュ
+    private Color originColor; //モデルの元の色
+    private bool alphaZero; //アルファが0以下になったらtreu　1以上になったらfalse
+    private float flashingSecond = 0.0f;
 
     void Start()
     {
         currentHp = maxHp;
         currentMp = maxMp;
+
+        modelMesh = transform.Find("TenguModel").GetComponent<MeshRenderer>();
+        originColor = modelMesh.material.color;
+        //Color alpha = new Color(0, 0, 0, 0.5f);
+        //modelMesh.material.color -= alpha;
     }
 
     void Update()
@@ -40,6 +49,23 @@ public class PlayerStatus : MonoBehaviour
         currentInvincibleTime -= Time.deltaTime;
         if (currentInvincibleTime <= 0) //currentInvincibleTimeが0より小さくなったら無敵を解除
             invincible = false;
+
+        if (Input.GetKeyDown(KeyCode.K))
+            HpDamage(1);
+        if (Input.GetKeyDown(KeyCode.L))
+            HpDamage(3);
+
+        flashingSecond -= Time.deltaTime;
+        if (flashingSecond >= 0.0f)
+        {
+            Flashing();
+        }
+        else
+        {
+            Color alphaReset = new Color(0, 0, 0, 1.0f - modelMesh.material.color.a);
+            modelMesh.material.color = originColor;
+        }
+
     }
 
     public void HpRecovery(int cost) //HPをcost分回復　maxHPを超えていたらmaxHPを代入
@@ -55,9 +81,17 @@ public class PlayerStatus : MonoBehaviour
         if (invincible == true) return; //無敵だったら処理を行わない
 
         if (damage == 1) //damageが1だったらknockBackSmallInvincibleTimeを代入
+        {
             currentInvincibleTime = knockBackSmallInvincibleTime;
+            gameObject.GetComponent<PlayerMove>().ChangeKnockBackSmall();
+            SetFlashingSecond(1.0f);
+        }
         else if (damage >= 2) //damageが2以上だったらknockBackLargeInvincibleTimeを代入
+        {
             currentInvincibleTime = knockBackLargeInvincibleTime;
+            gameObject.GetComponent<PlayerMove>().ChangeKnockBackLarge(10.0f);
+            SetFlashingSecond(3.0f);
+        }
 
         if (currentHp - damage <= 0) //現在のHPが0より小さかったら0に
             currentHp = 0;
@@ -82,5 +116,26 @@ public class PlayerStatus : MonoBehaviour
             return;
         }
         currentMp -= cost;
+    }
+
+    public void SetFlashingSecond(float second)
+    {
+        flashingSecond = second;
+    }
+
+    public void Flashing()
+    {
+        //アルファが0以下になったらtreu　1以上になったらfalse
+        if (modelMesh.material.color.a <= 0.0f)
+            alphaZero = true;
+        else if (modelMesh.material.color.a >= 1.0f)
+            alphaZero = false;
+
+        Color alpha = new Color(0, 0, 0, Time.deltaTime * 2.0f); //アルファを0.5秒で1変化させる
+
+        if (alphaZero == false)
+            modelMesh.material.color -= alpha;
+        else
+            modelMesh.material.color += alpha;
     }
 }

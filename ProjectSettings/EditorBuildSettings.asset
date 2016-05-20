@@ -8,6 +8,6 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Tunoka/puroto/purotoScene.unity
   - enabled: 1
-    path: Assets/satou/title.unity
+    path: Assets/Tunoka/Taitle/title.unity
   - enabled: 1
     path: Assets/satou/GamePlay.unity
