@@ -75,7 +75,7 @@ namespace Assets.namba.Script
             RaycastHit hit;
             Vector3 temp = player.transform.position - this.transform.position;
             temp = temp.normalized;
-            int layerMask = ~LayerMask.GetMask(new string[] { "Enemy", "Bullet" });
+            int layerMask = ~LayerMask.GetMask(new string[] { "Enemy", "Bullet", "PlayerAttack"});
             if (Physics.Raycast(this.transform.position, temp, out hit, SearchDistance, layerMask))
             {
                 if (hit.collider.tag == "Player")
@@ -112,14 +112,6 @@ namespace Assets.namba.Script
             if (life < 0)
             {
                 ChangeState(EnemyState.Died);
-            }
-        }
-
-        void OnCollisionEnter(Collision col)
-        {// 風との衝突
-            if (col.gameObject.tag == "Wind")
-            {
-
             }
         }
 
