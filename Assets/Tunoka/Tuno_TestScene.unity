@@ -178,6 +178,10 @@ Prefab:
       propertyPath: m_LocalPosition.y
       value: 0.51
       objectReference: {fileID: 0}
+    - target: {fileID: 11422960, guid: c1cc81888526cac459112d1b46e328b8, type: 2}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: c1cc81888526cac459112d1b46e328b8, type: 2}
   m_IsPrefabParent: 0
@@ -208,7 +212,7 @@ GameObject:
   - 33: {fileID: 484456929}
   - 64: {fileID: 484456928}
   - 23: {fileID: 484456927}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: floor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
