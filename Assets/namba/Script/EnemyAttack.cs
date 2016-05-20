@@ -5,12 +5,17 @@ public class EnemyAttack : MonoBehaviour {
 
     public GameObject ohuda;
     public GameObject bow;
-    private float cooltime_S, cooltime_M, cooltime_L;
+    private float cooltime_M, cooltime_L;
     private bool run = false;
+    private Transform player;
+    private Vector3 vec;
 
     void Start()
     {
-        cooltime_S = 0.5f;
+        player = GameObject.FindGameObjectWithTag("Player").transform;
+        vec = transform.position - player.transform.position;
+        vec.x = 0;
+        vec.z = 0;
         cooltime_M = 3.0f;
         cooltime_L = 3.0f;
     }
@@ -21,7 +26,11 @@ public class EnemyAttack : MonoBehaviour {
     /// <param name="a">1=格闘 2=お札 3=弓</param>
     public void Attack(int a)
     {
-        if(a == 2)
+        if(a == 1)
+        {
+            print("未実装");
+        }
+        else if(a == 2)
         {
             StartCoroutine(OhudaAttack());
         }
@@ -31,6 +40,15 @@ public class EnemyAttack : MonoBehaviour {
         }
     }
 
+    private IEnumerator InFighting()
+    {
+        if (run) { yield break; }
+        run = true;
+
+
+        run = false;
+    }
+
     private IEnumerator OhudaAttack()
     {
         if (run) { yield break; }
@@ -38,7 +56,7 @@ public class EnemyAttack : MonoBehaviour {
 
         //処理
 
-        Instantiate(ohuda, transform.localPosition + transform.forward, transform.rotation);
+        Instantiate(ohuda, transform.localPosition, transform.rotation);
 
 
         yield return new WaitForSeconds(cooltime_M);
@@ -51,7 +69,7 @@ public class EnemyAttack : MonoBehaviour {
         run = true;
 
         //処理
-        Instantiate(bow, transform.localPosition + transform.forward, transform.rotation);
+        Instantiate(bow, transform.localPosition, transform.rotation);
 
 
         yield return new WaitForSeconds(cooltime_L);
