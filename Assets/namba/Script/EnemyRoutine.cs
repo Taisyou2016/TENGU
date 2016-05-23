@@ -21,7 +21,7 @@ namespace Assets.namba.Script
 
         private int life;
         private bool Pflag = false;
-        private float rotateSmooth = 2.0f;  // 振り向きにかかる時間
+        private float rotateSmooth = 3.0f;  // 振り向きにかかる時間
         private float AttackDistance;       // 攻撃移行範囲
         private Vector3 StartPos;
         private Vector3 lostPos;
@@ -123,7 +123,10 @@ namespace Assets.namba.Script
 
         private void OnCollisionEnter(Collision col)
         {
-            //iTween.RotateTo(gameObject, iTween.Hash("x", 0, "z", 0));
+            if (col.gameObject.layer == 8)
+            {
+                iTween.RotateTo(gameObject, iTween.Hash("x", 0, "z", 0));
+            }
         }
 
         /*----------------------------------------------------/
@@ -275,6 +278,8 @@ namespace Assets.namba.Script
                 // Playerの方向を向く
                 Quaternion targetRotate = Quaternion.LookRotation(owner.player.position - owner.transform.position);
                 owner.transform.rotation = Quaternion.Slerp(owner.transform.rotation, targetRotate, Time.deltaTime * owner.rotateSmooth);
+
+
 
                 owner.attack.Attack(owner.LengeType);
             }
