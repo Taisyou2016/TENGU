@@ -18,54 +18,61 @@ public class KamaitachiGeneration : MonoBehaviour
 
     public void KamaitachiGeneration1() //パターン1 → ←
     {
-        GameObject kamaitachi = Instantiate(kamaitachiPrefab);
-
-        kamaitachi.transform.position =
+        Vector3 position =
             transform.position
             + transform.forward * 3.0f;
 
-        kamaitachi.GetComponent<Kamaitachi>().SetScale(1.0f, 5.0f);
-        kamaitachi.GetComponent<Kamaitachi>().Move(transform.forward, speed, 0.08f);
+        GameObject kamaitachi = Instantiate(kamaitachiPrefab, position, Quaternion.Euler(0.0f, 0.0f, 0.0f)) as GameObject;
+
+        kamaitachi.GetComponent<Kamaitachi>().SetCollisionScale(new Vector3(5, 1, 2));
+        kamaitachi.GetComponent<Kamaitachi>().SetParticleScale(new Vector3(4, 4, 4));
+        kamaitachi.GetComponent<Kamaitachi>().Move(transform.forward, speed);
+        kamaitachi.transform.Rotate(transform.eulerAngles.x, transform.eulerAngles.y, transform.eulerAngles.z);
+        //print(transform.eulerAngles.y + "_" + kamaitachi.transform.eulerAngles.y);
     }
 
     public void KamaitachiGeneration2() //パターン2 ↓ ↑
     {
-        GameObject kamaitachi = Instantiate(kamaitachiPrefab);
-
-        kamaitachi.transform.position =
+        Vector3 position =
             transform.position
             + transform.forward * 3.0f
             + transform.up * 2.0f;
 
-        kamaitachi.GetComponent<Kamaitachi>().SetScale(5.0f, 1.0f);
-        kamaitachi.GetComponent<Kamaitachi>().Move(transform.forward, speed, 0.6f);
+        GameObject kamaitachi = Instantiate(kamaitachiPrefab, position, Quaternion.Euler(0.0f, 0.0f, 0.0f)) as GameObject;
+
+        kamaitachi.GetComponent<Kamaitachi>().SetCollisionScale(new Vector3(5, 1, 2));
+        kamaitachi.GetComponent<Kamaitachi>().SetParticleScale(new Vector3(4, 4, 4));
+        kamaitachi.GetComponent<Kamaitachi>().Move(transform.forward, speed);
+        kamaitachi.transform.Rotate(transform.eulerAngles.x, transform.eulerAngles.y, transform.eulerAngles.z + 90.0f);
     }
 
     public void KamaitachiGeneration3() //パターン3 ↙ ↗
     {
-        GameObject kamaitachi = Instantiate(kamaitachiPrefab);
-
-        kamaitachi.transform.position =
+        Vector3 position =
             transform.position
             + transform.forward * 3.0f
-            + transform.up * 2.0f;
+            + transform.up;
 
-        kamaitachi.GetComponent<Kamaitachi>().SetRotateX(45.0f);
-        kamaitachi.GetComponent<Kamaitachi>().SetScale(1.0f, 5.0f);
-        kamaitachi.GetComponent<Kamaitachi>().Move(transform.forward, speed, 0.2f);
+        GameObject kamaitachi = Instantiate(kamaitachiPrefab, position, Quaternion.Euler(0.0f, 0.0f, 0.0f)) as GameObject;
+
+        kamaitachi.GetComponent<Kamaitachi>().SetCollisionScale(new Vector3(4, 1, 2));
+        kamaitachi.GetComponent<Kamaitachi>().SetParticleScale(new Vector3(3, 3, 3));
+        kamaitachi.GetComponent<Kamaitachi>().Move(transform.forward, speed);
+        kamaitachi.transform.Rotate(transform.eulerAngles.x, transform.eulerAngles.y, transform.eulerAngles.z + 45.0f);
     }
 
     public void KamaitachiGeneration4() //パターン4 ↘ ↖
     {
-        GameObject kamaitachi = Instantiate(kamaitachiPrefab);
-
-        kamaitachi.transform.position =
+        Vector3 position =
             transform.position
             + transform.forward * 3.0f
-            + transform.up * 2.0f;
+            + transform.up;
 
-        kamaitachi.GetComponent<Kamaitachi>().SetRotateX(-45.0f);
-        kamaitachi.GetComponent<Kamaitachi>().SetScale(1.0f, 5.0f);
-        kamaitachi.GetComponent<Kamaitachi>().Move(transform.forward, speed, 0.2f);
+        GameObject kamaitachi = Instantiate(kamaitachiPrefab, position, Quaternion.Euler(0.0f, 0.0f, 0.0f)) as GameObject;
+
+        kamaitachi.GetComponent<Kamaitachi>().SetCollisionScale(new Vector3(4, 1, 2));
+        kamaitachi.GetComponent<Kamaitachi>().SetParticleScale(new Vector3(3, 3, 3));
+        kamaitachi.GetComponent<Kamaitachi>().Move(transform.forward, speed);
+        kamaitachi.transform.Rotate(transform.eulerAngles.x, transform.eulerAngles.y, transform.eulerAngles.z - 45.0f);
     }
 }

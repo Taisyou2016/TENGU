@@ -7,6 +7,9 @@ public class PlayerStatus : MonoBehaviour
     public int maxMp = 100; //最大妖力
     public int currentHp; //現在のHP
     public int currentMp; //現在の妖力
+    public int windCost = 5; //気流発生に必要なcost
+    public int kamaitachiCost = 10; //かまいたち発生に必要なcost
+
     public int mpAutoRecoveryCost = 1; //自動回復するときの妖力の量
     public float mpAutoRecoveryTime = 1.0f; //自動回復の間隔
     public bool invincible = false; //無敵化どうか
@@ -33,16 +36,18 @@ public class PlayerStatus : MonoBehaviour
 
     void Update()
     {
-        //現在の時刻が（前の回復した時刻 + 自動回復の間隔）を過ぎている + 現在の妖力が100より少なければ妖力を回復する
-        if ((Time.time >= lastMpAutoRecoveryTime + mpAutoRecoveryTime) && currentMp < 100)
+        //現在の時刻が（前の回復した時刻 + 自動回復の間隔）を過ぎている + 現在の妖力がmaxMpより少なければ妖力を回復する
+        if ((Time.time >= lastMpAutoRecoveryTime + mpAutoRecoveryTime) && currentMp < maxMp)
         {
             lastMpAutoRecoveryTime = Time.time;
             currentMp += mpAutoRecoveryCost;
         }
+        //現在のMPが最大値を超えていたら最大値にする
+        if (currentMp > maxMp) currentMp = 100;
 
         if (currentMp == 0) //妖力が0になったらmpOverをtrueに
             mpOver = true;
-        if (currentMp == 100 && mpOver == true) //妖力が100まで回復したらmpOverをfalseに
+        if (currentMp >= maxMp && mpOver == true) //妖力が100まで回復したらmpOverをfalseに
             mpOver = false;
 
         currentInvincibleTime -= Time.deltaTime;
@@ -78,6 +83,7 @@ public class PlayerStatus : MonoBehaviour
     public void HpDamage(int damage) //HPをダメージ分減らす
     {
         if (invincible == true) return; //無敵だったら処理を行わない
+        if (currentHp <= 0) return; //現在のHPが0以下だったら処理を行わない
 
         if (damage == 1) //damageが1だったらknockBackSmallInvincibleTimeを代入
         {
@@ -100,21 +106,24 @@ public class PlayerStatus : MonoBehaviour
         invincible = true; //無敵に
     }
 
-    public void MpConsumption(int cost, GameObject obj) //cost分現在のMPを消費する MPがcostより少なかったら発生させたobjを消す
+    public void MpConsumption(int cost) //cost分現在のMPを消費する
+    {
+        currentMp -= cost;
+    }
+
+    public bool MpCostDecision(int cost)
     {
         if (mpOver == true) //一度妖力が0になったら100になるまで使えない
         {
-            Destroy(obj);
             print("妖力回復中");
-            return;
+            return false;
         }
         if (currentMp < cost)
         {
-            Destroy(obj);
             print("妖力が足りない");
-            return;
+            return false;
         }
-        currentMp -= cost;
+        return true;
     }
 
     public void SetFlashingSecond(float second)

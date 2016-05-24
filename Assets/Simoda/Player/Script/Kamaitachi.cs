@@ -3,81 +3,51 @@ using System.Collections;
 
 public class Kamaitachi : MonoBehaviour
 {
-    public GameObject kamaitatiMotion;
-    public GameObject linePrefab;
-    public int cost = 10;
-
-    private Vector3 startPoint;
-    public Vector3 point;
-    public Vector3 previousPoint;
-
-    public float lineLength = 1.0f;
-    public float scaleY = 0.5f;
-    public float scaleZ = 0.5f;
-    public float depth = 0.0f; //DrawLineを続ける時間　これで奥行きを決める
-    public float angleX = 0.0f; //linePrefabを回転させる角度
+    public GameObject kamaitachiCollision;
+    public GameObject particlePosition;
     public Vector3 moveVector;
 
     private bool hit = false;
+    private int cost;
+
+    private GameObject player;
+    private PlayerStatus playerStatus;
 
     void Start()
     {
-        point = transform.position;
-        GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerStatus>().MpConsumption(cost, gameObject);
+        player = GameObject.Find("Player");
+        playerStatus = player.GetComponent<PlayerStatus>();
+        cost = playerStatus.kamaitachiCost;
+        playerStatus.MpConsumption(cost);
+        //cost = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerStatus>().kamaitachiCost;
+        //GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerStatus>().MpConsumption(cost);
+
+        //particle = transform.FindChild("Windcuter").gameObject;
     }
 
     void Update()
     {
-        if (depth > 0.0f)
-            DrawLine();
-
         transform.GetComponent<Rigidbody>().velocity = moveVector;
-        depth -= Time.deltaTime;
+        //particle.transform.right = moveVector.normalized;
 
         if (hit == true) //linePrefabがPlayer以外に当たったら自分を消す
             Destroy(gameObject);
     }
 
-    public void Move(Vector3 direction, float speed, float depth)
+    public void Move(Vector3 direction, float speed) //direction方向にspeedの速度で移動
     {
         moveVector = direction * speed;
-        kamaitatiMotion.GetComponent<Rigidbody>().velocity = direction * (speed + 10.0f); //かまいたちの速度が変わっても、当たり判定の長さが変わらないように
-        transform.forward = direction; //進行方向を前に
-
-        this.depth = depth;
+        //transform.forward = direction; //進行方向を前に
     }
 
-    public void DrawLine()
+    public void SetCollisionScale(Vector3 scale) //当たり判定のサイズ変更
     {
-        if ((kamaitatiMotion.transform.position - point).magnitude > lineLength)
-        {
-            GameObject obj = Instantiate(linePrefab, startPoint, transform.rotation) as GameObject;
-            obj.transform.parent = this.transform;
-
-            obj.transform.position = kamaitatiMotion.transform.position;
-            obj.transform.localPosition = obj.transform.localPosition * -1.0f;
-            obj.transform.right = (kamaitatiMotion.transform.position - point).normalized;
-            obj.transform.Rotate(new Vector3(angleX, 0, 0));
-            obj.transform.localScale = new Vector3((obj.transform.position - point).magnitude, scaleY, scaleZ);
-            if ((obj.transform.position - point).magnitude > lineLength)
-                point = obj.transform.position;
-            else
-            {
-                Destroy(obj);
-                //print((obj.transform.position - point).magnitude + "長さが足りずに消された");
-            }
-        }
+        kamaitachiCollision.transform.localScale = scale;
     }
 
-    public void SetScale(float Y, float Z)
+    public void SetParticleScale(Vector3 scale) //パーティクルのサイズ変更
     {
-        scaleY = Y;
-        scaleZ = Z;
-    }
-
-    public void SetRotateX(float angleX) //linePrefabのX軸の回転角度を設定
-    {
-        this.angleX = angleX;
+        particlePosition.transform.localScale = new Vector3(scale.z, scale.y, scale.x);
     }
 
     public void Hit() //linePrefabがPlayer以外に当たったら使用する
