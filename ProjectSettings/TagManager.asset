@@ -7,6 +7,9 @@ TagManager:
   - CameraController
   - CameraPoint
   - Enemy
+  - Wind
+  - Kamaitachi
+  - EnemyBullet
   layers:
   - Default
   - TransparentFX
