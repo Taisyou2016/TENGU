@@ -11,7 +11,7 @@ public class KamaitachiBlock : MonoBehaviour
 
     void Update()
     {
-        
+
     }
 
     public void OnTriggerEnter(Collider other)
@@ -20,6 +20,7 @@ public class KamaitachiBlock : MonoBehaviour
             return;
         else if (other.tag == "Enemy") //Enemyに当たったら親のかまいたちを消すフラグを立てる
         {
+            other.GetComponent<EnemyRoutine>().Damage(damage);
             transform.parent.GetComponent<Kamaitachi>().Hit();
         }
     }

@@ -24,6 +24,7 @@ public class PlayerMove : MonoBehaviour
     private Vector3 velocity;
     private float velocityY = 0;
     private bool jampState = false;
+    private bool windMove = false;
 
     private List<GameObject> lockEnemyList = new List<GameObject>();
     private GameObject lockEnemy;
@@ -210,6 +211,11 @@ public class PlayerMove : MonoBehaviour
         return jampState;
     }
 
+    public bool GetWindMove()
+    {
+        return windMove;
+    }
+
     public void SetWindPower(float power, Vector3 direction)
     {
         windPower = power;
@@ -274,6 +280,7 @@ public class PlayerMove : MonoBehaviour
         }
         if (windPower >= 1)
         {
+            lockOn = false;
             lockRotatePosition.transform.position = transform.position;
             stateProcessor.State = stateWind;
         }
@@ -281,15 +288,21 @@ public class PlayerMove : MonoBehaviour
 
     public void Wind() //気流に乗った時の移動
     {
+        windMove = true;
+
         velocity =
             windDirection * windPower
             + Camera.main.transform.right * Input.GetAxis("Horizontal") * 10.0f;
         windPower -= 0.1f;
 
+        transform.LookAt(transform.position + velocity);
+        transform.rotation = transform.rotation * Quaternion.AngleAxis(Input.GetAxis("Horizontal") * 10.0f, transform.forward);
+
         if (windPower <= 0.5 || currentGroundHit)
         {
-            lockOn = false;
+            transform.rotation = Quaternion.AngleAxis(-transform.eulerAngles.z, transform.forward);
             windPower = 0;
+            windMove = false;
             stateProcessor.State = stateDefault;
         }
         //if (windPower <= 0.5 && lockOn == true) stateProcessor.State = stateLockOn;

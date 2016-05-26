@@ -26,6 +26,7 @@ public class WindBlock : MonoBehaviour
     {
         //transform.parent.GetComponent<Wind>().HitForce(other.gameObject);
         //print("当たった");
+        print(other.name);
         if (other.tag == "Player")
         {
             if (player.GetComponent<PlayerMove>().GetJampState() == true)
@@ -35,7 +36,14 @@ public class WindBlock : MonoBehaviour
             }
         }
         else if (other.tag == "Enemy")
+        {
             other.GetComponent<Rigidbody>().AddForce(objectPower * direction, ForceMode.Impulse);
+        }
+        else if (other.tag == "EnemyBullet")
+        {
+            print("aa");
+            other.GetComponent<Rigidbody>().AddForce(objectPower * direction, ForceMode.Impulse);
+        }
     }
 
     public void SetForce(float playerPower, float objectPower, Vector3 direction)
