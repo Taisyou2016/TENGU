@@ -6,15 +6,20 @@ public class s_AmuletController : MonoBehaviour {
     [SerializeField]
     private int AmuletCount;
     bool One = true;
-	// Use this for initialization
-	void Start () {
+
+    public GameObject Center;
+    public GameObject WindPoint;
+    // Use this for initialization
+    void Start () {
 	
 	}
 	
 	// Update is called once per frame
 	void Update () {
+
+
         AmuletCount = transform.childCount;
-        if (AmuletCount <= 0)
+        if (AmuletCount <= 1)
         {
             Gimmick();
         }
@@ -32,8 +37,10 @@ public class s_AmuletController : MonoBehaviour {
     {
         if (other.tag == "Player")
         {
+
+            Center.gameObject.transform.LookAt(other.transform.position);
+            iTween.MoveTo(other.gameObject, iTween.Hash("x", WindPoint.transform.position.x, "y", WindPoint.transform.position.y, "z", WindPoint.transform.position.z));
             
-           // other.GetComponent<PlayerMove>().SetWindPower(1 , direction);
         }
     }
 }
