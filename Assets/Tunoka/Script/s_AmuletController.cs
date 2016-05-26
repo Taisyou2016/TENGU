@@ -5,8 +5,7 @@ public class s_AmuletController : MonoBehaviour {
 
     [SerializeField]
     private int AmuletCount;
-    public GameObject Gimmick;
-
+    bool One = true;
 	// Use this for initialization
 	void Start () {
 	
@@ -15,11 +14,26 @@ public class s_AmuletController : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         AmuletCount = transform.childCount;
-
         if (AmuletCount <= 0)
         {
-            print("護符用ギミック作動");
-            //Gimmick.GetComponent<Gimmick>().Gimmick();
+            Gimmick();
         }
 	}
+    void Gimmick()
+    {
+        if (One)
+        {
+            GetComponent<SphereCollider>().enabled = false;
+            print("護符用ギミック作動");
+            One = false;
+        }
+    }
+    public void OnTriggerEnter(Collider other)
+    {
+        if (other.tag == "Player")
+        {
+            
+           // other.GetComponent<PlayerMove>().SetWindPower(1 , direction);
+        }
+    }
 }
