@@ -23,12 +23,17 @@ public class s_AmuletController : MonoBehaviour {
         {
             Gimmick();
         }
+        if (transform.localScale.x <= 0)
+        {
+            Destroy(gameObject);
+        }
 	}
     void Gimmick()
     {
         if (One)
         {
             GetComponent<SphereCollider>().enabled = false;
+            iTween.ScaleTo(gameObject, iTween.Hash("x", 0, "y", 0, "z", 0, "time", 10));
             print("護符用ギミック作動");
             One = false;
         }
@@ -37,7 +42,6 @@ public class s_AmuletController : MonoBehaviour {
     {
         if (other.tag == "Player")
         {
-
             Center.gameObject.transform.LookAt(other.transform.position);
             iTween.MoveTo(other.gameObject, iTween.Hash("x", WindPoint.transform.position.x, "y", WindPoint.transform.position.y, "z", WindPoint.transform.position.z));
             
