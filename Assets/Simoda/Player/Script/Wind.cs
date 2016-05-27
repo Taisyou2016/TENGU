@@ -5,7 +5,6 @@ public class Wind : MonoBehaviour
 {
     public GameObject windMotion;
     public GameObject linePrefab;
-    public int cost = 5;
 
     private Vector3 startPoint;
     public Vector3 point;
@@ -17,10 +16,20 @@ public class Wind : MonoBehaviour
     public float objectPower;
     public Vector3 direction;
 
+    private int cost;
+
+    private GameObject player;
+    private PlayerStatus playerStatus;
+
     void Start()
     {
+        player = GameObject.Find("Player");
+        playerStatus = player.GetComponent<PlayerStatus>();
+        cost = playerStatus.windCost;
+        playerStatus.MpConsumption(cost);
+        //cost = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerStatus>().windCost;
+        //GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerStatus>().MpConsumption(cost);
         point = transform.position;
-        GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerStatus>().MpConsumption(cost, gameObject);
     }
 
     void Update()

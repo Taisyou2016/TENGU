@@ -19,9 +19,10 @@ public class Tornado : MonoBehaviour {
     void Update () {
         if (transform.localScale.x == TornadoSize.x)
         {
-            iTween.ScaleTo(gameObject, iTween.Hash("x", 0,  "z", 0, "time", 10));
+            iTween.ScaleTo(gameObject, iTween.Hash("x", 0, "z", 0, "time", 10));
+            transform.FindChild("Particle").gameObject.GetComponent<ParticleTornado>().FadeOut(5f);
         }
-        else if(transform.localScale.x == 0)
+        else if (transform.localScale.x == 0)
         {
             Destroy(gameObject);
         }

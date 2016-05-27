@@ -5,11 +5,14 @@ public class EnemyAttack : MonoBehaviour {
 
     public GameObject ohuda;
     public GameObject bow;
-    private float cooltime_M, cooltime_L;
+    public GameObject punch1;
+    public GameObject punch2;
+    private float cooltime_S ,cooltime_M, cooltime_L;
     private bool run = false;
 
     void Start()
     {
+        cooltime_S = 0.5f;
         cooltime_M = 3.0f;
         cooltime_L = 3.0f;
     }
@@ -22,7 +25,7 @@ public class EnemyAttack : MonoBehaviour {
     {
         if(a == 1)
         {
-            print("未実装");
+            StartCoroutine(InFighting());
         }
         else if(a == 2)
         {
@@ -38,7 +41,13 @@ public class EnemyAttack : MonoBehaviour {
     {
         if (run) { yield break; }
         run = true;
+        // 処理
 
+        // ストレート
+        //Instantiate(punch1, transform.localPosition, transform.rotation);
+        transform.position += transform.forward;
+
+        yield return new WaitForSeconds(0.8f);
 
         run = false;
     }
@@ -47,7 +56,6 @@ public class EnemyAttack : MonoBehaviour {
     {
         if (run) { yield break; }
         run = true;
-
         //処理
 
         Instantiate(ohuda, transform.localPosition, transform.rotation);
@@ -61,9 +69,9 @@ public class EnemyAttack : MonoBehaviour {
     {
         if (run) { yield break; }
         run = true;
-
         //処理
-        Instantiate(bow, transform.localPosition, transform.rotation);
+
+        Instantiate(bow, transform.localPosition, this.transform.rotation);
 
 
         yield return new WaitForSeconds(cooltime_L);

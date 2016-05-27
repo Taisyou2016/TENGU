@@ -33,6 +33,10 @@ public class CameraTest : MonoBehaviour
                 transform.rotation = Quaternion.Slerp(transform.rotation, targetTransform.rotation, cameraRotateSpeed * Time.deltaTime);
             }
         }
+        else if (target.GetComponent<PlayerMove>().GetWindMove() == true)
+        {
+
+        }
         else
         {
             if (Input.GetAxis("Horizontal") != 0) flag = true;

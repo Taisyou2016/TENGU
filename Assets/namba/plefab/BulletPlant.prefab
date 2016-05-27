@@ -15,7 +15,7 @@ GameObject:
   - 114: {fileID: 11412096}
   m_Layer: 11
   m_Name: Bullet
-  m_TagString: Untagged
+  m_TagString: EnemyBullet
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -69,7 +69,7 @@ GameObject:
   - 114: {fileID: 11448372}
   m_Layer: 11
   m_Name: Bullet (2)
-  m_TagString: Untagged
+  m_TagString: EnemyBullet
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -85,7 +85,7 @@ GameObject:
   - 114: {fileID: 11462478}
   m_Layer: 11
   m_Name: BulletPlant
-  m_TagString: Untagged
+  m_TagString: EnemyBullet
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -122,7 +122,7 @@ GameObject:
   - 114: {fileID: 11457178}
   m_Layer: 11
   m_Name: Bullet (1)
-  m_TagString: Untagged
+  m_TagString: EnemyBullet
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -408,6 +408,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 14c28897f1dbde94da2d3d8b6518b65a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  flag: 1
   fire: {fileID: 131786, guid: 43abceebabeac1146a67858c46ba38ed, type: 2}
   speed: 10
 --- !u!114 &11448372
@@ -421,6 +422,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 14c28897f1dbde94da2d3d8b6518b65a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  flag: 1
   fire: {fileID: 131786, guid: 43abceebabeac1146a67858c46ba38ed, type: 2}
   speed: 10
 --- !u!114 &11457178
@@ -434,6 +436,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 14c28897f1dbde94da2d3d8b6518b65a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  flag: 1
   fire: {fileID: 131786, guid: 43abceebabeac1146a67858c46ba38ed, type: 2}
   speed: 10
 --- !u!114 &11462478
