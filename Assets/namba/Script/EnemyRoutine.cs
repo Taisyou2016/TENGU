@@ -18,7 +18,8 @@ public class EnemyRoutine : EnemyBase<EnemyRoutine, EnemyState>
     public int LengeType = 2;           // 攻撃タイプ(1=格闘 2=お札 3=弓)
 
     private int life;
-    private bool Pflag = false;
+    public bool Pflag = false;
+    public string state;                // デバッグ用State確認
     private float rotateSmooth = 3.0f;  // 振り向きにかかる時間
     private float AttackDistance;       // 攻撃移行範囲
     private Vector3 StartPos;
@@ -67,6 +68,7 @@ public class EnemyRoutine : EnemyBase<EnemyRoutine, EnemyState>
         // 透過視認範囲外ならば
         if (ToTargetDistance > SearchDistance * 10.0f)
         {
+            Pflag = false;
             // 以降の処理をスルー
             return;
         }
@@ -144,6 +146,7 @@ public class EnemyRoutine : EnemyBase<EnemyRoutine, EnemyState>
 
         public override void Initialize()
         {
+            owner.state = "wait";
         }
 
         public override void Execute()
@@ -174,6 +177,8 @@ public class EnemyRoutine : EnemyBase<EnemyRoutine, EnemyState>
         public override void Initialize()
         {
             owner.Switch(0);
+            owner.state = "pursuit";
+
         }
 
         public override void Execute()
@@ -220,6 +225,8 @@ public class EnemyRoutine : EnemyBase<EnemyRoutine, EnemyState>
         public override void Initialize()
         {
             owner.lostPos = owner.player.position;
+            //owner.lostPos.y = 0;
+            owner.state = "lost";
         }
 
         public override void Execute()
@@ -232,9 +239,11 @@ public class EnemyRoutine : EnemyBase<EnemyRoutine, EnemyState>
 
             owner.Switch(1);
             owner.agent.SetDestination(owner.lostPos);
+            owner.state = "lostContact";
 
             if (Vector3.SqrMagnitude(owner.transform.position - owner.lostPos) <= 2)
             {
+                owner.state = "kitaku";
                 owner.StartCoroutine(owner.Lost());
                 owner.ChangeState(EnemyState.Wait);
             }
@@ -257,6 +266,8 @@ public class EnemyRoutine : EnemyBase<EnemyRoutine, EnemyState>
         public override void Initialize()
         {
             owner.Switch(0);
+            owner.state = "attack";
+
         }
 
         public override void Execute()
@@ -300,6 +311,7 @@ public class EnemyRoutine : EnemyBase<EnemyRoutine, EnemyState>
         public override void Initialize()
         {
             owner.Switch(0);
+            owner.state = "died";
             Destroy(owner.gameObject, 1.0f);
         }
 
