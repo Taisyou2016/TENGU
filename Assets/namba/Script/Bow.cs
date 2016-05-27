@@ -4,19 +4,34 @@ using System.Collections;
 public class Bow : MonoBehaviour {
 
     private Rigidbody rd;
-    public float speed = 15;
+    private Transform player;
+    public float angle = 45;
+    public float gravity = 9.8f;
+    private float t = 0;
+    private float Vx, Vy;
+    Vector3 bedforpos;
 
-
-	// Use this for initialization
-	void Start () {
+    void Awake()
+    {
         rd = GetComponent<Rigidbody>();
-	}
-	
-	// Update is called once per frame
-	void Update () {
-        rd.velocity = transform.forward * speed;
-        //speed *= 0.99f;
-	}
+    }
+
+    // Use this for initialization
+    void Start () {
+        player = GameObject.FindGameObjectWithTag("Player").transform;
+        // 距離計算
+        float targetDistance = Vector3.Distance(this.transform.position, player.position);
+        // 初速計算
+        float f_velocity = targetDistance / (Mathf.Sin(2 * angle * Mathf.Deg2Rad) / gravity);
+        Vx = Mathf.Sqrt(f_velocity) * Mathf.Cos(angle * Mathf.Deg2Rad);
+        Vy = Mathf.Sqrt(f_velocity) * Mathf.Sin(angle * Mathf.Deg2Rad);
+    }
+
+    // Update is called once per frame
+    void Update () {
+        transform.Translate(0, (Vy - (gravity * t)) * Time.deltaTime, Vx * Time.deltaTime);
+        t += Time.deltaTime;
+    }
 
     void OnCollisionEnter(Collision col)
     {
