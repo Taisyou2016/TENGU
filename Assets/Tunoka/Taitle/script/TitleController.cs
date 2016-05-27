@@ -34,6 +34,7 @@ public class TitleController : MonoBehaviour
             print(_mousePosition);
             print("OK");
             iTween.MoveTo(gameObject, iTween.Hash("x", -576, "y", 576, "time", 3f, "isLocal", true));
+            Invoke("FadeIn", 1);
         }
         else
         {
@@ -41,5 +42,8 @@ public class TitleController : MonoBehaviour
             print("No");
         }
     }
-    
+    void FadeIn()
+    {
+        GameObject.Find("FadeInOut").GetComponent<FadeInOut>().FadeIn();
+    }
 }
