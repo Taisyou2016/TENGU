@@ -28,7 +28,7 @@ public class EnemyRoutine : EnemyBase<EnemyRoutine, EnemyState>
     private NavMeshAgent agent;
     private Rigidbody rd;
     private EnemyAttack attack;
-    private CharacterController ctrl;
+    //private CharacterController ctrl;
 
     // Use this for initialization
     public void Start()
@@ -38,7 +38,7 @@ public class EnemyRoutine : EnemyBase<EnemyRoutine, EnemyState>
         agent = GetComponent<NavMeshAgent>();
         rd = GetComponent<Rigidbody>();
         attack = GetComponent<EnemyAttack>();
-        ctrl = GetComponent<CharacterController>();
+        //ctrl = GetComponent<CharacterController>();
 
         if (LengeType == 1) { AttackDistance = 1; }
         else if (LengeType == 2) { AttackDistance = 8; }
@@ -115,6 +115,7 @@ public class EnemyRoutine : EnemyBase<EnemyRoutine, EnemyState>
         {
             ChangeState(EnemyState.Died);
         }
+        print("HP :" + life);
     }
 
     private IEnumerator Lost()
@@ -239,11 +240,8 @@ public class EnemyRoutine : EnemyBase<EnemyRoutine, EnemyState>
 
             owner.Switch(1);
             owner.agent.SetDestination(owner.lostPos);
-            owner.state = "lostContact";
-
             if (Vector3.SqrMagnitude(owner.transform.position - owner.lostPos) <= 2)
             {
-                owner.state = "kitaku";
                 owner.StartCoroutine(owner.Lost());
                 owner.ChangeState(EnemyState.Wait);
             }

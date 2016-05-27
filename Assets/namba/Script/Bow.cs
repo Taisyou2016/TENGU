@@ -3,18 +3,17 @@ using System.Collections;
 
 public class Bow : MonoBehaviour {
 
-    private Rigidbody rd;
+    //private Rigidbody rd;
     private Transform player;
     public float angle = 45;
     public float gravity = 9.8f;
     private float t = 0;
     private float Vx, Vy;
     private Vector3 bedforpos;
-    private bool flag = true;
 
     void Awake()
     {
-        rd = GetComponent<Rigidbody>();
+        //rd = GetComponent<Rigidbody>();
     }
 
     // Use this for initialization
@@ -30,11 +29,8 @@ public class Bow : MonoBehaviour {
 
     // Update is called once per frame
     void Update () {
-        if (flag)
-        {
-            transform.Translate(0, (Vy - (gravity * t)) * Time.deltaTime, Vx * Time.deltaTime);
-            t += Time.deltaTime;
-        }
+        transform.Translate(0, (Vy - (gravity * t)) * Time.deltaTime, Vx * Time.deltaTime);
+        t += Time.deltaTime;
     }
 
     void OnCollisionEnter(Collision col)
@@ -44,9 +40,4 @@ public class Bow : MonoBehaviour {
             Destroy(this.gameObject);
         }
     }
-    public void Ricochet()
-    {
-        flag = false;
-    }
-
 }

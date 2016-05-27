@@ -4,7 +4,6 @@ using System.Collections;
 public class ohuda : MonoBehaviour {
 
     private Rigidbody rd;
-    private bool flag = true;
     public GameObject fire;
     public float speed = 10;
 
@@ -12,15 +11,11 @@ public class ohuda : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         rd = GetComponent<Rigidbody>();
-
+        rd.velocity = transform.forward * speed;
     }
 
     // Update is called once per frame
     void Update () {
-        if (flag)
-        {
-            rd.velocity = transform.forward * speed;
-        }
     }
 
     void OnCollisionEnter(Collision col)
@@ -37,8 +32,4 @@ public class ohuda : MonoBehaviour {
         Destroy(this.gameObject);
     }
 
-    public void Ricochet()
-    {
-        flag = false;
-    }
 }
