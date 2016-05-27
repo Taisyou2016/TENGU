@@ -935,6 +935,18 @@ Prefab:
       propertyPath: maxlife
       value: 100
       objectReference: {fileID: 0}
+    - target: {fileID: 11414186, guid: 1d7a63bf4c3ca5f41b1064a81f527539, type: 2}
+      propertyPath: punch1
+      value: 
+      objectReference: {fileID: 121410, guid: 22a2cecda7d672645ad96a0404a9072b, type: 2}
+    - target: {fileID: 11414186, guid: 1d7a63bf4c3ca5f41b1064a81f527539, type: 2}
+      propertyPath: punch2
+      value: 
+      objectReference: {fileID: 151362, guid: 152012ec263286245a87282c11bc949a, type: 2}
+    - target: {fileID: 11441954, guid: 1d7a63bf4c3ca5f41b1064a81f527539, type: 2}
+      propertyPath: LengeType
+      value: 2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 1d7a63bf4c3ca5f41b1064a81f527539, type: 2}
   m_IsPrefabParent: 0
