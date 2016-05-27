@@ -11,12 +11,11 @@ public class ohuda : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         rd = GetComponent<Rigidbody>();
-
+        rd.velocity = transform.forward * speed;
     }
 
     // Update is called once per frame
     void Update () {
-        rd.velocity = transform.forward * speed;
     }
 
     void OnCollisionEnter(Collision col)
@@ -32,4 +31,5 @@ public class ohuda : MonoBehaviour {
         Instantiate(fire, this.transform.position, transform.rotation);
         Destroy(this.gameObject);
     }
+
 }

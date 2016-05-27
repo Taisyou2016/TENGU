@@ -3,17 +3,17 @@ using System.Collections;
 
 public class Bow : MonoBehaviour {
 
-    private Rigidbody rd;
+    //private Rigidbody rd;
     private Transform player;
     public float angle = 45;
     public float gravity = 9.8f;
     private float t = 0;
     private float Vx, Vy;
-    Vector3 bedforpos;
+    private Vector3 bedforpos;
 
     void Awake()
     {
-        rd = GetComponent<Rigidbody>();
+        //rd = GetComponent<Rigidbody>();
     }
 
     // Use this for initialization
@@ -40,5 +40,4 @@ public class Bow : MonoBehaviour {
             Destroy(this.gameObject);
         }
     }
-
 }

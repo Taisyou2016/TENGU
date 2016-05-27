@@ -18,7 +18,9 @@ public class EnemyRoutine : EnemyBase<EnemyRoutine, EnemyState>
     public int LengeType = 2;           // 攻撃タイプ(1=格闘 2=お札 3=弓)
 
     private int life;
-    private bool Pflag = false;
+    public bool Pflag = false;
+    public bool Gflag;
+    public string state;                // デバッグ用State確認
     private float rotateSmooth = 3.0f;  // 振り向きにかかる時間
     private float AttackDistance;       // 攻撃移行範囲
     private Vector3 StartPos;
@@ -27,7 +29,6 @@ public class EnemyRoutine : EnemyBase<EnemyRoutine, EnemyState>
     private NavMeshAgent agent;
     private Rigidbody rd;
     private EnemyAttack attack;
-    private CharacterController ctrl;
 
     // Use this for initialization
     public void Start()
@@ -37,7 +38,6 @@ public class EnemyRoutine : EnemyBase<EnemyRoutine, EnemyState>
         agent = GetComponent<NavMeshAgent>();
         rd = GetComponent<Rigidbody>();
         attack = GetComponent<EnemyAttack>();
-        ctrl = GetComponent<CharacterController>();
 
         if (LengeType == 1) { AttackDistance = 1; }
         else if (LengeType == 2) { AttackDistance = 8; }
@@ -59,6 +59,7 @@ public class EnemyRoutine : EnemyBase<EnemyRoutine, EnemyState>
         ChangeState(EnemyState.Wait);
     }
 
+    // プレイヤーを索敵
     private void PSeach()
     {
         // Playerとの距離
@@ -67,6 +68,7 @@ public class EnemyRoutine : EnemyBase<EnemyRoutine, EnemyState>
         // 透過視認範囲外ならば
         if (ToTargetDistance > SearchDistance * 10.0f)
         {
+            Pflag = false;
             // 以降の処理をスルー
             return;
         }
@@ -86,6 +88,19 @@ public class EnemyRoutine : EnemyBase<EnemyRoutine, EnemyState>
         }
 
         Pflag = false;
+    }
+
+    // 接地検知
+    private void GroundingDetection()
+    {
+        int mask = LayerMask.GetMask(new string[] { "Field" });
+        RaycastHit hit;
+        Gflag = Physics.SphereCast(transform.position, 0.3f, transform.up * -1, out hit, 0.3f, mask);
+
+        if(!Gflag)
+        {
+            iTween.RotateTo(gameObject, iTween.Hash("x", 0, "z", 0));
+        }
     }
 
     /// <summary>
@@ -109,24 +124,17 @@ public class EnemyRoutine : EnemyBase<EnemyRoutine, EnemyState>
     public void Damage(int dmg)
     {
         life -= dmg;
-        if (life < 0)
+        if (life <= 0)
         {
             ChangeState(EnemyState.Died);
         }
+        print("HP :" + life);
     }
 
     private IEnumerator Lost()
     {
         yield return new WaitForSeconds(2);
         agent.SetDestination(StartPos);
-    }
-
-    private void OnCollisionEnter(Collision col)
-    {
-        if (col.gameObject.layer == 8)
-        {
-            //iTween.RotateTo(gameObject, iTween.Hash("x", 0, "z", 0));
-        }
     }
 
     /*----------------------------------------------------/
@@ -144,12 +152,12 @@ public class EnemyRoutine : EnemyBase<EnemyRoutine, EnemyState>
 
         public override void Initialize()
         {
+            owner.state = "wait";
         }
 
         public override void Execute()
         {
             owner.PSeach();
-
             if(owner.Pflag)
             {
                 owner.Switch(0);
@@ -174,12 +182,15 @@ public class EnemyRoutine : EnemyBase<EnemyRoutine, EnemyState>
         public override void Initialize()
         {
             owner.Switch(0);
+            owner.state = "pursuit";
+
         }
 
         public override void Execute()
         {
             owner.PSeach();
-            if(!owner.Pflag)
+            owner.GroundingDetection();
+            if(!owner.Pflag && owner.Gflag)
             {
                 owner.ChangeState(EnemyState.LostContact);
             }
@@ -220,6 +231,7 @@ public class EnemyRoutine : EnemyBase<EnemyRoutine, EnemyState>
         public override void Initialize()
         {
             owner.lostPos = owner.player.position;
+            owner.state = "lost";
         }
 
         public override void Execute()
@@ -232,7 +244,6 @@ public class EnemyRoutine : EnemyBase<EnemyRoutine, EnemyState>
 
             owner.Switch(1);
             owner.agent.SetDestination(owner.lostPos);
-
             if (Vector3.SqrMagnitude(owner.transform.position - owner.lostPos) <= 2)
             {
                 owner.StartCoroutine(owner.Lost());
@@ -257,6 +268,8 @@ public class EnemyRoutine : EnemyBase<EnemyRoutine, EnemyState>
         public override void Initialize()
         {
             owner.Switch(0);
+            owner.state = "attack";
+
         }
 
         public override void Execute()
@@ -270,13 +283,17 @@ public class EnemyRoutine : EnemyBase<EnemyRoutine, EnemyState>
                 owner.ChangeState(EnemyState.Pursuit);
             }
             owner.PSeach();
-            if(!owner.Pflag)
+            owner.GroundingDetection();
+
+            if (!owner.Pflag && owner.Gflag)
             {
                 owner.ChangeState(EnemyState.LostContact);
             }
 
             // Playerの方向を向く
-            Quaternion targetRotate = Quaternion.LookRotation(owner.player.position - owner.transform.position);
+            Vector3 vec = owner.player.position - owner.transform.position;
+            vec.y = 0;
+            Quaternion targetRotate = Quaternion.LookRotation(vec);
             owner.transform.rotation = Quaternion.Slerp(owner.transform.rotation, targetRotate, Time.deltaTime * owner.rotateSmooth);
 
 
@@ -300,6 +317,7 @@ public class EnemyRoutine : EnemyBase<EnemyRoutine, EnemyState>
         public override void Initialize()
         {
             owner.Switch(0);
+            owner.state = "died";
             Destroy(owner.gameObject, 1.0f);
         }
 
