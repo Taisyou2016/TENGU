@@ -15,7 +15,7 @@ public class Kamaitachi : MonoBehaviour
 
     void Start()
     {
-        player = GameObject.Find("Player");
+        player = GameObject.FindGameObjectWithTag("Player");
         playerStatus = player.GetComponent<PlayerStatus>();
         cost = playerStatus.kamaitachiCost;
         playerStatus.MpConsumption(cost);

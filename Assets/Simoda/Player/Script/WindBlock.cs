@@ -12,21 +12,20 @@ public class WindBlock : MonoBehaviour
 
     void Start()
     {
-        player = GameObject.Find("Player");
+        player = GameObject.FindGameObjectWithTag("Player");
         particle.transform.forward = direction;
         particle.transform.localScale = transform.localScale;
     }
 
     void Update()
     {
-
     }
 
     public void OnTriggerEnter(Collider other)
     {
         //transform.parent.GetComponent<Wind>().HitForce(other.gameObject);
         //print("当たった");
-        print(other.name);
+        //print(other.name);
         if (other.tag == "Player")
         {
             if (player.GetComponent<PlayerMove>().GetJampState() == true)
@@ -41,8 +40,10 @@ public class WindBlock : MonoBehaviour
         }
         else if (other.tag == "EnemyBullet")
         {
-            print("aa");
-            other.GetComponent<Rigidbody>().AddForce(objectPower * direction, ForceMode.Impulse);
+            other.GetComponent<Rigidbody>().velocity =
+                objectPower * direction
+                + other.transform.up * Random.Range(1.0f, 3.0f)
+                + other.transform.right * Random.Range(-10.0f, 10.0f);
         }
     }
 

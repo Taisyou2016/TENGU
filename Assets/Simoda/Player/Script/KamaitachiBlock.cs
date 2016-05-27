@@ -23,5 +23,8 @@ public class KamaitachiBlock : MonoBehaviour
             other.GetComponent<EnemyRoutine>().Damage(damage);
             transform.parent.GetComponent<Kamaitachi>().Hit();
         }
+        else if(other.tag=="EnemyBullet")
+        {
+        }
     }
 }

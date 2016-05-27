@@ -26,7 +26,7 @@ public class PlayerMove : MonoBehaviour
     private bool jampState = false;
     private bool windMove = false;
 
-    private List<GameObject> lockEnemyList = new List<GameObject>();
+    public List<GameObject> lockEnemyList = new List<GameObject>();
     private GameObject lockEnemy;
     private bool lockOn = false;
 
@@ -53,6 +53,15 @@ public class PlayerMove : MonoBehaviour
     void Update()
     {
         /******************** ロックオン処理 ********************/
+        foreach (var e in lockEnemyList)
+        {
+            if (e == null)
+            {
+                lockEnemyList.Remove(e);
+                return;
+            }
+        }
+
         lockEnemyList.Sort(LengthSort); //lockEnemyListをプレイヤーからの距離が短い順にソート
 
         if (Input.GetKeyDown(KeyCode.Q) && lockEnemyList.Count > 0)//ロックオンする、しない
@@ -100,13 +109,18 @@ public class PlayerMove : MonoBehaviour
             transform.LookAt(lockEnemy.transform.position); //ロックした敵の方を向く
             cameraController.GetComponent<CameraTest>().LockStart(); //プレイヤーの後ろに回る
         }
-        if (lockEnemyList != null && lockOn == true)
+        if (lockEnemyList != null && lockEnemy != null && lockOn == true)
         {
             if (Mathf.Abs(transform.position.y - lockEnemy.transform.position.y) > lockDistanceY)
             {
                 lockOn = false;
                 print("上下の距離が離れすぎたロック終了");
             }
+        }
+        if (lockEnemyList != null && lockEnemy == null && lockOn == true)
+        {
+            lockEnemy = lockEnemyList[0];
+            cameraController.GetComponent<CameraTest>().LockStart(); //プレイヤーの後ろに回る
         }
 
 
@@ -146,12 +160,6 @@ public class PlayerMove : MonoBehaviour
         if (currentGroundHit == false) velocityY -= gravity * Time.deltaTime;
         velocity.y = velocityY;
 
-        //if (CheckGrounded())
-        //{
-        //    currentGroundHit = true;
-        //    previosGroundHit = true;
-        //}
-
         controller.Move(velocity * Time.deltaTime);
     }
 
@@ -178,12 +186,24 @@ public class PlayerMove : MonoBehaviour
 
     public int LengthSort(GameObject a, GameObject b) //Listを敵との距離が近い順にソート
     {
+        //if (a != null || b != null)
+        //{
         Vector3 VecA = transform.position - a.transform.position;
         Vector3 VecB = transform.position - b.transform.position;
 
         if (VecA.magnitude > VecB.magnitude) return 1;
         else if (VecA.magnitude < VecB.magnitude) return -1;
         else return 0;
+        //}
+        //else
+        //{
+        //    foreach (GameObject n in lockEnemyList)
+        //    {
+        //        lockEnemyList.Remove(n);
+        //        return 0;
+        //    }
+        //}
+        //return 0;
     }
 
     public bool CheckGrounded() //地面に接地しているかどうかを調べる
@@ -194,8 +214,8 @@ public class PlayerMove : MonoBehaviour
         //若干体にめり込ませた位置から発射しないと正しく判定できないときがある
         var ray = new Ray(transform.position + Vector3.up * 0.1f, Vector3.down);
         //探索距離
-        var tolerance = 1.2f;
-        Debug.DrawRay(ray.origin, ray.direction * 1.2f);
+        var tolerance = 1.4f;
+        Debug.DrawRay(ray.origin, ray.direction * tolerance);
         //Raycastがhitするかどうかで判定
         //地面にのみ衝突するようにレイヤを指定する
         return Physics.Raycast(ray, tolerance, 1 << 8);
@@ -237,7 +257,9 @@ public class PlayerMove : MonoBehaviour
         //キャラクターの向きを変える
         velocity.y = 0;
         if (velocity.magnitude > 0)
+        {
             transform.LookAt(transform.position + velocity);
+        }
 
         if (lockOn == true) stateProcessor.State = stateLockOn;
         if (windPower >= 1) stateProcessor.State = stateWind;
@@ -245,6 +267,14 @@ public class PlayerMove : MonoBehaviour
 
     public void LockOn() //ロックオン時移動
     {
+        if (lockEnemy == null)
+        {
+            lockOn = false;
+            lockRotatePosition.transform.position = transform.position;
+            stateProcessor.State = stateDefault;
+            return;
+        }
+
         if (Vector3.Distance(transform.position, lockRotatePosition.transform.position) <= 3)
         {
             //lockRotatePosition.transform.RotateAround(
@@ -269,9 +299,7 @@ public class PlayerMove : MonoBehaviour
             + (transform.position - lockRotatePosition.transform.position).normalized * Input.GetAxis("Horizontal") * walkSpeed;
 
         //キャラクターの向きを変える
-        velocity.y = 0;
-        if (lockOn == true)
-            transform.LookAt(lockEnemy.transform.position);
+        transform.LookAt(lockEnemy.transform.position);
 
         if (lockOn == false)
         {
@@ -296,11 +324,12 @@ public class PlayerMove : MonoBehaviour
         windPower -= 0.1f;
 
         transform.LookAt(transform.position + velocity);
-        transform.rotation = transform.rotation * Quaternion.AngleAxis(Input.GetAxis("Horizontal") * 10.0f, transform.forward);
+        transform.Rotate(new Vector3(0, 0, 1), -15 * Input.GetAxis("Horizontal"));
+        //transform.rotation = transform.rotation * Quaternion.AngleAxis(Input.GetAxis("Horizontal") * 10.0f, transform.forward);
 
         if (windPower <= 0.5 || currentGroundHit)
         {
-            transform.rotation = Quaternion.AngleAxis(-transform.eulerAngles.z, transform.forward);
+            //transform.rotation = Quaternion.AngleAxis(-transform.eulerAngles.z, transform.forward);
             windPower = 0;
             windMove = false;
             stateProcessor.State = stateDefault;

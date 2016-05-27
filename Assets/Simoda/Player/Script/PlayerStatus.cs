@@ -66,7 +66,7 @@ public class PlayerStatus : MonoBehaviour
         }
         else
         {
-            Color alphaReset = new Color(0, 0, 0, 1.0f - modelMaterial.color.a);
+            //Color alphaReset = new Color(0, 0, 0, 1.0f - modelMaterial.color.a);
             modelMaterial.color = originColor;
         }
 
@@ -85,6 +85,17 @@ public class PlayerStatus : MonoBehaviour
         if (invincible == true) return; //無敵だったら処理を行わない
         if (currentHp <= 0) return; //現在のHPが0以下だったら処理を行わない
 
+        if (currentHp - damage <= 0) //現在のHPが0より小さかったら0に
+        {
+            currentHp = 0;
+            print("体力がなくなり死亡しました");
+            return;
+        }
+        else
+        {
+            currentHp -= damage;
+        }
+
         if (damage == 1) //damageが1だったらknockBackSmallInvincibleTimeを代入
         {
             currentInvincibleTime = knockBackSmallInvincibleTime;
@@ -97,11 +108,6 @@ public class PlayerStatus : MonoBehaviour
             gameObject.GetComponent<PlayerMove>().ChangeKnockBackLarge(10.0f);
             SetFlashingSecond(3.0f);
         }
-
-        if (currentHp - damage <= 0) //現在のHPが0より小さかったら0に
-            currentHp = 0;
-        else
-            currentHp -= damage;
 
         invincible = true; //無敵に
     }
