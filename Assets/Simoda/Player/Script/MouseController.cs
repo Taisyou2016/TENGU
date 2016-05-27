@@ -117,6 +117,11 @@ public class MouseController : MonoBehaviour
             Invoke("KamaitachiDecision", 0.3f);
             return;
         }
+
+        if (Input.GetKeyDown(KeyCode.T))
+        {
+            TornadoDecision();
+        }
     }
 
     public void WindAttackDecision()
