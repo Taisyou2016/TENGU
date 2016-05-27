@@ -4,21 +4,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Assets.namba.Script
+public class IState<T>
 {
-    public class IState<T>
+    protected T owner;
+
+    public IState(T owner)
     {
-        protected T owner;
+        this.owner = owner;
+    } 
 
-        public IState(T owner)
-        {
-            this.owner = owner;
-        } 
+    public virtual void Initialize() { }
 
-        public virtual void Initialize() { }
+    public virtual void Execute() { }
 
-        public virtual void Execute() { }
-
-        public virtual void End() { }
-    }
+    public virtual void End() { }
 }

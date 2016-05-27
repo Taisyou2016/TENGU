@@ -10,7 +10,7 @@ GameObject:
   - 4: {fileID: 491980}
   - 33: {fileID: 3362134}
   - 23: {fileID: 2334990}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: water1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -27,7 +27,7 @@ GameObject:
   - 4: {fileID: 486722}
   - 218: {fileID: 21811338}
   - 154: {fileID: 15432748}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Filed
   m_TagString: Untagged
   m_Icon: {fileID: 0}

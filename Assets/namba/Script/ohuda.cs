@@ -11,6 +11,7 @@ public class ohuda : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         rd = GetComponent<Rigidbody>();
+
     }
 
     // Update is called once per frame

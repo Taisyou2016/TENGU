@@ -63,8 +63,7 @@ public class EnemyAttack : MonoBehaviour {
         run = true;
 
         //処理
-        Instantiate(bow, transform.localPosition, transform.rotation);
-
+        Instantiate(bow, transform.localPosition, this.transform.rotation);
 
         yield return new WaitForSeconds(cooltime_L);
         run = false;
