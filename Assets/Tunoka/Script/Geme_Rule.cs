@@ -9,16 +9,19 @@ public class Geme_Rule : MonoBehaviour {
     [SerializeField]
     private GameObject player;
     private PlayerStatus playerStatus;
+
     public GameObject _GameOvera;
     public GameObject _GameClear;
     // Use this for initialization
     void Start () {
-        player = GameObject.FindWithTag("Player");
+        player = GameObject.Find("Player");
         playerStatus = player.GetComponent<PlayerStatus>();
     }
 
     // Update is called once per frame
-    void Update () {
+	void Update () {
+
+  
         m_p_Hp = playerStatus.currentHp;
         if (m_p_Hp <= 0)
         {

@@ -11,14 +11,14 @@ public class Magic_Meter : MonoBehaviour
     {
         cooldown = GetComponent<Image>();
         //_slider = transform.GetComponent<Slider>();
-        player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerStatus>();
+        player = GameObject.Find("Player").GetComponent<PlayerStatus>();
     }
 
     void Update()
     {
         float _Mp = 1;
         _Mp =  (float)player.currentMp / (float)player.maxMp;
-        print(_Mp);
+       
         // HPゲージに値を設定
         cooldown.fillAmount = _Mp;
 
