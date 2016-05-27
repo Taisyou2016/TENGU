@@ -1,6 +1,6 @@
 fileFormatVersion: 2
-guid: b56a34c8a92d4ba4cab46b750581c707
-timeCreated: 1463665218
+guid: 69c3baeb089d62b42a839721793cf05d
+timeCreated: 1464320132
 licenseType: Free
 ModelImporter:
   serializedVersion: 19
@@ -9,7 +9,7 @@ ModelImporter:
     400000: //RootNode
     2300000: //RootNode
     3300000: //RootNode
-    4300000: pCube1
+    4300000: bomboo
     9500000: //RootNode
   materials:
     importMaterials: 1
