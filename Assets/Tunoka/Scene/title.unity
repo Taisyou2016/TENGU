@@ -470,7 +470,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 161a50bcc0d6ebe4f90bc2769c4a6888, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_scenechange: asa
+  m_scenechange: TutorialFast
   m_Fade: {fileID: 1536772081}
 --- !u!4 &1252337032
 Transform:
