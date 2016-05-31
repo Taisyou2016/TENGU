@@ -5,10 +5,10 @@ public class EnemyAttack : MonoBehaviour {
 
     public GameObject ohuda;
     public GameObject bow;
-    public GameObject punch1;
-    public GameObject punch2;
+    public GameObject punch1, punch2;
     private float cooltime_S ,cooltime_M, cooltime_L;
     private bool run = false;
+    private float a;
 
     void Start()
     {
@@ -44,11 +44,14 @@ public class EnemyAttack : MonoBehaviour {
         // 処理
 
         // ストレート
-        //Instantiate(punch1, transform.localPosition, transform.rotation);
-        transform.position += transform.forward;
+        a = Random.Range(0, 1);
+        if (a == 0) {
+            Instantiate(punch1, transform.localPosition + transform.forward, transform.rotation);
+        }else {
+            Instantiate(punch2, transform.localPosition + transform.forward, transform.rotation);
+        }
 
-        yield return new WaitForSeconds(0.8f);
-
+        yield return new WaitForSeconds(cooltime_S);
         run = false;
     }
 
@@ -58,7 +61,8 @@ public class EnemyAttack : MonoBehaviour {
         run = true;
         //処理
 
-        Instantiate(ohuda, transform.localPosition, transform.rotation);
+        Vector3 vec = transform.forward + transform.up / 2;
+        Instantiate(ohuda, transform.localPosition + vec, transform.rotation);
 
 
         yield return new WaitForSeconds(cooltime_M);

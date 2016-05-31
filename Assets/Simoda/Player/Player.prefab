@@ -2706,7 +2706,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e02a6a15d70524a489656d8cd706eada, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tornadoPrefab: {fileID: 122734, guid: c1cc81888526cac459112d1b46e328b8, type: 2}
+  tornadoPrefab: {fileID: 161392, guid: bed120afa357bef46b1a4ac6fc753ef5, type: 2}
   tornadoPower: 10
 --- !u!114 &11485294
 MonoBehaviour:
