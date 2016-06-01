@@ -15,3 +15,5 @@ EditorBuildSettings:
     path: Assets/Tunoka/Scene/TutorialFast.unity
   - enabled: 1
     path: Assets/Tunoka/Scene/Tuno_TestScene.unity
+  - enabled: 1
+    path: Assets/Tunoka/Scene/Boss.unity

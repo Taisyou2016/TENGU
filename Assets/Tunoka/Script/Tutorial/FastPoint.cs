@@ -13,7 +13,7 @@ public class FastPoint : MonoBehaviour {
 
     void Start () {
 
-        text.text = "移動の練習1\nターゲットの場所まで移動しよう";
+        text.text = "移動の練習1\nターゲットの場所まで移動しよう\nスキップするには隣のゲートに";
         player = GameObject.FindWithTag("Player").GetComponent<PlayerStatus>();
         player.maxMp = 0;
         player.currentMp = 0;

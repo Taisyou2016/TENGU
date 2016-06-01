@@ -8,7 +8,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 224: {fileID: 22402336}
-  - 114: {fileID: 11402700}
+  - 114: {fileID: 11457672}
   m_Layer: 5
   m_Name: Amulet_CPosition
   m_TagString: Untagged
@@ -27,13 +27,13 @@ GameObject:
   - 222: {fileID: 22246920}
   - 114: {fileID: 11459506}
   m_Layer: 5
-  m_Name: Amulet_Position
+  m_Name: Position
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &11402700
+--- !u!114 &11457672
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -41,10 +41,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 146134}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a1dccffcfbea2ed4ca93940a2cef69b8, type: 3}
+  m_Script: {fileID: 11500000, guid: 3d3004619c219234380a6cf4ceae3fc0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  amulet: {fileID: 0}
+  target: {fileID: 0}
 --- !u!114 &11459506
 MonoBehaviour:
   m_ObjectHideFlags: 1

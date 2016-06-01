@@ -1,5 +1,20 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &106930
+GameObject:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 497442}
+  m_Layer: 0
+  m_Name: P_Amulet
+  m_TagString: Amulet
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &116610
 GameObject:
   m_ObjectHideFlags: 0
@@ -93,9 +108,10 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 118896}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.4735, y: -0.0964, z: -0.665}
+  m_LocalPosition: {x: -0.692, y: -0.0964, z: -0.662}
   m_LocalScale: {x: 0.004205504, y: 0.010513768, z: 0.0010513768}
-  m_Children: []
+  m_Children:
+  - {fileID: 497442}
   m_Father: {fileID: 473562}
   m_RootOrder: 1
 --- !u!4 &473562
@@ -105,12 +121,24 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 121004}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 23.6, y: 3.6, z: 31}
+  m_LocalPosition: {x: 23.6, y: 6.2, z: 31}
   m_LocalScale: {x: 47.55673, y: 47.55669, z: 47.55669}
   m_Children:
   - {fileID: 414702}
   - {fileID: 473442}
   m_Father: {fileID: 0}
+  m_RootOrder: 0
+--- !u!4 &497442
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 106930}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 473442}
   m_RootOrder: 0
 --- !u!4 &498550
 Transform:
@@ -182,7 +210,7 @@ MeshRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 116610}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_Materials:
@@ -208,7 +236,7 @@ MeshRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 147252}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_Materials:
