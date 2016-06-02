@@ -287,20 +287,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f588682bab7f1d46ab97a6c92dd5e62, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  kamaitatiMotion: {fileID: 121396}
-  linePrefab: {fileID: 120044, guid: 4ce9392777a185a47ac7be7da3ec9960, type: 2}
-  cost: 10
-  startPoint: {x: 0, y: 0, z: 0}
-  point: {x: 0, y: 0, z: 0}
-  previousPoint: {x: 0, y: 0, z: 0}
-  lineLength: 0.8
-  scaleY: 0.5
-  scaleZ: 0.5
-  depth: 0
-  angleX: 0
+  kamaitachiCollision: {fileID: 0}
+  particlePosition: {fileID: 0}
   moveVector: {x: 0, y: 0, z: 0}
-  particle: {fileID: 135894}
-  particleScale: {x: 0, y: 0, z: 0}
 --- !u!114 &11467686
 MonoBehaviour:
   m_ObjectHideFlags: 1

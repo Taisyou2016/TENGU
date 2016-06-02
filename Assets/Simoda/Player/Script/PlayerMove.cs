@@ -6,7 +6,7 @@ using System;
 
 public class PlayerMove : MonoBehaviour
 {
-    public GameObject lockRotatePosition; //ロック時左右移動の際の回転位置
+    public GameObject lockPosition; //ロック時左右移動の際の回転位置
     public float walkSpeed = 4.0f; //歩くスピード（メートル/秒）
     public float lockOnRotateSpeed = 45.0f; //ロックオンしているときの横移動
     public float lockDistanceY = 10.0f;
@@ -20,7 +20,6 @@ public class PlayerMove : MonoBehaviour
 
     private CharacterController controller;
     private GameObject cameraController;
-    private Vector3 cameraForward;
     private Vector3 velocity;
     private float velocityY = 0;
     private bool jampState = false;
@@ -81,57 +80,9 @@ public class PlayerMove : MonoBehaviour
             }
         }
 
-        if (lockEnemyList.Count == 0 && lockOn == true)
-        {
-            lockOn = false;
-            print("範囲内に敵なしロックオン終了");
-        }
-
-        if (Input.GetKeyDown(KeyCode.E) && lockOn == true) //ロックを1つ近い敵に変更
-        {
-            int index = lockEnemyList.IndexOf(lockEnemy);
-            if (index == 0)
-                lockEnemy = lockEnemyList[lockEnemyList.Count - 1];
-            else
-                lockEnemy = lockEnemyList[index - 1];
-
-            transform.LookAt(lockEnemy.transform.position); //ロックした敵の方を向く
-            cameraController.GetComponent<CameraTest>().LockStart(); //プレイヤーの後ろに回る
-        }
-        if (Input.GetKeyDown(KeyCode.R) && lockOn == true) //ロックを1つ遠い敵に変更
-        {
-            int index = lockEnemyList.IndexOf(lockEnemy);
-            if (index == lockEnemyList.Count - 1)
-                lockEnemy = lockEnemyList[0];
-            else
-                lockEnemy = lockEnemyList[index + 1];
-
-            transform.LookAt(lockEnemy.transform.position); //ロックした敵の方を向く
-            cameraController.GetComponent<CameraTest>().LockStart(); //プレイヤーの後ろに回る
-        }
-        if (lockEnemyList != null && lockEnemy != null && lockOn == true)
-        {
-            if (Mathf.Abs(transform.position.y - lockEnemy.transform.position.y) > lockDistanceY)
-            {
-                lockOn = false;
-                print("上下の距離が離れすぎたロック終了");
-            }
-        }
-        if (lockEnemyList != null && lockEnemy == null && lockOn == true)
-        {
-            lockEnemy = lockEnemyList[0];
-            cameraController.GetComponent<CameraTest>().LockStart(); //プレイヤーの後ろに回る
-        }
 
 
 
-
-        //カメラの正面向きのベクトルを取得
-        cameraForward = Camera.main.transform.forward;
-        //y成分を無視する
-        cameraForward.y = 0;
-        //正規化（長さを1にする）
-        cameraForward.Normalize();
 
         stateProcessor.Execute(); //設定されている移動状態を実行
 
@@ -250,16 +201,44 @@ public class PlayerMove : MonoBehaviour
     /******************** プレイヤーの移動状態関係 ********************/
     public void Default() //通常移動
     {
-        velocity =
-            cameraForward * Input.GetAxis("Vertical") * walkSpeed
-            + Camera.main.transform.right * Input.GetAxis("Horizontal") * walkSpeed;
+        ////カメラの正面向きのベクトルを取得
+        //Vector3 cameraForward = Camera.main.transform.forward;
+        ////y成分を無視する
+        //cameraForward.y = 0;
+        ////正規化（長さを1にする）
+        //cameraForward.Normalize();
+        //velocity =
+        //    cameraForward * Input.GetAxis("Vertical") * walkSpeed
+        //    + Camera.main.transform.right * Input.GetAxis("Horizontal") * walkSpeed;
 
-        //キャラクターの向きを変える
-        velocity.y = 0;
-        if (velocity.magnitude > 0)
+        ////キャラクターの向きを変える
+        //velocity.y = 0;
+        //if (velocity.magnitude > 0)
+        //{
+        //    transform.LookAt(transform.position + velocity);
+        //}
+
+        Vector3 forward = Camera.main.transform.TransformDirection(Vector3.forward);
+        Vector3 right = Camera.main.transform.TransformDirection(Vector3.right);
+
+        velocity = Input.GetAxis("Horizontal") * right + Input.GetAxis("Vertical") * forward;
+        velocity *= walkSpeed;
+
+        Vector3 velocityYzero = velocity;
+        velocityYzero.y = 0;
+
+        //ベクトルの２乗の長さを返しそれが0.001以上なら方向を変える（０に近い数字なら方向を変えない） 
+        if (velocityYzero.magnitude > 0)
         {
-            transform.LookAt(transform.position + velocity);
+
+            //２点の角度をなだらかに繋げながら回転していく処理（stepがその変化するスピード） 
+            float step = 5.0f * Time.deltaTime;
+            Vector3 newDir = Vector3.RotateTowards(transform.forward, velocityYzero, step, 0f);
+
+            transform.rotation = Quaternion.LookRotation(newDir);
         }
+
+
 
         if (lockOn == true) stateProcessor.State = stateLockOn;
         if (windPower >= 1) stateProcessor.State = stateWind;
@@ -267,61 +246,119 @@ public class PlayerMove : MonoBehaviour
 
     public void LockOn() //ロックオン時移動
     {
-        if (lockEnemy == null)
-        {
-            lockOn = false;
-            lockRotatePosition.transform.position = transform.position;
-            stateProcessor.State = stateDefault;
-            return;
-        }
-
-        if (Vector3.Distance(transform.position, lockRotatePosition.transform.position) <= 3)
-        {
-            //lockRotatePosition.transform.RotateAround(
-            //     lockEnemy.transform.position,
-            //     transform.up,
-            //     walkSpeed * Time.deltaTime * -Input.GetAxis("Horizontal"));
-            lockRotatePosition.transform.RotateAround(
-                 lockEnemy.transform.position,
-                 transform.up,
-                 10.0f);
-        }
-        else
-        {
-            lockRotatePosition.transform.RotateAround(
-                lockEnemy.transform.position,
-                transform.up,
-                -5.0f);
-        }
-
-        velocity =
-            (lockEnemy.transform.position - transform.position).normalized * Input.GetAxis("Vertical") * walkSpeed
-            + (transform.position - lockRotatePosition.transform.position).normalized * Input.GetAxis("Horizontal") * walkSpeed;
-
-        //キャラクターの向きを変える
-        transform.LookAt(lockEnemy.transform.position);
-
         if (lockOn == false)
         {
-            lockRotatePosition.transform.position = transform.position;
+            lockPosition.transform.position = transform.position;
             stateProcessor.State = stateDefault;
+            return;
         }
         if (windPower >= 1)
         {
             lockOn = false;
-            lockRotatePosition.transform.position = transform.position;
+            lockPosition.transform.position = transform.position;
             stateProcessor.State = stateWind;
+            return;
         }
+
+
+        if (lockEnemyList.Count == 0)
+        {
+            lockOn = false;
+            print("範囲内に敵なしロックオン終了");
+            return;
+        }
+
+        //ロックを1つ近い敵に変更
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            int index = lockEnemyList.IndexOf(lockEnemy);
+            if (index == 0)
+                lockEnemy = lockEnemyList[lockEnemyList.Count - 1];
+            else
+                lockEnemy = lockEnemyList[index - 1];
+
+            transform.LookAt(lockEnemy.transform.position); //ロックした敵の方を向く
+            cameraController.GetComponent<CameraTest>().LockStart(); //プレイヤーの後ろに回る
+        }
+        //ロックを1つ遠い敵に変更
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            int index = lockEnemyList.IndexOf(lockEnemy);
+            if (index == lockEnemyList.Count - 1)
+                lockEnemy = lockEnemyList[0];
+            else
+                lockEnemy = lockEnemyList[index + 1];
+
+            transform.LookAt(lockEnemy.transform.position); //ロックした敵の方を向く
+            cameraController.GetComponent<CameraTest>().LockStart(); //プレイヤーの後ろに回る
+        }
+        //プレイヤーとロックしている敵とY軸が離れすぎたらロックを終了させる
+        if (lockEnemyList != null && lockEnemy != null)
+        {
+            if (Mathf.Abs(transform.position.y - lockEnemy.transform.position.y) > lockDistanceY)
+            {
+                lockOn = false;
+                print("上下の距離が離れすぎたロック終了");
+            }
+        }
+        if (lockEnemyList != null && lockEnemy == null)
+        {
+            lockEnemy = lockEnemyList[0];
+            cameraController.GetComponent<CameraTest>().LockStart(); //プレイヤーの後ろに回る
+        }
+
+        if (lockEnemy == null)
+        {
+            lockOn = false;
+            lockPosition.transform.position = transform.position;
+            stateProcessor.State = stateDefault;
+            return;
+        }
+
+        //if (Input.GetAxis("Horizontal") != 0)
+        //{
+        //    if (Vector3.Distance(transform.position, lockPosition.transform.position) <= 1)
+        //    {
+        //        //lockRotatePosition.transform.RotateAround(
+        //        //     lockEnemy.transform.position,
+        //        //     transform.up,
+        //        //     walkSpeed * Time.deltaTime * -Input.GetAxis("Horizontal"));
+        //        //lockRotatePosition.transform.position = transform.position;
+        //        lockPosition.transform.RotateAround(
+        //             lockEnemy.transform.position,
+        //             transform.up,
+        //             1.0f);
+        //    }
+        //    else
+        //    {
+        //        lockPosition.transform.RotateAround(
+        //            lockEnemy.transform.position,
+        //            transform.up,
+        //            -1.0f);
+        //    }
+        //}
+
+        lockPosition.transform.position = transform.position;
+        lockPosition.transform.RotateAround(lockEnemy.transform.position, transform.up, 0.01f);
+
+        velocity =
+            (lockEnemy.transform.position - transform.position).normalized * Input.GetAxis("Vertical") * walkSpeed
+            + (transform.position - lockPosition.transform.position).normalized * Input.GetAxis("Horizontal") * walkSpeed;
+
+        //キャラクターの向きを変える
+        transform.LookAt(lockEnemy.transform.position);
     }
 
     public void Wind() //気流に乗った時の移動
     {
         windMove = true;
+        Vector3 right = Camera.main.transform.TransformDirection(Vector3.right);
 
         velocity =
-            windDirection * windPower
-            + Camera.main.transform.right * Input.GetAxis("Horizontal") * 10.0f;
-        windPower -= 0.1f;
+            (windDirection + right * Input.GetAxis("Horizontal")) + transform.forward
+            * windPower;
+
+        windPower -= Time.deltaTime;
 
         transform.LookAt(transform.position + velocity);
         transform.Rotate(new Vector3(0, 0, 1), -15 * Input.GetAxis("Horizontal"));
