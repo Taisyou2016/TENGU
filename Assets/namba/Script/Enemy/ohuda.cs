@@ -7,6 +7,7 @@ public class ohuda : MonoBehaviour {
     public GameObject fire;
     public float speed = 10;
     public bool flag;
+    public int damage = 1;
 
 
     // Use this for initialization
@@ -24,6 +25,10 @@ public class ohuda : MonoBehaviour {
     {
         if(col.gameObject.tag != "Enemy")
         {
+            if(col.gameObject.tag == "Player")
+            {
+                col.gameObject.GetComponent<PlayerStatus>().HpDamage(damage);
+            }
             Died();
         }
     }
