@@ -2664,6 +2664,7 @@ MonoBehaviour:
   currentMp: 0
   windCost: 5
   kamaitachiCost: 10
+  tornadoCost: 60
   mpAutoRecoveryCost: 1
   mpAutoRecoveryTime: 0.7
   invincible: 0

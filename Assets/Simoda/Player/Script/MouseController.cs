@@ -114,7 +114,7 @@ public class MouseController : MonoBehaviour
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.lockState = CursorLockMode.None;
 
-            Invoke("TornadoDecision", 0.3f);
+            Invoke("TornadoDecision", 0.5f);
             return;
         }
 
@@ -173,7 +173,8 @@ public class MouseController : MonoBehaviour
 
         if (vector.magnitude > length)
         {
-            GameObject.FindObjectOfType<AttackPattern>().TornadoPatternDecision(angle, vector);
+            if (playerStatus.MpCostDecision(playerStatus.tornadoCost))
+                GameObject.FindObjectOfType<AttackPattern>().TornadoPatternDecision(angle, vector);
         }
 
         Invoke("GenerationFalse", 0.3f);
