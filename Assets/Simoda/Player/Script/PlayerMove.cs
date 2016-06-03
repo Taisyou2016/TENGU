@@ -17,6 +17,7 @@ public class PlayerMove : MonoBehaviour
     public Vector3 windDirection; //風の方向
     public bool previosGroundHit = false; //ひとつ前の地面に当たっているかどうかの判定
     public bool currentGroundHit = false; //現在の地面に当たっているかどうかの判定
+    public float WaitMotinChangeTime = 10.0f;
 
     private CharacterController controller;
     private GameObject cameraController;
@@ -25,9 +26,12 @@ public class PlayerMove : MonoBehaviour
     private bool jampState = false;
     private bool windMove = false;
 
-    public List<GameObject> lockEnemyList = new List<GameObject>();
+    private List<GameObject> lockEnemyList = new List<GameObject>();
     private GameObject lockEnemy;
     private bool lockOn = false;
+
+    private Animator playerAnimator;
+    private float WaitTime;
 
     public StateProcessor stateProcessor = new StateProcessor();
     public PlayerMoveStateDefault stateDefault = new PlayerMoveStateDefault();
@@ -40,6 +44,7 @@ public class PlayerMove : MonoBehaviour
     {
         controller = GetComponent<CharacterController>();
         cameraController = GameObject.FindGameObjectWithTag("CameraController");
+        playerAnimator = transform.FindChild("Tengu_sotai").GetComponent<Animator>();
 
         stateProcessor.State = stateDefault;
         stateDefault.exeDelegate = Default;
@@ -112,6 +117,23 @@ public class PlayerMove : MonoBehaviour
         velocity.y = velocityY;
 
         controller.Move(velocity * Time.deltaTime);
+
+
+
+        playerAnimator.SetFloat("VectorMagnitude", velocity.magnitude);
+        playerAnimator.SetBool("Lockon", lockOn);
+        playerAnimator.SetFloat("LockonAxis", Input.GetAxis("Horizontal"));
+
+        AnimatorStateInfo aniStateInfo = playerAnimator.GetCurrentAnimatorStateInfo(0);
+        if (aniStateInfo.nameHash == Animator.StringToHash("Base Layer.Wait"))
+        {
+            WaitTime += Time.deltaTime;
+            if (WaitTime >= WaitMotinChangeTime)
+            {
+                playerAnimator.SetTrigger("WaitMotion");
+                WaitTime = 0.0f;
+            }
+        }
     }
 
 
@@ -133,6 +155,14 @@ public class PlayerMove : MonoBehaviour
             lockEnemyList.Remove(other.gameObject);
             print("敵が範囲外に出た");
         }
+    }
+
+    public void OnControllerColliderHit(ControllerColliderHit hit)
+    {
+        if (windMove == false) return;
+
+        if (hit.gameObject.tag == "Terrain")
+            windPower = 0;
     }
 
     public int LengthSort(GameObject a, GameObject b) //Listを敵との距離が近い順にソート
@@ -359,6 +389,8 @@ public class PlayerMove : MonoBehaviour
             * windPower;
 
         windPower -= Time.deltaTime;
+        if (Input.GetAxis("Vertical") < 0)
+            windPower -= Time.deltaTime * 10;
 
         transform.LookAt(transform.position + velocity);
         transform.Rotate(new Vector3(0, 0, 1), -15 * Input.GetAxis("Horizontal"));
