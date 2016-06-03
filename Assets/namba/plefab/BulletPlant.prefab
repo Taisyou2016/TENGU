@@ -65,7 +65,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 404216}
-  - 114: {fileID: 11414200}
+  - 114: {fileID: 11499446}
   m_Layer: 11
   m_Name: BulletPlant
   m_TagString: EnemyBullet
@@ -375,17 +375,6 @@ MonoBehaviour:
   fire: {fileID: 131786, guid: 43abceebabeac1146a67858c46ba38ed, type: 2}
   speed: 10
   flag: 0
---- !u!114 &11414200
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 151314}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1be8271043cd05341aabf949d4e40878, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &11422270
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -414,6 +403,17 @@ MonoBehaviour:
   fire: {fileID: 131786, guid: 43abceebabeac1146a67858c46ba38ed, type: 2}
   speed: 10
   flag: 0
+--- !u!114 &11499446
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 151314}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 197ba00fb6ba5f046939a689da2125c3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!136 &13614124
 CapsuleCollider:
   m_ObjectHideFlags: 1
