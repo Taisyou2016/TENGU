@@ -135,6 +135,14 @@ public class PlayerMove : MonoBehaviour
         }
     }
 
+    public void OnControllerColliderHit(ControllerColliderHit hit)
+    {
+        if (windMove == false) return;
+
+        if (hit.gameObject.tag == "Terrain")
+            windPower = 0;
+    }
+
     public int LengthSort(GameObject a, GameObject b) //Listを敵との距離が近い順にソート
     {
         //if (a != null || b != null)

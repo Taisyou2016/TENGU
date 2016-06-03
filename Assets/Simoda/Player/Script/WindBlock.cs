@@ -36,10 +36,13 @@ public class WindBlock : MonoBehaviour
         }
         else if (other.tag == "Enemy")
         {
+            other.GetComponent<EnemyRoutine>().Hflag = true;
             other.GetComponent<Rigidbody>().AddForce(objectPower * direction, ForceMode.Impulse);
         }
-        else if (other.tag == "EnemyBullet")
+        else if (other.tag == "EnemyBullet" && other.name.Contains("Bullet"))
         {
+            other.GetComponent<ohuda>().flag = true;
+
             other.GetComponent<Rigidbody>().velocity =
                 objectPower * direction
                 + other.transform.up * Random.Range(1.0f, 3.0f)
