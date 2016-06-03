@@ -12,7 +12,6 @@ public class ohuda : MonoBehaviour {
     // Use this for initialization
     void Start () {
         rd = GetComponent<Rigidbody>();
-        rd.velocity = transform.forward * speed;
     }
 
     // Update is called once per frame
