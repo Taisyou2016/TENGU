@@ -696,7 +696,7 @@ GameObject:
   - 33: {fileID: 1388787986}
   - 65: {fileID: 1388787985}
   - 23: {fileID: 1388787984}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Cube
   m_TagString: Terrain
   m_Icon: {fileID: 0}
@@ -759,7 +759,7 @@ Transform:
   m_LocalScale: {x: 10, y: 20, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 2
 --- !u!1001 &1601885364
 Prefab:
   m_ObjectHideFlags: 0
