@@ -46,7 +46,7 @@ public class EnemyAttack : MonoBehaviour {
 
         if (!flag)
         {
-            Instantiate(punch1, transform.localPosition + transform.forward, transform.rotation);
+            Instantiate(punch1, transform.position + transform.forward, transform.rotation);
             Vector3 vec = transform.position + transform.forward * 2;
             iTween.MoveTo(gameObject, iTween.Hash("position", vec));
             flag = true;
@@ -56,9 +56,9 @@ public class EnemyAttack : MonoBehaviour {
         // ランダムでパンチ
         a = Random.Range(0, 2);
         if (a == 0) {
-            Instantiate(punch1, transform.localPosition + transform.forward, transform.rotation);
+            Instantiate(punch1, transform.position + transform.forward, transform.rotation);
         }else {
-            Instantiate(punch2, transform.localPosition + transform.forward, transform.rotation);
+            Instantiate(punch2, transform.position + transform.forward, transform.rotation);
         }
 
         yield return new WaitForSeconds(cooltime_S);
@@ -72,7 +72,7 @@ public class EnemyAttack : MonoBehaviour {
         //処理
 
         Vector3 vec = transform.up / 2;
-        Instantiate(ohuda, transform.localPosition + vec, transform.rotation);
+        Instantiate(ohuda, transform.position + vec, transform.rotation);
 
 
         yield return new WaitForSeconds(cooltime_M);
@@ -85,7 +85,7 @@ public class EnemyAttack : MonoBehaviour {
         run = true;
         //処理
 
-        Instantiate(bow, transform.localPosition, this.transform.rotation);
+        Instantiate(bow, transform.position, this.transform.rotation);
 
 
         yield return new WaitForSeconds(cooltime_L);
