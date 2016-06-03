@@ -136,7 +136,6 @@ public class EnemyRoutine : EnemyBase<EnemyRoutine, EnemyState>
     private IEnumerator Lost()
     {
         yield return new WaitForSeconds(2);
-        Switch(1);
         agent.SetDestination(StartPos);
     }
 
@@ -347,12 +346,25 @@ public class EnemyRoutine : EnemyBase<EnemyRoutine, EnemyState>
 
         public override void Execute()
         {
-            //owner.StartCoroutine(owner.Lost());
-            owner.ChangeState(EnemyState.Wait);
+            int mask = LayerMask.GetMask(new string[] { "Field" });
+            if (Physics.CheckSphere(owner.transform.position, 0.8f, mask))
+            {
+                owner.StartCoroutine(move());
+            }
         }
 
         public override void End()
         {
+        }
+
+        IEnumerator move()
+        {
+            iTween.RotateTo(owner.gameObject, iTween.Hash("x", 0, "z", 0));
+
+            yield return new WaitForSeconds(1);
+            owner.Switch(1);
+            owner.StartCoroutine(owner.Lost());
+            owner.ChangeState(EnemyState.Wait);
         }
     }
 
