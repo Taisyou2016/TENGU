@@ -347,7 +347,7 @@ public class EnemyRoutine : EnemyBase<EnemyRoutine, EnemyState>
         public override void Execute()
         {
             int mask = LayerMask.GetMask(new string[] { "Field" });
-            if (Physics.CheckSphere(owner.transform.position, 0.5f, mask))
+            if (Physics.CheckSphere(owner.transform.position, 0.8f, mask))
             {
                 owner.StartCoroutine(move());
             }
