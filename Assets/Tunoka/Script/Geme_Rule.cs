@@ -4,14 +4,13 @@ using UnityEngine.UI;
 
 public class Geme_Rule : MonoBehaviour {
 
-    [SerializeField]
     private int m_p_Hp = 10;
-    [SerializeField]
     private GameObject player;
     private PlayerStatus playerStatus;
 
     public GameObject _GameOvera;
     public GameObject _GameClear;
+    public GameObject FadeInOut;
     // Use this for initialization
     void Start () {
         player = GameObject.Find("Player");
@@ -27,10 +26,7 @@ public class Geme_Rule : MonoBehaviour {
         {
             Gameovera();
         }
-        if (Input.GetKeyDown(KeyCode.I))
-        {
-            GameClear();
-        }
+        
     }
     void Gameovera()
     {
@@ -42,5 +38,6 @@ public class Geme_Rule : MonoBehaviour {
     {
         print("GameClear");
         _GameClear.transform.localPosition = Vector3.zero;
+        FadeInOut.GetComponent<FadeInOut>().FadeIn();
     }
 }

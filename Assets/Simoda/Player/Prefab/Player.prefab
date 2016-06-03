@@ -32,24 +32,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!1 &104594
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 4
-  m_Component:
-  - 4: {fileID: 497928}
-  - 33: {fileID: 3327260}
-  - 65: {fileID: 6510186}
-  - 23: {fileID: 2355578}
-  m_Layer: 2
-  m_Name: TenguModel
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
 --- !u!1 &105252
 GameObject:
   m_ObjectHideFlags: 1
@@ -1462,7 +1444,7 @@ Transform:
   - {fileID: 403694}
   - {fileID: 404218}
   m_Father: {fileID: 472394}
-  m_RootOrder: 6
+  m_RootOrder: 5
 --- !u!4 &431234
 Transform:
   m_ObjectHideFlags: 1
@@ -1561,7 +1543,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 472394}
-  m_RootOrder: 2
+  m_RootOrder: 1
 --- !u!4 &437782
 Transform:
   m_ObjectHideFlags: 1
@@ -1798,7 +1780,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 472394}
-  m_RootOrder: 3
+  m_RootOrder: 2
 --- !u!4 &466452
 Transform:
   m_ObjectHideFlags: 1
@@ -1886,7 +1868,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 438440}
-  - {fileID: 497928}
   - {fileID: 437120}
   - {fileID: 464412}
   - {fileID: 499920}
@@ -1920,7 +1901,7 @@ Transform:
   - {fileID: 445286}
   - {fileID: 411078}
   m_Father: {fileID: 472394}
-  m_RootOrder: 5
+  m_RootOrder: 4
 --- !u!4 &474128
 Transform:
   m_ObjectHideFlags: 1
@@ -2167,18 +2148,6 @@ Transform:
   - {fileID: 453548}
   m_Father: {fileID: 402720}
   m_RootOrder: 1
---- !u!4 &497928
-Transform:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 104594}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 472394}
-  m_RootOrder: 1
 --- !u!4 &499304
 Transform:
   m_ObjectHideFlags: 1
@@ -2204,7 +2173,7 @@ Transform:
   - {fileID: 467056}
   - {fileID: 431234}
   m_Father: {fileID: 472394}
-  m_RootOrder: 4
+  m_RootOrder: 3
 --- !u!23 &2303212
 MeshRenderer:
   m_ObjectHideFlags: 1
@@ -2413,32 +2382,6 @@ MeshRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingOrder: 0
---- !u!23 &2355578
-MeshRenderer:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 104594}
-  m_Enabled: 0
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
-  m_Materials:
-  - {fileID: 2100000, guid: e92ddc41b6a68c745aa5410630a2b37a, type: 2}
-  m_SubsetIndices: 
-  m_StaticBatchRoot: {fileID: 0}
-  m_UseLightProbes: 1
-  m_ReflectionProbeUsage: 1
-  m_ProbeAnchor: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_PreserveUVs: 1
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingOrder: 0
 --- !u!23 &2384938
 MeshRenderer:
   m_ObjectHideFlags: 1
@@ -2545,13 +2488,6 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 105252}
   m_Mesh: {fileID: 4300022, guid: 92ab35d351dd75b4fb1cc56b79f13bdb, type: 3}
---- !u!33 &3327260
-MeshFilter:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 104594}
-  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!33 &3334718
 MeshFilter:
   m_ObjectHideFlags: 1
@@ -2601,18 +2537,6 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 158646}
   m_Mesh: {fileID: 4300010, guid: 92ab35d351dd75b4fb1cc56b79f13bdb, type: 3}
---- !u!65 &6510186
-BoxCollider:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 104594}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 0
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!95 &9590760
 Animator:
   serializedVersion: 3
@@ -2672,7 +2596,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3d720e6fbaf6d3f449fb58ead8e183cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lockRotatePosition: {fileID: 131400}
+  lockPosition: {fileID: 131400}
   walkSpeed: 4
   lockOnRotateSpeed: 45
   lockDistanceY: 10
@@ -2706,7 +2630,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e02a6a15d70524a489656d8cd706eada, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tornadoPrefab: {fileID: 122734, guid: c1cc81888526cac459112d1b46e328b8, type: 2}
+  tornadoPrefab: {fileID: 161392, guid: bed120afa357bef46b1a4ac6fc753ef5, type: 2}
   tornadoPower: 10
 --- !u!114 &11485294
 MonoBehaviour:
@@ -2740,6 +2664,7 @@ MonoBehaviour:
   currentMp: 0
   windCost: 5
   kamaitachiCost: 10
+  tornadoCost: 60
   mpAutoRecoveryCost: 1
   mpAutoRecoveryTime: 0.7
   invincible: 0

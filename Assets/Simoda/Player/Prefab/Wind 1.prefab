@@ -150,7 +150,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   windMotion: {fileID: 125240}
   linePrefab: {fileID: 190466, guid: a597ae56114c4ef49bb3accddeef9b8a, type: 2}
-  cost: 5
   point: {x: 0, y: 0, z: 0}
   lineLength: 1
   scaleY: 0.5

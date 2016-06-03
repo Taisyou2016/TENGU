@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class FadeInOut : MonoBehaviour {
 
@@ -43,5 +44,6 @@ public class FadeInOut : MonoBehaviour {
     void SceneChange(string name)
     {
         print(name+ "にシーンチェンジ");
+        SceneManager.LoadScene(name, LoadSceneMode.Single);
     }
 }

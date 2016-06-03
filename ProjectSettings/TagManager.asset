@@ -7,6 +7,9 @@ TagManager:
   - CameraController
   - CameraPoint
   - Enemy
+  - EnemyBullet
+  - Wind
+  - Amulet
   layers:
   - Default
   - TransparentFX

@@ -151,7 +151,8 @@ MonoBehaviour:
   target: {fileID: 0}
   cameraPoint: {fileID: 183902}
   flag: 0
-  cameraMoveSpeed: 2
+  cameraMoveSpeedDefault: 2
+  cameraMoveSpeedWind: 5
   cameraRotateSpeed: 1.8
 --- !u!114 &11484126
 MonoBehaviour:

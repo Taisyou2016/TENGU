@@ -6,9 +6,11 @@ public class CameraTest : MonoBehaviour
     public GameObject target;
     public GameObject cameraPoint;
     public bool flag;
-    public float cameraMoveSpeed = 3.0f;
+    public float cameraMoveSpeedDefault = 3.0f;
+    public float cameraMoveSpeedWind = 10.0f;
     public float cameraRotateSpeed = 2.0f;
 
+    private float cameraMoveSpeed;
     private Transform cameraTransform;
     private Transform targetTransform;
 
@@ -16,6 +18,8 @@ public class CameraTest : MonoBehaviour
     {
         cameraTransform = GameObject.FindGameObjectWithTag("MainCamera").transform;
         targetTransform = target.transform;
+
+        cameraMoveSpeed = cameraMoveSpeedDefault;
     }
 
     void Update()
@@ -35,7 +39,9 @@ public class CameraTest : MonoBehaviour
         }
         else if (target.GetComponent<PlayerMove>().GetWindMove() == true)
         {
-
+            Quaternion targetRotationZzoro = target.transform.rotation;
+            targetRotationZzoro.z = 0;
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotationZzoro, cameraRotateSpeed * Time.deltaTime);
         }
         else
         {
@@ -50,6 +56,11 @@ public class CameraTest : MonoBehaviour
                 transform.rotation = Quaternion.Slerp(transform.rotation, targetTransform.rotation, cameraRotateSpeed * Time.deltaTime);
             }
         }
+
+        if (target.GetComponent<PlayerMove>().GetWindMove() == true)
+            cameraMoveSpeed = cameraMoveSpeedWind;
+        else
+            cameraMoveSpeed = cameraMoveSpeedDefault;
 
         //ターゲットからカメラポイントの間に障害物がなければカメラをカメラポイントに移動する
         //障害物があったら障害物より前に移動する

@@ -20,6 +20,7 @@ public class EnemyRoutine : EnemyBase<EnemyRoutine, EnemyState>
     private int life;
     public bool Pflag = false;
     public bool Gflag;
+    public bool Hflag;
     public string state;                // デバッグ用State確認
     private float rotateSmooth = 3.0f;  // 振り向きにかかる時間
     private float AttackDistance;       // 攻撃移行範囲
@@ -80,14 +81,8 @@ public class EnemyRoutine : EnemyBase<EnemyRoutine, EnemyState>
         int layerMask = ~LayerMask.GetMask(new string[] { "Enemy", "Bullet", "PlayerAttack"});
         if (Physics.Raycast(this.transform.position, temp, out hit, SearchDistance, layerMask))
         {
-            if (hit.collider.tag == "Player")
-            {
-                Pflag = true;
-                return;
-            }
+            Pflag = hit.collider.tag == "Player";
         }
-
-        Pflag = false;
     }
 
     // 接地検知
@@ -96,8 +91,11 @@ public class EnemyRoutine : EnemyBase<EnemyRoutine, EnemyState>
         int mask = LayerMask.GetMask(new string[] { "Field" });
         RaycastHit hit;
         Gflag = Physics.SphereCast(transform.position, 0.3f, transform.up * -1, out hit, 0.3f, mask);
-
-        if(!Gflag)
+        if(Gflag)
+        {
+            Hflag = false;
+        }
+        if(!Gflag && !Hflag)
         {
             iTween.RotateTo(gameObject, iTween.Hash("x", 0, "z", 0));
         }
@@ -297,7 +295,7 @@ public class EnemyRoutine : EnemyBase<EnemyRoutine, EnemyState>
             owner.transform.rotation = Quaternion.Slerp(owner.transform.rotation, targetRotate, Time.deltaTime * owner.rotateSmooth);
 
 
-
+            // 攻撃処理
             owner.attack.Attack(owner.LengeType);
         }
 
