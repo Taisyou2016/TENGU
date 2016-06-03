@@ -5,6 +5,8 @@ public class Bow : MonoBehaviour {
 
     private Rigidbody rd;
     private Transform player;
+    public int damage = 1;
+
     public float angle = 60;
     private float gravity = 9.8f;
     private float dt;
@@ -35,6 +37,10 @@ public class Bow : MonoBehaviour {
     {
         if (col.gameObject.tag != "Enemy")
         {
+            if (col.gameObject.tag == "Player")
+            {
+                col.gameObject.GetComponent<PlayerStatus>().HpDamage(damage);
+            }
             Destroy(this.gameObject);
         }
     }
