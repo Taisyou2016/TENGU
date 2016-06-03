@@ -759,7 +759,11 @@ Transform:
   m_LocalScale: {x: 10, y: 20, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
+<<<<<<< HEAD
   m_RootOrder: 2
+=======
+  m_RootOrder: 3
+>>>>>>> 5cee9c30f35dc7dab7cbcebd03674f1f961cfdba
 --- !u!1001 &1601885364
 Prefab:
   m_ObjectHideFlags: 0
