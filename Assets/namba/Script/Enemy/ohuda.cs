@@ -6,16 +6,18 @@ public class ohuda : MonoBehaviour {
     private Rigidbody rd;
     public GameObject fire;
     public float speed = 10;
+    public bool flag;
 
 
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    void Start () {
         rd = GetComponent<Rigidbody>();
-        rd.velocity = transform.forward * speed;
     }
 
     // Update is called once per frame
     void Update () {
+        if(!flag)
+            rd.velocity = transform.forward * speed;
     }
 
     void OnCollisionEnter(Collision col)

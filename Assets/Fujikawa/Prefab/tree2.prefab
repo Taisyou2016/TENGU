@@ -133,22 +133,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
   m_IsActive: 1
---- !u!1 &174884
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 4
-  m_Component:
-  - 4: {fileID: 417268}
-  - 135: {fileID: 13557622}
-  m_Layer: 0
-  m_Name: Colider
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 4294967295
-  m_IsActive: 1
 --- !u!1 &179540
 GameObject:
   m_ObjectHideFlags: 1
@@ -189,13 +173,12 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 125128}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: 0, y: 0, z: -0.14147817, w: 0.9899414}
+  m_LocalPosition: {x: 89.84, y: 16, z: 6.65}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 447252}
   - {fileID: 412296}
-  - {fileID: 417268}
   m_Father: {fileID: 0}
   m_RootOrder: 0
 --- !u!4 &411162
@@ -222,18 +205,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 410880}
   m_RootOrder: 1
---- !u!4 &417268
-Transform:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 174884}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 5.33, z: -0.33}
-  m_LocalScale: {x: 3.9361567, y: 3.9361567, z: 3.9361567}
-  m_Children: []
-  m_Father: {fileID: 410880}
-  m_RootOrder: 2
 --- !u!4 &423292
 Transform:
   m_ObjectHideFlags: 1
@@ -589,18 +560,6 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 179540}
   m_Mesh: {fileID: 4300008, guid: 57269a59b5ebdb84786dfaab783bba3f, type: 3}
---- !u!135 &13557622
-SphereCollider:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 174884}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.6
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!136 &13616542
 CapsuleCollider:
   m_ObjectHideFlags: 1

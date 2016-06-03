@@ -9,6 +9,7 @@ public class PlayerStatus : MonoBehaviour
     public int currentMp; //現在の妖力
     public int windCost = 5; //気流発生に必要なcost
     public int kamaitachiCost = 10; //かまいたち発生に必要なcost
+    public int tornadoCost = 60; //竜巻発生に必要なcost;
 
     public int mpAutoRecoveryCost = 1; //自動回復するときの妖力の量
     public float mpAutoRecoveryTime = 1.0f; //自動回復の間隔
@@ -45,7 +46,7 @@ public class PlayerStatus : MonoBehaviour
         //現在のMPが最大値を超えていたら最大値にする
         if (currentMp > maxMp) currentMp = 100;
 
-        if (currentMp == 0) //妖力が0になったらmpOverをtrueに
+        if (currentMp < 1) //妖力が0になったらmpOverをtrueに
             mpOver = true;
         if (currentMp >= maxMp && mpOver == true) //妖力が100まで回復したらmpOverをfalseに
             mpOver = false;

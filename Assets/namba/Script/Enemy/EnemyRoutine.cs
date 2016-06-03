@@ -7,7 +7,8 @@ public enum EnemyState
     Pursuit,
     LostContact,
     Attack,
-    Died
+    Died,
+    Hit
 }
 
 public class EnemyRoutine : EnemyBase<EnemyRoutine, EnemyState>
@@ -17,10 +18,11 @@ public class EnemyRoutine : EnemyBase<EnemyRoutine, EnemyState>
     public float speed;                 // スピード
     public int LengeType = 2;           // 攻撃タイプ(1=格闘 2=お札 3=弓)
 
+    [SerializeField]
     private int life;
-    public bool Pflag = false;
-    public bool Gflag;
-    public bool Hflag;
+    public bool Pflag = false;          // プレイヤーを見つけたか
+    public bool Gflag = false;          // 地面に足がついているか
+    public bool Hflag = false;          // 攻撃を受けたか
     public string state;                // デバッグ用State確認
     private float rotateSmooth = 3.0f;  // 振り向きにかかる時間
     private float AttackDistance;       // 攻撃移行範囲
@@ -54,6 +56,7 @@ public class EnemyRoutine : EnemyBase<EnemyRoutine, EnemyState>
         statelist.Add(new StateLostContact(this));
         statelist.Add(new StateAttack(this));
         statelist.Add(new StateDied(this));
+        statelist.Add(new HitState(this));
 
         stateManager = new StateManager<EnemyRoutine>();
 
@@ -90,7 +93,7 @@ public class EnemyRoutine : EnemyBase<EnemyRoutine, EnemyState>
     {
         int mask = LayerMask.GetMask(new string[] { "Field" });
         RaycastHit hit;
-        Gflag = Physics.SphereCast(transform.position, 0.3f, transform.up * -1, out hit, 0.3f, mask);
+        Gflag = Physics.Raycast(this.transform.position, transform.up * -1, out hit, 1, mask);
         if(Gflag)
         {
             Hflag = false;
@@ -127,11 +130,13 @@ public class EnemyRoutine : EnemyBase<EnemyRoutine, EnemyState>
             ChangeState(EnemyState.Died);
         }
         print("HP :" + life);
+        ChangeState(EnemyState.Hit);
     }
 
     private IEnumerator Lost()
     {
         yield return new WaitForSeconds(2);
+        Switch(1);
         agent.SetDestination(StartPos);
     }
 
@@ -198,7 +203,7 @@ public class EnemyRoutine : EnemyBase<EnemyRoutine, EnemyState>
             // 攻撃範囲内
             if (ToAttackDistance < owner.AttackDistance * 10.0f)
             {
-                //攻撃処理
+                //攻撃ステートに移行
                 owner.ChangeState(EnemyState.Attack);
             }
 
@@ -277,7 +282,7 @@ public class EnemyRoutine : EnemyBase<EnemyRoutine, EnemyState>
             // 攻撃範囲外
             if (ToAttackDistance > owner.AttackDistance * 10.0f)
             {
-                //追跡ステートに移動
+                //追跡ステートに移行
                 owner.ChangeState(EnemyState.Pursuit);
             }
             owner.PSeach();
@@ -329,5 +334,26 @@ public class EnemyRoutine : EnemyBase<EnemyRoutine, EnemyState>
 
     }
 
+    // 攻撃を受けている状態
+    private class HitState : IState<EnemyRoutine>
+    {
+        public HitState(EnemyRoutine owner) : base(owner) { }
+
+        public override void Initialize()
+        {
+            owner.state = "Hit";
+            owner.Switch(0);
+        }
+
+        public override void Execute()
+        {
+            //owner.StartCoroutine(owner.Lost());
+            owner.ChangeState(EnemyState.Wait);
+        }
+
+        public override void End()
+        {
+        }
+    }
 
 }

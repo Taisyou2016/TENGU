@@ -85,17 +85,6 @@ public class MouseController : MonoBehaviour
         //    return;
         //}
 
-        if (Input.GetMouseButton(0) && Input.GetMouseButton(1) && tornadoGeneration == false)
-        {
-            GenerationTrue();
-
-            Cursor.lockState = CursorLockMode.Locked;
-            Cursor.lockState = CursorLockMode.None;
-
-            Invoke("TornadoDecision", 0.3f);
-            return;
-        }
-
         if (Input.GetMouseButton(0) && !Input.GetMouseButton(1) && windGeneration == false)
         {
             GenerationTrue();
@@ -115,6 +104,17 @@ public class MouseController : MonoBehaviour
             Cursor.lockState = CursorLockMode.None;
 
             Invoke("KamaitachiDecision", 0.3f);
+            return;
+        }
+
+        if (Input.GetMouseButton(0) && Input.GetMouseButton(1) && tornadoGeneration == false)
+        {
+            GenerationTrue();
+
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.lockState = CursorLockMode.None;
+
+            Invoke("TornadoDecision", 0.5f);
             return;
         }
 
@@ -173,7 +173,8 @@ public class MouseController : MonoBehaviour
 
         if (vector.magnitude > length)
         {
-            GameObject.FindObjectOfType<AttackPattern>().TornadoPatternDecision(angle, vector);
+            if (playerStatus.MpCostDecision(playerStatus.tornadoCost))
+                GameObject.FindObjectOfType<AttackPattern>().TornadoPatternDecision(angle, vector);
         }
 
         Invoke("GenerationFalse", 0.3f);

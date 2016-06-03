@@ -8,6 +8,7 @@ public class EnemyAttack : MonoBehaviour {
     public GameObject punch1, punch2;
     private float cooltime_S ,cooltime_M, cooltime_L;
     private bool run = false;
+    private bool flag = false;
     private float a;
 
     void Start()
@@ -43,8 +44,17 @@ public class EnemyAttack : MonoBehaviour {
         run = true;
         // 処理
 
-        // ストレート
-        a = Random.Range(0, 1);
+        if (!flag)
+        {
+            Instantiate(punch1, transform.localPosition + transform.forward, transform.rotation);
+            Vector3 vec = transform.position + transform.forward * 2;
+            iTween.MoveTo(gameObject, iTween.Hash("position", vec));
+            flag = true;
+            yield return new WaitForSeconds(cooltime_S);
+        }
+
+        // ランダムでパンチ
+        a = Random.Range(0, 2);
         if (a == 0) {
             Instantiate(punch1, transform.localPosition + transform.forward, transform.rotation);
         }else {
@@ -61,7 +71,7 @@ public class EnemyAttack : MonoBehaviour {
         run = true;
         //処理
 
-        Vector3 vec = transform.forward + transform.up / 2;
+        Vector3 vec = transform.up / 2;
         Instantiate(ohuda, transform.localPosition + vec, transform.rotation);
 
 

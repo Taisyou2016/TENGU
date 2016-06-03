@@ -10,7 +10,8 @@ GameObject:
   - 4: {fileID: 462372}
   - 33: {fileID: 3372956}
   - 23: {fileID: 2393320}
-  m_Layer: 0
+  - 64: {fileID: 6492122}
+  m_Layer: 8
   m_Name: stone3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -23,8 +24,8 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 139036}
-  m_LocalRotation: {x: 0.12873256, y: 0.81755966, z: 0.44033146, w: -0.34804073}
-  m_LocalPosition: {x: 50.989273, y: 14.098239, z: 91.98289}
+  m_LocalRotation: {x: -0.1397071, y: 0.30659643, z: 0.876524, w: -0.34378245}
+  m_LocalPosition: {x: 66.12, y: 24.52, z: 10.93}
   m_LocalScale: {x: 9.708476, y: 9.708476, z: 9.708476}
   m_Children: []
   m_Father: {fileID: 0}
@@ -61,6 +62,18 @@ MeshFilter:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 139036}
+  m_Mesh: {fileID: 4300000, guid: c70e172f70c4d98459593ab85cf1beae, type: 3}
+--- !u!64 &6492122
+MeshCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 139036}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Convex: 0
   m_Mesh: {fileID: 4300000, guid: c70e172f70c4d98459593ab85cf1beae, type: 3}
 --- !u!1001 &100100000
 Prefab:

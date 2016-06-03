@@ -1,15 +1,15 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public enum BossState
-{
-
-}
-
-public class BossRoutine : EnemyBase<BossRoutine, BossState> {
+public class ADispel : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+	
+	}
+	
+	// Update is called once per frame
+	void Update () {
 	
 	}
 }
