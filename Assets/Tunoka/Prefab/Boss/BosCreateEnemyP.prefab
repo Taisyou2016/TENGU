@@ -8,6 +8,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 449432}
+  - 114: {fileID: 11481094}
   m_Layer: 0
   m_Name: BosCreateEnemyP
   m_TagString: Untagged
@@ -95,7 +96,6 @@ GameObject:
   - 4: {fileID: 475026}
   - 33: {fileID: 3327880}
   - 23: {fileID: 2381688}
-  - 114: {fileID: 11411500}
   m_Layer: 0
   m_Name: CreateEnemy
   m_TagString: Untagged
@@ -440,18 +440,6 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 132078}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!114 &11411500
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 147756}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 642db639ab84e1342996c288c8104d7d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  tornadoPrefab: {fileID: 137810, guid: 1d7a63bf4c3ca5f41b1064a81f527539, type: 2}
 --- !u!114 &11418812
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -488,6 +476,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tornadoPrefab: {fileID: 137810, guid: 1d7a63bf4c3ca5f41b1064a81f527539, type: 2}
+--- !u!114 &11481094
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 104870}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cc94c7bf3e7628848a066d113ce69c8d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ele: {fileID: 137810, guid: 1d7a63bf4c3ca5f41b1064a81f527539, type: 2}
 --- !u!114 &11485658
 MonoBehaviour:
   m_ObjectHideFlags: 1
