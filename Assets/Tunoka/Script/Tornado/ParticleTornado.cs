@@ -21,6 +21,11 @@ public class ParticleTornado : MonoBehaviour {
     }
     public void OnTriggerStay(Collider other)
     {
+        print(other.name);
+        if (other.name == "tourou")
+        {
+            print("OK");
+        }
         if (other.tag == "Player")
         {
             other.GetComponent<PlayerMove>().SetVelocityY((int)power);
